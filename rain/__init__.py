@@ -1,23 +1,17 @@
-from rain.settings import *
-from rain.utils import (auto_key, )
+from rain.utils import auto_key
 
 from rain.graph.interface import (GraphableInterface, GraphableNodeInterface, 
-    GraphableRelationshipInterface, GraphInterface)
+    GraphableRelationshipInterface, GraphInterface, SelectionInterface)
 
 from rain.graph.local import GraphLocal
 
+from rain.language.context import Context
 from rain.language.base import Language, Node, Relationship, Subject
+from rain.language.selection import Selection
 
-_language_type_registry = {}
+context = Context(
+    GraphLocal # can change to any other graph type to use that type in default context
+    )
 
-# TO CONSIDER... this might be more elegantly implemented with decorators
-def register_types(*types):
-    for t in types:
-        _language_type_registry[t.__name__] = t
+context.register_types(Language, Node, Relationship, Subject)
 
-def get_type(label:str):
-    return(_language_type_registry[label])
-
-register_types(Language, Node, Relationship, Subject)
-
-DEFAULT_GRAPH = GraphLocal()

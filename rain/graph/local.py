@@ -1,4 +1,5 @@
 from typing import Callable
+from collections.abc import Iterable, Iterator
 from abc import ABC, abstractmethod
 
 import rain
@@ -16,13 +17,17 @@ class GraphLocal(rain.GraphInterface):
             self.key = key
             self._properties = kwargs
 
-        def any_property_matches(self, **kwargs):
+        def any_property_matches(self, **kwargs) -> bool:
             # return true if any kwarg value matches this data's propery by the same name,
             # otherwise false
             for n,v in kwargs.items():
                 if n in self._properties and self._properties.get(n) == v:
                     return True
             return False
+
+        @property
+        @abstractmethod
+        def primary_label(self)  -> str: pass
 
         @abstractmethod
         def cleanup(self, graph):
@@ -36,6 +41,10 @@ class GraphLocal(rain.GraphInterface):
             # TO CONSIDER: whether these dicts are the best implementation here...
             self._sources_for = {} # a dict for faster indexing ... keys are relationships, values are the target nodes
             self._targets_for = {} # a dict for faster indexing ... keys are relationships, values are the target nodes
+
+        @property
+        def primary_label(self):
+            return self.labels[0]
 
         def cleanup(self, graph):
             for label in self.labels:
@@ -52,12 +61,21 @@ class GraphLocal(rain.GraphInterface):
             self.source = source
             self.target = target
 
+        @property
+        def primary_label(self):
+            return self.relationship_type
+
+        @property
+        def labels(self)  -> tuple: 
+            # implemented purely for interoperability with _Node
+            return (self.relationship_type,)
+
         def cleanup(self, graph):
             graph._discard_label_index(self.relationship_type, self)
             del self.source._sources_for[self]
             del self.target._targets_for[self]
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         self._data = {} # all nodes and relationships by key
         self._type_index = {} # index of each label or relationship type, with the values
         # being dicts of key/object references
@@ -126,6 +144,14 @@ class GraphLocal(rain.GraphInterface):
         self._check_key(data.key)
         data.set_properties(**self.get_properties(data.key))
 
+    def get_relationship(self, data:rain.GraphableRelationshipInterface): 
+        self.read(data)
+        _relationship = self._data[data.get_key()]
+        _source = _relationship.source
+        _target = _relationship.target
+        data.set_source(_source.primary_label, _source.key)
+        data.set_target(_target.primary_label, _target.key)
+
     def save(self, data:rain.GraphableInterface):
         self._check_key(data.key)
         self.get_properties(data.key).update(data.get_properties())
@@ -141,7 +167,36 @@ class GraphLocal(rain.GraphInterface):
     def size(self):
         return len(self._data)
 
-    def select(self, label:str=None, *keys, **properties):
+
+    def select_interface(self, select:rain.SelectionInterface):
+        if select.select_from:
+            my_iter = self._iter_sub_select(
+                source_iter=self._iter_data(
+                    select.select_from.label, 
+                    *select.select_from.keys, 
+                    **select.select_from.properties
+                ), 
+                label=select.label, 
+                *select.keys, 
+                **select.properties,
+                ) 
+        else:
+            my_iter = self._iter_data(
+                label=select.label, 
+                *select.keys, 
+                **select.properties
+                )
+
+        return map(
+            lambda x: select.context.new_by_label_and_key(
+                x.primary_label, 
+                x.key, 
+                **x._properties
+                ), 
+            my_iter
+            )
+
+    def _iter_data(self, label:str=None, *keys, **properties) -> Iterable:
 
         my_iter=()
 
@@ -158,3 +213,31 @@ class GraphLocal(rain.GraphInterface):
             return filter(lambda x: x is not None and x.any_property_matches(**properties), my_iter)
         else:
             return filter(lambda x: x is not None, my_iter)
+
+    def _iter_sub_select(self, source_iter:Iterable, label:str=None, *keys, **properties) -> Iterable:
+        my_iter = source_iter
+        # TO DO: benchmark ... how do these 
+        if keys:
+            my_iter = filter(lambda x: key in x.keys, my_iter)
+        if label:
+            my_iter = filter(lambda x: label in x.labels, my_iter)
+        if properties:
+            my_iter = filter(lambda x: x.any_property_matches(**properties), my_iter, my_iter)
+
+    def _iter_sources(self, source_iter:Iterable, label:str=None, *keys, **properties) -> Iterable:
+        pass
+
+    def _iter_targets(self, source_iter:Iterable, label:str=None, *keys, **properties) -> Iterable:
+        pass
+
+    def _iter_sources_of(self, source_iter:Iterable, label:str=None, *keys, **properties) -> Iterable:
+        pass
+
+    def _iter_targets_of(self, source_iter:Iterable, label:str=None, *keys, **properties) -> Iterable:
+        pass
+
+
+    # MAYBE: _iter_sources_of_nodes 
+    # and likewise MAYBE: _iter_targets_of_nodes
+
+

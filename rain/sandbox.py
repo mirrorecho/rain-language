@@ -6,14 +6,14 @@ print("============================================================")
 
 
 
-awn = rain.Node.create(name="Awn Fancy", key="AWN")
-cep = rain.Node.create(name="Fancy", key="CEP")
-kir = rain.Node.create(name="Fancy", key="KIR")
+# awn = rain.Node.create(name="Awn Fancy", key="AWN")
+# cep = rain.Node.create(name="Fancy", key="CEP")
+# kir = rain.Node.create(name="Fancy", key="KIR")
 
-awn_to_cep = rain.Relationship.create(source=awn, target=cep, key="AWN_TO_CEP")
+# awn_to_cep = rain.Relationship.create(source=awn, target=cep, key="AWN_TO_CEP")
 
-for d in rain.DEFAULT_GRAPH.select("Node", "AWN", "CEP", name="Fancy"):
-    print(d.key)
+# for d in rain.DEFAULT_GRAPH.select("Node", "AWN", "CEP", name="Fancy"):
+#     print(d.key)
 
 
 # print(awn.graph._data)

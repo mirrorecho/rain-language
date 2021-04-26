@@ -1,51 +1,13 @@
 import pytest
 import rain
 
+from fixtures import (default_context, new_a_node, new_b_node, new_b_a_relationship, 
+    existing_a_node, existing_b_node, existing_a_b_relationship, 
+    graph_empty, graph_existing)
 
-@pytest.fixture
-def new_a_node():
-    return rain.Node("NEW_A_NODE", name="New A node")
 
-@pytest.fixture
-def new_b_node():
-    return rain.Node("NEW_B_NODE", name="New B node")
-
-@pytest.fixture
-def existing_a_node():
-    return rain.Node("EXISTING_A_NODE", name="Existing A node")
-
-@pytest.fixture
-def existing_b_node():
-    return rain.Node("EXISTING_B_NODE", name="Existing B node")
-
-@pytest.fixture
-def existing_a_b_relationship():
-    return rain.Node("EXISTING_A_TO_B", name="Existing relate A to B")
-
-@pytest.fixture
-def new_b_a_relationship():
-    a = rain.Node("EXISTING_A_NODE", name="Existing A node")
-    b = rain.Node("EXISTING_B_NODE", name="Existing B node")
-    return rain.Relationship("NEW_B_TO_A", name="New relate B to A", source=b, target=a)
-
-@pytest.fixture
-def graph_empty():
-    return rain.GraphLocal()
-
-@pytest.fixture
-def graph_existing():
-    """Creates a LocalGraph instance with two nodes and a relationship between them"""
-    graph = rain.GraphLocal()
-    a = rain.Node("EXISTING_A_NODE", name="Existing A node")
-    b = rain.Node("EXISTING_B_NODE", name="Existing B node")
-    graph.create(a)
-    graph.create(b)
-    relationship = rain.Relationship("EXISTING_A_TO_B", name="Existing relate A to B", source=a, target=b)
-    graph.create(relationship)
-    return graph
-
-def test_settings():
-    assert isinstance(rain.DEFAULT_GRAPH, rain.GraphInterface)
+def test_context_graph(default_context):
+    assert isinstance(rain.context.graph, rain.GraphInterface)
 
 def test_create_node(graph_empty, new_a_node):
     graph_empty.create(new_a_node)
@@ -88,6 +50,10 @@ def test_delete_node_deletes_target_relationships(graph_existing, existing_b_nod
 def test_create_relationship(graph_existing, new_b_a_relationship):
     graph_existing.create(new_b_a_relationship)
     assert new_b_a_relationship.key in graph_existing
+
+def test_get_relationship(graph_existing, existing_a_b_relationship):
+    graph_existing.get_relationship(existing_a_b_relationship)
+    assert existing_a_b_relationship.source_key == "EXISTING_A_NODE" and existing_a_b_relationship.target_key == "EXISTING_B_NODE"
 
 def test_read_relationship(graph_existing, existing_a_b_relationship):
     existing_a_b_relationship.name = "[name to be replaced on read]"
