@@ -19,6 +19,11 @@ class Language(rain.GraphableInterface):
     def __post_init__(self):
         self._context = rain.context # to consider... maybe this should just be a simple class attr?
         self._properties_exclude_fields = ("key",)
+        self._loaded = False
+
+    @property
+    def loaded(self):
+        return self._loaded
 
     @classmethod
     def make(cls, key:str, **kwargs) -> "Language": 
@@ -45,14 +50,12 @@ class Language(rain.GraphableInterface):
     @classmethod
     def create(cls, *args, **kwargs):
         me = cls(*args, **kwargs)
-        me.create_me()
-        return me
+        return me.create_me()
 
     @classmethod
     def merge(cls, *args, **kwargs):
         me = cls(*args, **kwargs)
-        me.merge_me()
-        return me
+        return me.merge_me()
 
 @dataclass
 class Node(Language, rain.GraphableNodeInterface):
@@ -60,9 +63,14 @@ class Node(Language, rain.GraphableNodeInterface):
     base class for all language relationships
     """
 
-    @property
-    def labels(self) -> list: 
-        return [c.__name__ for c in inspect.getmro(self.__class__) if issubclass(c, rain.Node)]
+    # TO CONSIDER: should this be a class attribute?
+    @classmethod
+    def get_labels(cls) -> list: 
+        return [c.__name__ for c in inspect.getmro(cls) if issubclass(c, rain.Node)]
+
+    @classmethod
+    def get_label(cls) -> str: 
+        return cls.__name__
 
 
 
@@ -87,13 +95,14 @@ class Relationship(Language, rain.GraphableRelationshipInterface):
     def source_key(self) -> str: 
         return self.source.key if self.source else None
 
+    # TO CONSIDER: should this be a class attribute?
     @property
     def target_key(self) -> str: 
         return self.target.key if self.target else None
 
-    @property
-    def relationship_type(self) -> str: 
-        return self.__class__.__name__
+    @classmethod
+    def get_label(cls) -> str: 
+        return rain.to_upper_snake_case(cls.__name__)
 
     def set_source(self, label:str, key:str): 
         self.source = self.context.new_by_label_and_key(label, key)

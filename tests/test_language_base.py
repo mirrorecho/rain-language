@@ -58,7 +58,7 @@ def test_node_subclass_labels(default_context):
     @dataclass
     class SubSubNode(SubNode): pass
     n = SubSubNode(name="Yo")
-    assert n.labels == ["SubSubNode", "SubNode", "Node"]
+    assert n.get_labels() == ["SubSubNode", "SubNode", "Node"]
 
 def test_relationship_source_key(new_b_a_relationship):
     assert new_b_a_relationship.source_key == "EXISTING_B_NODE"
@@ -77,7 +77,7 @@ def test_relationship_sublass_type(default_context):
     @dataclass
     class SubRelationship(rain.Relationship): pass
     r = SubRelationship()
-    assert r.relationship_type == "SubRelationship"
+    assert r.get_label() == "SUB_RELATIONSHIP"
 
 def test_relationship_from_keys(default_context):
     r = rain.Relationship.from_keys("A_NODE2", "B_NODE2")

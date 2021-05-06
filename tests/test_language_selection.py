@@ -1,8 +1,8 @@
 import pytest
-
 import rain
 
 from fixtures import default_context, graph_existing, existing_a_node, existing_b_node
+from fixture_graph_food import graph_food
 
 @pytest.fixture
 def selection_a(graph_existing):
@@ -44,3 +44,57 @@ def test_selection_c_d_by_name(selection_c_d_by_name):
 #     assert len(selection_a_b) == 2
 
 
+def test_sub_selection_1(graph_existing):
+    # TO DO... better name for this
+
+    rain.Node.create("ANOTHER_CD_NODE", name="C-D shares name")
+    base_selection = rain.Selection("Node", name="C-D shares name")
+    sub_selection = base_selection("Node", "EXISTING_D_NODE", "ANOTHER_CD_NODE")
+    assert "EXISTING_D_NODE" in sub_selection and "ANOTHER_CD_NODE" in sub_selection and not "EXISTING_C_NODE" in sub_selection
+ 
+
+
+def test_sub_selection_2(graph_existing):
+    # TO DO... better name for this
+
+    rain.Node.create("ANOTHER_CD_NODE", name="C-D shares name")
+    base_selection = rain.Selection("Node", name="C-D shares name")
+    sub_selection = base_selection(None, "EXISTING_D_NODE", "ANOTHER_CD_NODE")
+    assert "EXISTING_D_NODE" in sub_selection and "ANOTHER_CD_NODE" in sub_selection and not "EXISTING_C_NODE" in sub_selection
+ 
+
+def test_sub_selection_3(graph_existing):
+    # TO DO... better name for this
+
+    # ... testing that rogue KEY (non-existant)
+
+    rain.Node.create("ANOTHER_CD_NODE", name="C-D shares name")
+    base_selection = rain.Selection("Node", name="C-D shares name")
+    sub_selection = base_selection(None, "EXISTING_D_NODE", "ANOTHER_CD_NODE", "BOOHAHA")
+    assert "EXISTING_D_NODE" in sub_selection and "ANOTHER_CD_NODE" in sub_selection and not "EXISTING_C_NODE" in sub_selection
+ 
+
+def test_sub_selection_r_sources_for_count(graph_food):
+    select_soba_r_made_with = rain.Selection("Dish", "SOBA").r("->", "MADE_WITH")
+    # soba is made with noodles and hondashi, so 2 -> MADE_WITH relationships
+    assert(len(list(select_soba_r_made_with))==2)
+
+def test_sub_selection_r_targets_for_count(graph_food):
+    select_cuisine_r_in_cuisine = rain.Selection("Cuisine", "PUB_FOOD").r("<-", "IN_CUISINE")
+    # burger, fries, pizza, and fish fry are all in cuisine pub food, so 4 <- IN_CUISINE relationships
+    assert(len(list(select_cuisine_r_in_cuisine))==4)
+
+def test_sub_selection_r_n_sources_for_nodes(graph_food):
+    # cuisines with include pizza, wich is: italian and pub food
+    pizza_cuisines = rain.Selection("Dish", "PIZZA").r("->", "IN_CUISINE").n()
+    assert len(list(pizza_cuisines))==2 and "ITALIAN" in pizza_cuisines and "PUB_FOOD" in pizza_cuisines
+
+def test_sub_selection_r_n_targets_nodes(graph_food):
+    # everything made with cheese, which is: pizza and burgers
+    made_with_cheese = rain.Selection("Ingredient", "CHEESE").r("<-", "MADE_WITH").n()
+    assert len(list(made_with_cheese))==2 and "PIZZA" in made_with_cheese and "BURGER" in made_with_cheese
+
+def test_tasty_pub_food_sides(graph_food):
+    # fancier selection for all sides of pub food, if those sides are tasty (which is only mayonnaise)
+    tasty_pub_food_sides = rain.Selection("Cuisine", "PUB_FOOD").r("<-", "IN_CUISINE").n("Dish").r("->", "SERVED_WITH").n(tasty=True)
+    assert len(list(tasty_pub_food_sides))==1 and "MAYONNAISE" in tasty_pub_food_sides

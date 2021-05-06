@@ -28,18 +28,26 @@ class GraphableInterface(ABC):
     @abstractmethod 
     def make(cls, key, **kwargs) -> "GraphableInterface": pass
 
+    @classmethod
+    @abstractmethod 
+    def get_label(self) -> str: pass
+
     # TO DO: are these names overkill? (adding _me)
     def create_me(self):
         self.graph.create(self)
+        return self
 
     def merge_me(self):
         self.graph.merge(self)
+        return self
 
     def read(self):
         self.graph.read(self)
+        return self
 
     def save(self):
         self.graph.save(self)
+        return self
 
     def delete(self):
         self.graph.delete(self.get_key())
@@ -52,8 +60,18 @@ class SelectionInterface(ABC):
     @abstractmethod
     def select_from(self) -> "SelectionInterface": pass
 
-    def yield_from_iterable(self) -> Iterable: 
-        return self.graph.select_interface(self)
+    @property
+    @abstractmethod
+    def direction(self) -> str: 
+        """
+        an indicator that specifies whether to filter/traverse select_from by:
+        '->' : relationships that have select_from nodes as the sources
+        '<-' : relationships that have select_from nodes as the targets
+        '->()' : nodes which select_from relationships point to as targets
+        '<-()' : nodes which select_from relationships point to as sources
+        None : no filter/traversal
+        """
+        pass
 
     def __iter__(self) -> Iterator: 
         yield from self.graph.select_interface(self)
@@ -112,9 +130,9 @@ class GraphableNodeInterface(GraphableInterface):
     def data_type(self):
         return "Node"
 
-    @property
+    @classmethod
     @abstractmethod 
-    def labels(self) -> list: pass
+    def get_labels(self) -> list: pass
 
 
 
@@ -123,10 +141,6 @@ class GraphableRelationshipInterface(GraphableInterface):
     @property
     def data_type(self):
         return "Relationship"
-
-    @property
-    @abstractmethod 
-    def relationship_type(self) -> str: pass
 
     # TO DO will these methods make sense in the context of 
     # graph databases (e.g. Neo4j, ...)?

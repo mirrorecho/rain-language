@@ -6,15 +6,25 @@ class Selection(rain.SelectionInterface):
         self._label = label
         self._keys = keys
         self._properties = properties
-        self._select_from = None # to be set to another instance of Selection to create a sub-selection
+        
+        self._relationship_follow = None # COULD BE:
 
+        self._select_from = None # to be set to another instance of Selection to create a sub-selection
+        self._direction = None
+
+        
     @property
     def select_from(self) -> rain.SelectionInterface: 
         return self._select_from
 
+    @property
+    def direction(self) -> str: 
+        return self._direction
+
+    # TO CONSIDER: maybe there shouldn't be a public select_from setter?
     @select_from.setter
     def select_from(self, select:rain.SelectionInterface): 
-        self._select_from = se;ect
+        self._select_from = select
 
     @property
     def context(self): 
@@ -42,8 +52,91 @@ class Selection(rain.SelectionInterface):
     def __getitem__(self, k): 
         raise NotImplementedError()
 
-    def __call__(self, *args, **kwargs): 
+    def __call__(self, label:str=None, *keys, **properties) -> rain.SelectionInterface: 
+        sub_selection = Selection(label, *keys, **properties)
+        sub_selection.select_from = self
+        sub_selection._direction = self._direction # TO DO... this warrants some thought and testing
+        return sub_selection
+
+    def r(self, direction:str, label:str=None, *keys, **properties) -> "Selection":
+        sub_selection = TargetedRelationshipSelection(direction, label, *keys, **properties)
+        sub_selection.select_from = self
+        return sub_selection
+
+    def n(self, label:str=None, *keys, **properties) -> "Selection":
         raise NotImplementedError()
+
+
+class TargetedRelationshipSelection(Selection):
+    _supported_directions = ("->", "<-")
+
+    def __init__(self, direction:str, label:str=None, *keys, **properties):
+        if direction not in self._supported_directions:
+            raise ValueError(f"'{direction}' is not a supported direction value")
+        super().__init__(label, *keys, **properties)
+        self._direction = direction
+
+    def r(self, direction:str, label:str=None, *keys, **properties):
+        raise NotImplementedError("Chaining .r relationship selects not supported (add a .n select between)")
+
+    def n(self, label:str=None, *keys, **properties):
+        sub_selection = Selection(label, *keys, **properties)
+        sub_selection.select_from = self
+        sub_selection._direction = "->()" if self.direction == "->" else "<-()"
+        return sub_selection
+
+
+
+    # def __init__(self, label:str=None, *keys, **properties):
+
+# lovers = rain.Action.select("LOVES")("<-[:DOES]-")("Expression")("-[:SUBJECT]->")("Character")
+# lovers = rain.Select("Action", "LOVES")("<-[:DOES]-")("Expression")("-[:SUBJECT]->")("Character")
+
+# lovers = rain.Action.select("LOVES").r("<-", "DOES").n("Expression").r("->", "SUBJECT").n("Character")
+
+# cells_in_phrase = rain.Select("ROW_AB").r("<-")
+
+# cell_a = rain.Cell("CELL_A", pitch=(0,2,5,4), dur=(1,2,2,1))
+# cell_a_bass = rain.Cell("CELL_A_BASS", pitch=(-7,-5), dur=(3,3))
+# cell_b = rain.Cell("CELL_B",pitch=(7,5,4), dur=(3,3,2))
+
+# cue_a = rain.Cue(cell_a)
+# cue_a_bass = rain.Cue(cell_a_bass)
+# cue_b = rain.Cue(cell_b)
+
+# sync_a = rain.Sync(cue_a, cue_a_bass)
+
+# row_ab = rain.Row(sync_a, cue_b)
+
+# #CONTAINS IS AN IMPORTANT RELATIONSHIP FOR PATTERN MATERIAL!!!
+
+# #SHORTCUT
+
+# rain.Cell("CELL_A", pitch=(0,2,5,4), dur=(1,2,2,1)).merge()
+# rain.Cell("CELL_A_BASS", pitch=(-7,-5), dur=(3,3)).merge()
+# rain.Cell("CELL_B", pitch=(7,5,4), dur=(3,3,2)).merge()
+
+# row_ab = rain.Row(
+#     rain.Sync(
+#         rain.Cell("CELL_A").cue(machine="flute", engrave_tags=((">","("),None,None,(")",))),
+#         rain.Cell("CELL_A_BASS").cue(machine="cello", engrave_tag=("_",)),
+#     ), 
+#     rain.Cell("CELL_B").cue(machine="flute"),
+#     ).merge()
+
+# # OR EVEN MORE:
+
+# rain.Cell("CELL_B", pitch=(7,5,4), dur=(3,3,2)).merge()
+
+
+
+# calliope.translate_score(row_ab)
+
+# b = Bubble()
+
+# lovers = rain.Action.select("LOVES")("<-[:DOES]-")("Expression")("-[:SUBJECT]->")("Character")
+
+# lovers_ = Selection("Action", "LOVES", "HATES")("<-[:DOES]-")("Expression")("-[:SUBJECT]->")("Character")
 
 
 # class Selectable():

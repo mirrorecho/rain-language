@@ -29,7 +29,7 @@ class Context(object):
     # TO CONSIDER... a decorator for this
     def register_types(self, *types):
         for t in types:
-            self._language_type_registry[t.__name__] = t
+            self._language_type_registry[t.get_label()] = t
 
     def get_type(self, label:str):
         return(self._language_type_registry[label])
