@@ -3,9 +3,6 @@ import rain
 
 print("============================================================")
 
-
-
-
 # awn = rain.Node.create(name="Awn Fancy", key="AWN")
 # cep = rain.Node.create(name="Fancy", key="CEP")
 # kir = rain.Node.create(name="Fancy", key="KIR")

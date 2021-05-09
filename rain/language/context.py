@@ -1,5 +1,6 @@
 import rain
 
+# TO DO: create a public context interface
 class Context(object):
     def __init__(self, graph_type, **kwargs):
         self.init_graph(graph_type, **kwargs)
@@ -33,6 +34,9 @@ class Context(object):
 
     def get_type(self, label:str):
         return(self._language_type_registry[label])
+
+    def new_by_key(self, key:str):
+        return self.graph.get_typed(key, self)
 
     def new_by_label_and_key(self, label:str, key:str, **kwargs):
         return self.get_type(label)(key, **kwargs)

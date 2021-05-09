@@ -4,10 +4,24 @@ import inspect
 
 import rain
 
+class LanguageBase(ABC):
 
-# TO DO: make this a mixin
+    def set_context(self, context=None):
+        # TO CONSIDER: maybe this should just be a simple class attr?
+        self._context = context or rain.context 
+
+    @property
+    def context(self): 
+        return self._context
+
+    @property
+    def graph(self): 
+        return self.context.graph    
+
+
+# TO CONSIDER: make this a mixin
 @dataclass
-class Language(rain.GraphableInterface):
+class Language(LanguageBase, rain.GraphableInterface):
     """
     an implementation of GraphableInterface using a simple python dataclass
     - this is the base class for all language nodes and relationships
@@ -17,9 +31,9 @@ class Language(rain.GraphableInterface):
     name: str = ""
 
     def __post_init__(self):
-        self._context = rain.context # to consider... maybe this should just be a simple class attr?
+        self.set_context()        
         self._properties_exclude_fields = ("key",)
-        self._loaded = False
+        self._loaded = False # TO DO: this isn't used!
 
     @property
     def loaded(self):
@@ -39,14 +53,6 @@ class Language(rain.GraphableInterface):
         # TO CONSIDER: is this the best way to implement...?
         self.__dict__.update(kwargs)
 
-    @property
-    def context(self): 
-        return self._context
-
-    @property
-    def graph(self): 
-        return self.context.graph
-
     @classmethod
     def create(cls, *args, **kwargs):
         me = cls(*args, **kwargs)
@@ -56,6 +62,7 @@ class Language(rain.GraphableInterface):
     def merge(cls, *args, **kwargs):
         me = cls(*args, **kwargs)
         return me.merge_me()
+
 
 @dataclass
 class Node(Language, rain.GraphableNodeInterface):
@@ -109,8 +116,5 @@ class Relationship(Language, rain.GraphableRelationshipInterface):
 
     def set_target(self, label:str, key:str): 
         self.target = self.context.new_by_label_and_key(label, key)
-
-class Subject(Relationship):
-    pass
 
 

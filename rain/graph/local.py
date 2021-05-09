@@ -168,20 +168,26 @@ class GraphLocal(rain.GraphInterface):
         return len(self._data)
 
 
+    def _create_typed(self, local_data, context) -> rain.GraphableInterface:
+            return context.new_by_label_and_key(
+                local_data.primary_label, 
+                local_data.key, 
+                **local_data._properties
+                )
 
-    def select_interface(self, select:rain.SelectionInterface):
+
+    def get_typed(self, key, context) -> rain.GraphableInterface:
+        return self._create_typed(self._data[key], context)
+
+
+    def select_interface(self, select:rain.SelectInterface):
         return map(
-            lambda x: select.context.new_by_label_and_key(
-                x.primary_label, 
-                x.key, 
-                **x._properties
-                ), 
+            lambda x: self._create_typed(x, select.context), 
             self._iter_data(select)
             )
 
 
-
-    def _iter_data(self, select:rain.SelectionInterface) -> Iterable:
+    def _iter_data(self, select:rain.SelectInterface) -> Iterable:
         if select.select_from:
             my_iter = self._iter_data(select.select_from)
             if select.direction:
@@ -195,8 +201,8 @@ class GraphLocal(rain.GraphInterface):
                     my_iter = map(lambda x: x.source, my_iter)
 
             if select.keys:
-                # WARNING: this implementation differs from the key selection
-                # above for the original selection ... it's purely a filter ... won't re-order or duplicate items
+                # WARNING: this implementation differs from the key select
+                # above for the original select ... it's purely a filter ... won't re-order or duplicate items
                 my_iter = filter(lambda x: x.key in select.keys, my_iter)
 
             if select.label:
@@ -224,91 +230,4 @@ class GraphLocal(rain.GraphInterface):
             my_iter = filter(lambda x: x.any_property_matches(**select.properties), my_iter)
 
         return my_iter
-
-    # def select_interface(self, select:rain.SelectionInterface):
-
-    #     if select.select_from:
-
-    #         # TO DO: make this properly recursive
-    #         my_iter = self._iter_sub_select(
-    #             self._iter_data(
-    #                 select.select_from.label, 
-    #                 *select.select_from.keys, 
-    #                 **select.select_from.properties
-    #             ), 
-    #             select.label, 
-    #             *select.keys, 
-    #             **select.properties,
-    #             ) 
-
-    #     else:
-    #         my_iter = self._iter_data(
-    #             select.label, 
-    #             *select.keys, 
-    #             **select.properties
-    #             )
-
-    #     return map(
-    #         lambda x: select.context.new_by_label_and_key(
-    #             x.primary_label, 
-    #             x.key, 
-    #             **x._properties
-    #             ), 
-    #         my_iter
-    #         )
-
-
-    # def _iter_data(self, label:str=None, *keys, **properties) -> Iterable:
-
-    #     my_iter=()
-
-    #     if label and keys:
-    #         my_iter = map(self._type_index[label].get, keys)
-    #     elif keys and not label:
-    #         my_iter = map(self._data.get, keys)
-    #     elif label and not keys:
-    #         my_iter = self._type_index[label].values()
-    #     elif properties:
-    #         my_iter = self._data.values()
-
-    #     if properties:
-    #         return filter(lambda x: x is not None and x.any_property_matches(**properties), my_iter)
-    #     else:
-    #         return filter(lambda x: x is not None, my_iter)
-
-
-    # def _iter_sub_select(self, source_iter:Iterable, label:str=None, *keys, **properties) -> Iterable:
-    #     my_iter = source_iter
-    #     # TO DO: benchmark ... how do these 
-    #     if keys:
-    #         # WARNING: this implementation differs from the key selection
-    #         # above for the original selection ... it's purely a filter ... won't re-order or duplicate items
-    #         my_iter = filter(lambda x: x.key in keys, my_iter)
-
-    #     if label:
-    #         my_iter = filter(lambda x: label in x.labels, my_iter)
-
-    #     if properties:
-    #         my_iter = filter(lambda x: x.any_property_matches(**properties), my_iter, my_iter)
-
-    #     return my_iter
-
-
-    def _iter_relationship_endpoints(self, source_iter:Iterable, endpoint_attr="source") -> Iterable:
-        my_iter = map(
-            lambda x: getattr(x, endpoint_attr), 
-            filter(lambda x: hasattr(x, endpoint_attr), source_iter)
-            )
-
-
-    def _iter_sources_of(self, source_iter:Iterable, label:str=None, *keys, **properties) -> Iterable:
-        pass
-
-    def _iter_targets_of(self, source_iter:Iterable, label:str=None, *keys, **properties) -> Iterable:
-        pass
-
-
-    # MAYBE: _iter_sources_of_nodes 
-    # and likewise MAYBE: _iter_targets_of_nodes
-
 

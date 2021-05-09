@@ -1,20 +1,20 @@
 import rain
 
-class Selection(rain.SelectionInterface):
+class Select(rain.LanguageBase, rain.SelectInterface):
     def __init__(self, label:str=None, *keys, **properties):
-        self._context = rain.context
+        self.set_context()
         self._label = label
         self._keys = keys
         self._properties = properties
         
         self._relationship_follow = None # COULD BE:
 
-        self._select_from = None # to be set to another instance of Selection to create a sub-selection
+        self._select_from = None # to be set to another instance of Select to create a sub-select
         self._direction = None
 
         
     @property
-    def select_from(self) -> rain.SelectionInterface: 
+    def select_from(self) -> rain.SelectInterface: 
         return self._select_from
 
     @property
@@ -23,16 +23,8 @@ class Selection(rain.SelectionInterface):
 
     # TO CONSIDER: maybe there shouldn't be a public select_from setter?
     @select_from.setter
-    def select_from(self, select:rain.SelectionInterface): 
+    def select_from(self, select:rain.SelectInterface): 
         self._select_from = select
-
-    @property
-    def context(self): 
-        return self._context
-
-    @property
-    def graph(self): 
-        return self.context.graph
 
     @property
     def label(self) -> str: 
@@ -52,22 +44,22 @@ class Selection(rain.SelectionInterface):
     def __getitem__(self, k): 
         raise NotImplementedError()
 
-    def __call__(self, label:str=None, *keys, **properties) -> rain.SelectionInterface: 
-        sub_selection = Selection(label, *keys, **properties)
-        sub_selection.select_from = self
-        sub_selection._direction = self._direction # TO DO... this warrants some thought and testing
-        return sub_selection
+    def __call__(self, label:str=None, *keys, **properties) -> rain.SelectInterface: 
+        sub_select = Select(label, *keys, **properties)
+        sub_select.select_from = self
+        sub_select._direction = self._direction # TO DO... this warrants some thought and testing
+        return sub_select
 
-    def r(self, direction:str, label:str=None, *keys, **properties) -> "Selection":
-        sub_selection = TargetedRelationshipSelection(direction, label, *keys, **properties)
-        sub_selection.select_from = self
-        return sub_selection
+    def r(self, direction:str, label:str=None, *keys, **properties) -> "Select":
+        sub_select = TargetedRelationshipSelect(direction, label, *keys, **properties)
+        sub_select.select_from = self
+        return sub_select
 
-    def n(self, label:str=None, *keys, **properties) -> "Selection":
+    def n(self, label:str=None, *keys, **properties) -> "Select":
         raise NotImplementedError()
 
 
-class TargetedRelationshipSelection(Selection):
+class TargetedRelationshipSelect(Select):
     _supported_directions = ("->", "<-")
 
     def __init__(self, direction:str, label:str=None, *keys, **properties):
@@ -80,10 +72,10 @@ class TargetedRelationshipSelection(Selection):
         raise NotImplementedError("Chaining .r relationship selects not supported (add a .n select between)")
 
     def n(self, label:str=None, *keys, **properties):
-        sub_selection = Selection(label, *keys, **properties)
-        sub_selection.select_from = self
-        sub_selection._direction = "->()" if self.direction == "->" else "<-()"
-        return sub_selection
+        sub_select = Select(label, *keys, **properties)
+        sub_select.select_from = self
+        sub_select._direction = "->()" if self.direction == "->" else "<-()"
+        return sub_select
 
 
 
@@ -136,7 +128,7 @@ class TargetedRelationshipSelection(Selection):
 
 # lovers = rain.Action.select("LOVES")("<-[:DOES]-")("Expression")("-[:SUBJECT]->")("Character")
 
-# lovers_ = Selection("Action", "LOVES", "HATES")("<-[:DOES]-")("Expression")("-[:SUBJECT]->")("Character")
+# lovers_ = Select("Action", "LOVES", "HATES")("<-[:DOES]-")("Expression")("-[:SUBJECT]->")("Character")
 
 
 # class Selectable():

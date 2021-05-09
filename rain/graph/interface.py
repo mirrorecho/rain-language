@@ -54,11 +54,11 @@ class GraphableInterface(ABC):
 
 
 
-class SelectionInterface(ABC): 
+class SelectInterface(ABC): 
 
     @property
     @abstractmethod
-    def select_from(self) -> "SelectionInterface": pass
+    def select_from(self) -> "SelectInterface": pass
 
     @property
     @abstractmethod
