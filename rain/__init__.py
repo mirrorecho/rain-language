@@ -7,7 +7,7 @@ from rain.graph.local import GraphLocal
 
 from rain.language.context import Context
 from rain.language.base import LanguageBase, Language, Node, Relationship
-from rain.language.select_ import Select # note have to name the module select_ (with underscore at end) to avoid namine conflicts with uuid dependencies
+from rain.language.select_ import Select, TargetedRelationshipSelect # note have to name the module select_ (with underscore at end) to avoid namine conflicts with uuid dependencies
 
 context = Context(
     GraphLocal # can change to any other graph type to use that type in default context

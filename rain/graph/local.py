@@ -144,7 +144,7 @@ class GraphLocal(rain.GraphInterface):
         self._check_key(data.key)
         data.set_properties(**self.get_properties(data.key))
 
-    def get_relationship(self, data:rain.GraphableRelationshipInterface): 
+    def read_relationship(self, data:rain.GraphableRelationshipInterface): 
         self.read(data)
         _relationship = self._data[data.get_key()]
         _source = _relationship.source

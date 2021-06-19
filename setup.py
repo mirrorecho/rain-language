@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 install_requires = [
-    pytest
+    'pytest',
     ]
 
 def main():

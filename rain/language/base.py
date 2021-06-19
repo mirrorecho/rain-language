@@ -33,6 +33,7 @@ class Language(LanguageBase, rain.GraphableInterface):
     def __post_init__(self):
         self.set_context()        
         self._properties_exclude_fields = ("key",)
+        self._properties_keys = tuple(k for k in self.__dataclass_fields__.keys() if k not in self._properties_exclude_fields)
         self._loaded = False # TO DO: this isn't used!
 
     @property
@@ -47,7 +48,7 @@ class Language(LanguageBase, rain.GraphableInterface):
         return self.key
 
     def get_properties(self):
-        return {k:getattr(self,k) for k in self.__dataclass_fields__.keys() if k not in self._properties_exclude_fields}
+        return {k:getattr(self,k) for k in self._properties_keys}
 
     def set_properties(self, **kwargs): 
         # TO CONSIDER: is this the best way to implement...?
@@ -79,6 +80,10 @@ class Node(Language, rain.GraphableNodeInterface):
     def get_label(cls) -> str: 
         return cls.__name__
 
+    def r(self, direction:str, label:str=None, *keys, **properties) -> "rain.Select":
+        sub_select = rain.TargetedRelationshipSelect(direction, label, *keys, **properties)
+        sub_select.select_from = rain.Select(self.get_label(), self.key)
+        return sub_select
 
 
 @dataclass
@@ -91,8 +96,10 @@ class Relationship(Language, rain.GraphableRelationshipInterface):
     target: Node = None
 
     def __post_init__(self):
-        super().__post_init__()
+        self.set_context()        
         self._properties_exclude_fields = ("key", "source", "target")
+        self._properties_keys = tuple(k for k in self.__dataclass_fields__.keys() if k not in self._properties_exclude_fields)
+        self._loaded = False # TO DO: this isn't used!
 
     @classmethod
     def from_keys(cls, source_key:str, target_key:str):

@@ -73,6 +73,8 @@ class SelectInterface(ABC):
         """
         pass
 
+    # TO DO: should I implement __next__?
+
     def __iter__(self) -> Iterator: 
         yield from self.graph.select_interface(self)
 
@@ -92,6 +94,11 @@ class SelectInterface(ABC):
     #     # return len(list(self))
     #     # ... because list(), or tuple() for that matter, internally calls len() 
     #     # ... so would result in infinite recursion
+
+    # TO DO: add test for this
+    @property
+    def first(self) -> GraphableInterface: 
+        return next(iter(self), None)
 
     @property
     @abstractmethod
@@ -158,6 +165,10 @@ class GraphableRelationshipInterface(GraphableInterface):
     @abstractmethod 
     def set_target(self, label:str, key:str): pass
 
+    # TO DO: is this what we want here?
+    def read(self):
+        self.graph.read_relationship(self)
+        return self
 
 
 
@@ -184,7 +195,7 @@ class GraphInterface(ABC):
     def read(self, data:GraphableInterface): pass
 
     @abstractmethod
-    def get_relationship(self, data:GraphableRelationshipInterface): pass
+    def read_relationship(self, data:GraphableRelationshipInterface): pass
 
     @abstractmethod 
     def save(self, data:GraphableInterface): pass

@@ -47,7 +47,7 @@ class Select(rain.LanguageBase, rain.SelectInterface):
     def __call__(self, label:str=None, *keys, **properties) -> rain.SelectInterface: 
         sub_select = Select(label, *keys, **properties)
         sub_select.select_from = self
-        sub_select._direction = self._direction # TO DO... this warrants some thought and testing
+        # sub_select._direction = self._direction # TO DO... this warrants some thought and testing
         return sub_select
 
     def r(self, direction:str, label:str=None, *keys, **properties) -> "Select":

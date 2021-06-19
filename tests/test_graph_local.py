@@ -51,8 +51,8 @@ def test_create_relationship(graph_existing, new_b_a_relationship):
     graph_existing.create(new_b_a_relationship)
     assert new_b_a_relationship.key in graph_existing
 
-def test_get_relationship(graph_existing, existing_a_b_relationship):
-    graph_existing.get_relationship(existing_a_b_relationship)
+def test_read_relationship(graph_existing, existing_a_b_relationship):
+    graph_existing.read_relationship(existing_a_b_relationship)
     assert existing_a_b_relationship.source_key == "EXISTING_A_NODE" and existing_a_b_relationship.target_key == "EXISTING_B_NODE"
 
 def test_read_relationship(graph_existing, existing_a_b_relationship):
