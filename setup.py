@@ -2,6 +2,8 @@ from distutils.core import setup
 
 install_requires = [
     'pytest',
+    'abjad==3.4',
+    'abjad-ext-rmakers',
     ]
 
 def main():

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Any, Iterable, Iterator
 from dataclasses import dataclass, field
+from typing import Any, Iterable, Iterator, Callable
 from itertools import cycle, repeat
 
 import rain
@@ -48,6 +48,10 @@ class Pattern(rain.Node):
     # to this node, in a "pattern"
 
     @property
+    def is_leaf(self):
+        return True
+
+    @property
     def branches(self) -> Iterable["Pattern"]:
         yield from ()
 
@@ -66,11 +70,31 @@ class Pattern(rain.Node):
     def get_palette(self):
         return Palette(*self.leaves)
 
-
     def __iter__(self) -> Iterator[Any]:
         yield from self.veins
 
+
+
 # --------------------------------------------------------------------
+# # LET'S NOT TAKE THIS APPROACH ... instead, see Meter node definition below
+# @dataclass
+# class CellMixin: 
+#     meter:tuple = None
+#     meter_durations:tuple = None
+
+#     def __post_init__(self):
+#         super().__post_init__()
+#         self._iterate_exclude_fields = ("name", "meter", "meter_durations")
+#         self._iterate_keys = tuple(k for k in self._properties_keys if k not in self._iterate_exclude_fields)
+
+
+@dataclass
+class Meter(rain.Node): 
+    meter: tuple = (4, 4)
+    meter_durations: tuple = (2,)
+
+# --------------------------------------------------------------------
+
 @dataclass
 class Cell(Pattern):
     """
@@ -79,9 +103,10 @@ class Cell(Pattern):
     """
     dur: Iterable = ()
     machine: Iterable = ()
+    # simultaneous: bool = False
 
     @property
-    def veins(self) -> Iterable[Any]:
+    def veins(self) -> Iterable[dict]:
         keys, values = zip(*(
             (k, getattr(self, k))
             for k in self._properties_keys if k!= "name"
@@ -98,10 +123,77 @@ class Cell(Pattern):
     
 # --------------------------------------------------------------------
 
-class Cue(rain.Node): pass
+class Cue(rain.Node): 
+    
+    @property 
+    def cues_pattern(self) -> Pattern:
+        pattern = self.r("->", "CUES").n().first
+        if alter_node := self.altered_by:
+            return alter_node.alter(pattern)
+        else: 
+            return pattern
+
+    # NOTE: only a single alter is handled with this implementation ... 
+    # TODO: implement an ORDERED iterable of alters
+    @property
+    def altered_by(self) -> "AlterCue":
+        return self.r("<-", "ALTERS").n().first
 
 # --------------------------------------------------------------------
+@dataclass
+class AlterCue(rain.Node): 
+    """represents an alteration to a cued pattern or patterns"""
 
+    alter: Callable[[Pattern], Pattern] = None
+
+    @property 
+    def alters_cue(self) -> Cue:
+        return self.r("->", "ALTERS").n().first
+
+    @property 
+    def alters_pattern(self) -> Pattern:
+        return self.alters_cue.cues_pattern
+
+# --------------------------------------------------------------------
+@dataclass
+class AlterPattern(Pattern): 
+    """represents an alteration directly to a pattern"""
+
+    alter: Callable[[Pattern], Pattern] = None
+
+    @property 
+    def alters_pattern(self) -> Pattern:
+        return self.r("->", "ALTERS").n().first
+
+    @property 
+    def altered_pattern(self) -> Pattern:
+        return self.alter(self.alters_pattern)
+
+    @property
+    def is_leaf(self):
+        return self.alters_pattern.is_leaf 
+
+    @property
+    def branches(self) -> Iterable["Pattern"]:
+        yield from self.altered_pattern.branches
+
+    @property
+    def leaves(self) -> Iterable["Pattern"]:
+        yield from self.altered_pattern.leaves
+
+    @property
+    def nodes(self) -> Iterable["Pattern"]:
+        yield from self.altered_pattern.nodes
+
+    @property
+    def veins(self) -> Iterable[Any]:
+        yield from self.altered_pattern.veins
+
+# --------------------------------------------------------------------
+class Alters(rain.Relationship): pass
+# relationship from AlterCue to the Cue it alters, or from AlterPattern to the Pattern it alters
+
+# --------------------------------------------------------------------
 class Contains(rain.Relationship): pass
 
 # --------------------------------------------------------------------
@@ -121,18 +213,37 @@ class CueFirst(rain.Relationship): pass
 class CueLast(rain.Relationship): pass 
 
 # --------------------------------------------------------------------
+
+# TO DO: better name for this?
+class Context(rain.Relationship): pass
+
+# --------------------------------------------------------------------
 @dataclass
 class TreePattern(Pattern): 
+
+    def __post_init__(self):
+        super().__post_init__()
+        self._cached_branches = None
+
+    @property
+    def is_leaf(self):
+        return False
+
+    # TO DO: THIS CACHING IS REALLY HOOKY!!!!
+    @property
+    def branches(self) -> Iterable[Pattern]:
+        if self._cached_branches is None:
+            self._cached_branches = list(self.get_branches())
+        return self._cached_branches
 
     # TO CONSIDER: this is all perfectly fine for a local graph, but would
     # generate lots of queries to a graph DB ... how to optimize?   
     # ALSO TO CONSIDER... would be MUCH COOLER! if this returned a Select
-    @property
-    def branches(self) -> Iterable[Pattern]:
+    def get_branches(self):
         if child_cue := self.r("->", "CUE_FIRST").n().first:
-            yield child_cue.r("->", "CUES").n().first
+            yield child_cue.cues_pattern
             while child_cue := child_cue.r("->", "CUE_NEXT").n().first:
-                yield child_cue.r("->", "CUES").n().first
+                yield child_cue.cues_pattern
 
     # DITTO... would be much cooler as a Select
     @property
@@ -183,23 +294,53 @@ class TreePattern(Pattern):
     def insert(self, index, pattern):
         raise NotImplementedError()
 
-# --------------------------------------------------------------------
 
+
+# --------------------------------------------------------------------
 @dataclass
-class MachineTree(TreePattern): pass
+class CellTree(TreePattern): pass
+
+    # @property
+    # def branches(self) -> Iterable[Pattern]:
+    #     for branch in super().branches:
+    #         yield branch
+
+# --------------------------------------------------------------------
+@dataclass
+class Sequence(CellTree): pass
+
+# --------------------------------------------------------------------
+@dataclass
+class Parallel(CellTree): pass
+
+# --------------------------------------------------------------------
+@dataclass
+class Combo(CellTree): pass
 
 # --------------------------------------------------------------------
 
 @dataclass
 class Machine(Pattern):
 
-    #TODO: what is the MEANING of this?
-    def make(self, alias:str, **kwargs) -> "Machine":
-        # fancy machine types would override make and do fancy things
-        return self._machine_type(self, alias, **kwargs)
+    # #TO CONSIDER: something like this could be used to standardaze the instantiating
+    # machine "output types" (e.g. creating an abjad.Staff from a rain.Staff object)
+    # def make(self, alias:str, **kwargs) -> "Machine":
+    #     # fancy machine types would override make and do fancy things
+    #     return self._machine_type(self, alias, **kwargs)
 
-    def trigger(self, **kwargs):
+    def reset(self):
         raise NotImplementedError()
+
+    def render(self):
+        raise NotImplementedError()
+
+    def trigger(self, delta=0, **kwargs):
+        raise NotImplementedError()
+
+# --------------------------------------------------------------------
+
+@dataclass
+class MachineTree(TreePattern): pass
 
 # --------------------------------------------------------------------
 
@@ -211,25 +352,7 @@ class Printer(Machine): pass
 
 # --------------------------------------------------------------------
 
-@dataclass
-class Staff(Machine): 
-    short_name = ""
-
-    def trigger(self, **kwargs):
-        print(self.key, kwargs)
-
-# --------------------------------------------------------------------
-
-@dataclass
-class Score(MachineTree): pass
-
-# --------------------------------------------------------------------
-
-@dataclass
-class StaffGroup(MachineTree): pass
-
-# --------------------------------------------------------------------
-
+# TO DO... keep in python codebase or move?
 @dataclass
 class SynthDefMaker(Machine): pass
 
@@ -258,18 +381,86 @@ class SynthDefMaker(Machine): pass
 # TO CONSIDER... is this class necessary? or just a function of a Pattern?
 # ASSUME YES, WORTH IT
 # ALSO TO CONSIER... inherit from Context???
+# PURPOSE IS TO "READ" IN THE "CORRECT" order .
+# ... restrict to only use with CellTree patterns?
 class PatternReader(rain.LanguageBase):
-    def __init__(self, _palette:Palette = None):
+    def __init__(self, _pattern:Pattern, _palette:Palette = None):
         self._palette = _palette or Palette()
+        self._pattern = _pattern
+        self.reset()
+
+    def reset(self):
+        self.current_time = 0
+        self.total_dur = 0
+        self._triggers = {}
+
+    def add_trigger(self, time:float, properties:dict):
+        if time not in self._triggers:
+            self._triggers[time] = []
+        self._triggers[time].append(properties)
 
     @property
     def palette(self) -> Palette:
         return self._palette
 
-    def read(self, pattern:Pattern):
-        for v_dict in pattern.veins:
-            if machine_name := v_dict.pop("machine"):
-                self.palette[machine_name].trigger(**v_dict)
+    @property
+    def pattern(self) -> Pattern:
+        return self._pattern
+
+    def read_pattern(self, pattern:Pattern, pattern_time=0):
+        # if isinstance(pattern, Parallel):
+        #     pass
+        # elif isinstance(pattern, Sequence):
+        #     pass
+        # elif isinstance(pattern, Combo):
+        #     pass
+
+        # TODO: handle context relationships for ANY node here
+
+        if not pattern.is_leaf:
+            max_branch_end_time = pattern_time
+
+            for branch in pattern.branches:
+
+                branch_end_time = self.read_pattern(branch, pattern_time)
+                if isinstance(pattern, Sequence):
+                    pattern_time = branch_end_time
+                elif isinstance(pattern, Parallel):
+                    if branch_end_time > max_branch_end_time:
+                        max_branch_end_time = branch_end_time
+            
+            if isinstance(pattern, Parallel):
+                pattern_time = max_branch_end_time
+
+        else:
+            for vein in pattern.veins:
+                self.add_trigger(pattern_time, vein)
+                pattern_time += vein["dur"]
+        
+        return pattern_time
+
+
+    def read(self):
+        self.read_pattern(self._pattern)
+
+        pattern_keys = sorted(self._triggers.keys())
+
+        for p in pattern_keys:
+            v_list = self._triggers[p]
+            for v_dict in v_list:
+                if machine_name := v_dict.pop("machine"):
+                    self.palette[machine_name].trigger(p, **v_dict)
+
+        # for p in pattern_keys:
+        #     print(p)
+        #     for vein in self._triggers[p]:
+        #         print(vein)
+
+        # for v_dict in self._pattern.veins:
+
+        #     if machine_name := v_dict.pop("machine"):
+        #         dur = v_dict[dur]
+        #         self.palette[machine_name].trigger(self.total_dur, **v_dict)
 
     # def __init__(self, blueprints:Palette = None):
     #     self._blueprints = blueprints or Palette()
@@ -298,37 +489,37 @@ class PatternReader(rain.LanguageBase):
 # --------------------------------------------------------------------
 
 @dataclass
-class NotatedMusicCell(Cell):
+class MusicCell(Cell):
     pitch: Iterable = ()
     tags: Iterable = ()
 
 # TO DO: move this... 
-rain.context.register_types(Pattern, MachineTree, Cell, NotatedMusicCell,
-    Cue, CueNext, CueFirst, CueLast, Cues, Contains,
-    Staff, StaffGroup, Score, 
-    )
+# rain.context.register_types(Pattern, MachineTree, Cell, NotatedMusicCell,
+#     Cue, CueNext, CueFirst, CueLast, Cues, Contains,
+#     # Staff, StaffGroup, Score, 
+#     )
 
 
-print("========================================================")
+# print("========================================================")
 
-# print(rain.context._language_type_registry)
+# # print(rain.context._language_type_registry)
 
-c1 = NotatedMusicCell.create(
-    key="C1",
-    pitch=(0,2,5,4),
-    dur=cycle((1,2,)),
-    machine=cycle(("VIOLA",)),
-    tags = cycle((None,)),
-)
-c2 = NotatedMusicCell.create(
-    key="C2",
-    pitch=(7,0,9,0),
-    dur=(2,2,3,3),
-    machine=cycle(("VIOLIN1", "VIOLIN2"),),
-    tags = cycle((None,)),
-)
+# c1 = NotatedMusicCell.create(
+#     key="C1",
+#     pitch=(0,2,5,4),
+#     dur=cycle((1,2,)),
+#     machine=cycle(("VIOLA",)),
+#     tags = cycle((None,)),
+# )
+# c2 = NotatedMusicCell.create(
+#     key="C2",
+#     pitch=(7,0,9,0),
+#     dur=(2,2,3,3),
+#     machine=cycle(("VIOLIN1", "VIOLIN2"),),
+#     tags = cycle((None,)),
+# )
 
-c_pattern = TreePattern.create().extend(c1, c2, c1)
+# c_pattern = TreePattern.create().extend(c1, c2, c1)
 
 # mp = Palette()
 # mp.extend(Machine())
@@ -338,25 +529,25 @@ c_pattern = TreePattern.create().extend(c1, c2, c1)
 #     # d.read()
 #     print(d)
 
-violin1 = Staff.create("VIOLIN1", "Violin 1")
-violin2 = Staff.create("VIOLIN2", "Violin 2")
-viola = Staff.create("VIOLA", "Viola")
-cello = Staff.create("CELLO", "Cello")
+# violin1 = Staff.create("VIOLIN1", "Violin 1")
+# violin2 = Staff.create("VIOLIN2", "Violin 2")
+# viola = Staff.create("VIOLA", "Viola")
+# cello = Staff.create("CELLO", "Cello")
 
-violins = StaffGroup().create("VIOLINS").extend(
-    violin1,
-    violin2,
-)
+# violins = StaffGroup().create("VIOLINS").extend(
+#     violin1,
+#     violin2,
+# )
 
-quartet_score = Score().create("STRING_QUARTET").extend(
-    violins,
-    viola,
-    cello,
-)
+# quartet_score = Score().create("STRING_QUARTET").extend(
+#     violins,
+#     viola,
+#     cello,
+# )
 
 # print(quartet_score)
 # for x in quartet_score.nodes:
 #     print(x)
 
-pr = PatternReader(quartet_score.get_palette())
-pr.read(c_pattern)
+# pr = PatternReader(quartet_score.get_palette())
+# pr.read(c_pattern)

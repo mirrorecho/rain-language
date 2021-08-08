@@ -4,7 +4,6 @@ from typing import Callable, Iterable
 import rain
 from itertools import cycle, repeat
 
-
 print("============================================================")
 
 # c1 = rain.NotatedMusicCell("C1")
@@ -12,7 +11,6 @@ print("============================================================")
 # mp = rain.Palette(*rain.Machine.select())
 
 # c1.render()
-
 
 # @dataclass
 # class TP(rain.Node):

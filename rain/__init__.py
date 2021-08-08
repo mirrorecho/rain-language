@@ -6,13 +6,33 @@ from rain.graph.interface import (GraphableInterface, GraphableNodeInterface,
 from rain.graph.local import GraphLocal
 
 from rain.language.context import Context
-from rain.language.base import LanguageBase, Language, Node, Relationship
-from rain.language.select_ import Select, TargetedRelationshipSelect # note have to name the module select_ (with underscore at end) to avoid namine conflicts with uuid dependencies
 
 context = Context(
     GraphLocal # can change to any other graph type to use that type in default context
     )
 
-# TO DO: use decorator instead of registering here
-context.register_types(Language, Node, Relationship)
+from rain.language.base import LanguageBase, Language, Node, Relationship
+from rain.language.select_ import Select, TargetedRelationshipSelect # note have to name the module select_ (with underscore at end) to avoid namine conflicts with uuid dependencies
 
+from rain.language.pattern import (Palette, Pattern, Cell, Cue, Contains, Cues,
+    CueNext, CueFirst, CueLast, TreePattern, MachineTree, Machine,
+    CellTree, Sequence, Parallel, Combo,
+    AlterPattern, AlterCue, Alters,
+    Context, Meter,
+    PatternReader,
+    MusicCell,
+    )
+from rain.score.staff import Staff
+from rain.score.staff_group import StaffGroup
+from rain.score.score import Score
+
+# TO DO: use decorator instead of registering here
+context.register_types(
+    Language, Node, Relationship,
+    Pattern, Cell, Cue, Contains, Cues,
+    CueNext, CueFirst, CueLast, TreePattern, MachineTree, Machine,
+    CellTree, Sequence, Parallel, Combo,
+    AlterPattern, AlterCue, Alters,
+    Context, Meter,
+    MusicCell, 
+    Staff, StaffGroup, Score )
