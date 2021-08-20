@@ -6,6 +6,16 @@ from itertools import cycle, repeat
 
 print("============================================================")
 
+yo = "MAMA"
+
+def fancy():
+    global yo
+    print(yo)
+    yo = "HOT CAKES"
+
+fancy()
+
+
 # c1 = rain.NotatedMusicCell("C1")
 
 # mp = rain.Palette(*rain.Machine.select())

@@ -33,7 +33,8 @@ c1 = rain.MusicCell.create(
 
 pn1 = rain.MusicCell.create(
     key="PN1",
-    pitch=((0,2), 5, 4, 7),
+    pitch=((1,3), 5, 4, 7),
+    pitch_spell=("FLAT", None, None, None),
     dur=(0.5, 0.5, 0.5, 0.5),
     machine=cycle(("PIANO1",)),
     tags = (
@@ -77,7 +78,7 @@ par1a = rain.Parallel.create().extend(
 )
 
 s1 = rain.Sequence.create().extend(
-    par1, par1a
+    par1, par1a, par1,
 )
 
 

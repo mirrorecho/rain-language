@@ -11,75 +11,18 @@
     <<
         \context Staff = "Flute"
         {
-            af'4
-            - \accent
-            \<
-            ~
-            \ottava -1
-            af'2
-            :16
-            \longfermata
-            - \tenuto
-            (
-            \(
-            b'4
-            - \staccato
-            )
-            \bar "||"
-            c''2
-            \p
-            - \tenuto
-            b'4
-            \)
-            \ottava 0
-            c'4
-            - \accent
-            \<
-            ~
-            \ottava -1
-            c'2
-            :16
-            \longfermata
-            - \tenuto
-            (
-            \(
-            ef'4
-            - \staccato
-            )
-            \bar "||"
-            e'2
-            \p
-            - \tenuto
-            ef'4
-            \)
-            \ottava 0
         }
         \context StaffGroup = ""
         <<
             \context Staff = "Piano 1"
             {
-                <c' d'>8
-                [
-                f'8
-                ]
-                e'8
-                [
-                g'8
-                ]
-                <c' d'>4
-                [
-                f'4
-                ]
+                ef'4
                 e'4
-                [
-                g'4
-                ]
+                fs'4
+                e'4
             }
             \context Staff = "Piano 2"
             {
-                c4.
-                r4
-                c4.
             }
         >>
     >>

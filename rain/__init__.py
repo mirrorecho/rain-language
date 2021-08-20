@@ -14,14 +14,16 @@ context = Context(
 from rain.language.base import LanguageBase, Language, Node, Relationship
 from rain.language.select_ import Select, TargetedRelationshipSelect # note have to name the module select_ (with underscore at end) to avoid namine conflicts with uuid dependencies
 
-from rain.language.pattern import (Palette, Pattern, Cell, Cue, Contains, Cues,
-    CueNext, CueFirst, CueLast, TreePattern, MachineTree, Machine,
-    CellTree, Sequence, Parallel, Combo,
-    AlterPattern, AlterCue, Alters,
-    Context, Meter,
-    PatternReader,
-    MusicCell,
-    )
+
+from rain.patterns.palette import Palette
+from rain.patterns.pattern import Pattern
+from rain.patterns.cell import Cell, MusicCell
+from rain.patterns.cue import Cue, Contains, Cues, CueNext, CueFirst, CueLast
+from rain.patterns.machine import Machine, Printer #, SynthDefMaker
+from rain.patterns.tree_pattern import TreePattern, CellTree, Sequence, Parallel, Combo, MachineTree
+from rain.patterns.alters import AlterPattern, AlterCue, Alters, AlterPatternAttrs
+from rain.patterns.pattern_reader import PatternReader
+
 from rain.score.staff import Staff
 from rain.score.staff_group import StaffGroup
 from rain.score.score import Score
@@ -32,7 +34,6 @@ context.register_types(
     Pattern, Cell, Cue, Contains, Cues,
     CueNext, CueFirst, CueLast, TreePattern, MachineTree, Machine,
     CellTree, Sequence, Parallel, Combo,
-    AlterPattern, AlterCue, Alters,
-    Context, Meter,
+    AlterPattern, AlterCue, Alters, AlterPatternAttrs,
     MusicCell, 
     Staff, StaffGroup, Score )

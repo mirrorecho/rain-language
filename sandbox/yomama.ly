@@ -8,10 +8,23 @@
 %! abjad.LilyPondFile._get_formatted_blocks()
 {
     {
-        c'4
-        d'4.
-        f'8
-        e'4
+        r2
+        r4
+        r4
+        r2
+        r16
+        c'32
+        d'32
+        ~
+        d'8
+        ~
+        d'4
+        ~
+        d'2
+        ~
+        d'16
+        ~
+        d'32
     }
 %! abjad.LilyPondFile._get_formatted_blocks()
 }
