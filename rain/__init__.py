@@ -1,4 +1,4 @@
-from rain.utils import auto_key, to_snake_case, to_upper_snake_case
+from rain.utils import auto_key, to_snake_case, to_upper_snake_case, transpose
 
 from rain.graph.interface import (GraphableInterface, GraphableNodeInterface, 
     GraphableRelationshipInterface, GraphInterface, SelectInterface)

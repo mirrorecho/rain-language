@@ -19,7 +19,7 @@ score = rain.Score.create("OUT_SCORE").extend(
 
 c1 = rain.MusicCell.create(
     key="C1",
-    pitch=(0,0,3,4,3),
+    pitch=(12,0,3,4,3),
     dur=cycle((1,2,)),
     machine=cycle(("FLUTE",)),
     tags = (

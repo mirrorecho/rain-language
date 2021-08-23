@@ -33,12 +33,6 @@ class PatternReader(rain.LanguageBase):
         return self._pattern
 
     def read_pattern(self, pattern:rain.Pattern, pattern_time=0):
-        # if isinstance(pattern, Parallel):
-        #     pass
-        # elif isinstance(pattern, Sequence):
-        #     pass
-        # elif isinstance(pattern, Combo):
-        #     pass
 
         # TODO: handle context relationships for ANY node here
 
@@ -55,7 +49,7 @@ class PatternReader(rain.LanguageBase):
                     pattern_time = branch_end_time
 
             
-            if isinstance(pattern, rain.Parallel):
+            if pattern.simultaneous:
                 pattern_time = max_branch_end_time
 
         else:
@@ -67,13 +61,13 @@ class PatternReader(rain.LanguageBase):
 
 
     def read(self):
-        self.read_pattern(self._pattern)
+        self.read_pattern(self.pattern)
 
         pattern_keys = sorted(self._triggers.keys())
 
         for p in pattern_keys:
             v_list = self._triggers[p]
-            print(p, v_list)
+            # print(p, v_list)
             for v_dict in v_list:
                 if machine_name := v_dict.pop("machine"):
                     self.palette[machine_name].trigger(p, **v_dict)

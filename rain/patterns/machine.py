@@ -18,7 +18,7 @@ class Machine(rain.Pattern):
     def render(self):
         raise NotImplementedError()
 
-    def trigger(self, delta=0, **kwargs):
+    def trigger(self, start_dur=0, **kwargs):
         raise NotImplementedError()
 
 

@@ -16,10 +16,8 @@
         <<
             \context Staff = "Piano 1"
             {
-                ef'4
-                e'4
-                fs'4
-                e'4
+                <c'' df'''>4
+                <df'' c'''>4
             }
             \context Staff = "Piano 2"
             {
