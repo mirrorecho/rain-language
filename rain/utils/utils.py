@@ -1,5 +1,8 @@
+# TODO: dumb name!
+
 import re
 import uuid
+import rain
 
 def auto_key():
     return uuid.uuid4().hex
@@ -19,3 +22,7 @@ def transpose(pitches, value:int=0):
         return [transpose(p, value) for p in pitches]  
     except:
         return pitches + value
+
+
+def rest(dur:int):
+    return rain.RestCell.create(dur=(dur,))

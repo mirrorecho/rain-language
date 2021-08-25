@@ -8,10 +8,10 @@ space_a = rain.MusicCell.create("SPACEA", pitch=((12, 25), (13, 24)), dur=cycle(
 space_b = rain.MusicCell.create("SPACEB", pitch=((-2, 12), (0, 10)), dur=cycle((2,)) )
 
 
-
 space1 = rain.Sequence.create("SPACE1").extend(
-    rain.MusicCell("SPACEA")
-)
+    rain.rest(0.5),
+    rain.MusicCell("SPACEA") 
+    )
 
 SPACING = rain.Sequence.create("SPACING").extend(
     space1(machine="PIANO1", pitch_spell="FLAT")

@@ -1,4 +1,4 @@
-from rain.utils import auto_key, to_snake_case, to_upper_snake_case, transpose
+from rain.utils.utils import auto_key, to_snake_case, to_upper_snake_case, transpose, rest
 
 from rain.graph.interface import (GraphableInterface, GraphableNodeInterface, 
     GraphableRelationshipInterface, GraphInterface, SelectInterface)
@@ -17,7 +17,7 @@ from rain.language.select_ import Select, TargetedRelationshipSelect # note have
 
 from rain.patterns.palette import Palette
 from rain.patterns.pattern import Pattern
-from rain.patterns.cell import Cell, MusicCell
+from rain.patterns.cell import Cell, MusicCell, RestCell
 from rain.patterns.cue import Cue, Contains, Cues, CueNext, CueFirst, CueLast
 from rain.patterns.machine import Machine, Printer #, SynthDefMaker
 from rain.patterns.tree_pattern import TreePattern, CellTree, Sequence, Parallel, Combo, MachineTree
@@ -35,5 +35,5 @@ context.register_types(
     CueNext, CueFirst, CueLast, TreePattern, MachineTree, Machine,
     CellTree, Sequence, Parallel, Combo,
     AlterPattern, AlterCue, Alters, AlterPatternAttrs,
-    MusicCell, 
+    MusicCell, RestCell,
     Staff, StaffGroup, Score )

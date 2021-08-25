@@ -44,7 +44,7 @@ class MusicCell(Cell):
 # --------------------------------------------------------------------
 
 @dataclass
-class Rest(MusicCell):
+class RestCell(MusicCell):
     pitch: Iterable = (None,)
 
 
