@@ -2,19 +2,22 @@ from itertools import cycle, repeat
 
 import rain
 
+from rain.out.structures import OutCellFactory
+coming_cell = OutCellFactory(mode=4, tonic=6)
+
 rain.Sequence.create("COMING_1").extend(
-    rain.MusicCell.create("COMING_A", pitch=(None, -2, 0, 1), dur=(0.5, 0.5, 0.5, 2.5) ),
-    rain.MusicCell.create("COMING_B", pitch=(None, -2, 0, 1, 3), dur=(0.5, 0.5, 0.5, 1.5, 3) ),
-    rain.MusicCell.create("COMING_C", pitch=(None, 3, 6, 4, 3), dur=(1, 1, 1.5, 1.5, 2) ),
-    rain.MusicCell.create("COMING_D", pitch=(6, 4, 1), dur=(1, 1, 5) ),
+    coming_cell("COMING_A", degree=(None, 2, 3, 4), dur=(0.5, 0.5, 0.5, 2.5) ),
+    coming_cell("COMING_B", degree=(None, 2, 3, 4, 5), dur=(0.5, 0.5, 0.5, 1.5, 3) ),
+    coming_cell("COMING_C", degree=(None, 5, 7, 6, 5), dur=(1, 1, 1.5, 1.5, 2) ),
+    coming_cell("COMING_D", degree=(7, 6, 4), dur=(1, 1, 5) ),
 )
 
-rain.Sequence.create("COMING_2").extend_by_key(
-    "COMING_A", "COMING_B", "COMING_C", "COMING_D",
-)
+# rain.Sequence.create("COMING_2").extend_by_key(
+#     "COMING_A", "COMING_B", "COMING_C", "COMING_D",
+# )
 
 COMING = rain.Sequence.create("COMING").extend(
-    rain.Sequence("COMING_1")(machine="FLUTE")
+    rain.Sequence("COMING_1")(machine="FLUTE"),
 )
 
 if __name__ == "__main__":

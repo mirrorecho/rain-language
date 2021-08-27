@@ -10,7 +10,7 @@ class Pattern(rain.Node):
     # to this node, in a "pattern"
 
     leaf_hooks: Iterable[Callable[["rain.Pattern", "rain.Pattern"], "rain.Pattern"]] = ()
-    vein_hooks: Iterable[Callable[["rain.Pattern", Any], Any]] = ()
+    vein_hooks: Iterable[Callable[["rain.Pattern", Any, int], Any]] = ()
 
     @property
     def is_leaf(self):

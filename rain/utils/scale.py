@@ -22,8 +22,6 @@ class Scale():
 
     # TODO: add methods to swap between iterables of degrees and pitches
 
-    # TODO: add slicing
-
 
     @property
     def octave_size(self):
@@ -44,17 +42,19 @@ class Scale():
         if root:
             self.root = root
 
-
     def __getitem__(self, arg):
         
         if isinstance(arg, int):
             my_octave_and_step = divmod(arg, self.num_steps)
             return (my_octave_and_step[0] * self.octave_size) + self.steps[my_octave_and_step[1]] + self.root
-
+        elif arg is None:
+            return None
+        elif isinstance(arg, (list, tuple)): # TODO maybe ... duck typing instead?
+            return [self[a] for a in arg]
         elif isinstance(arg, slice):
             return [self[i] for i in range(arg.start, arg.stop, arg.step or 1)]
         else:
-            raise(TypeError("Scale indices must be integers or slices."))
+            raise(TypeError("Scale indices must be integers, None slices, or tuples/lists"))
 
     def contains(self, arg):
         return (arg - self.root) % self.octave_size in self.steps
@@ -65,7 +65,7 @@ class Scale():
     def pitch_change_scale(self, pitch, new_scale, steps=0):
         return new_scale[self.index(pitch)+steps]
 
-    def scale_change_mode(self, degrees, keep_root=True) -> "Scale":
+    def mode(self, degrees, keep_root=True) -> "Scale":
         s = Scale(pitches=self[degrees:degrees+self.num_steps+1])
         if keep_root:
             s.root = self.root            

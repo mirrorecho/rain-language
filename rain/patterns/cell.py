@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Iterable
+from typing import Callable, Iterable
 from itertools import cycle
 
 import rain
@@ -15,24 +15,50 @@ class Cell(rain.Pattern):
     simultaneous: bool = False
     tags: Iterable = cycle((None,))
 
+    _no_traverse_keys = ("name", "simultaneous", "leaf_hooks", "vein_hooks")
 
     @property
     def veins(self) -> Iterable[dict]:
-        keys, values = zip(*(
-            (k, getattr(self, k))
-            for k in self._properties_keys if k not in ("name", "simultaneous", "leaf_hooks", "vein_hooks")
-            ))
-        for zipped_values in zip(*values):
-            return_dict = {k:v for k, v in zip(keys, zipped_values)}
+
+        #TODO maybe: approach below is less elegant than what's commented out below, but works
+
+        keys = [k for k in self._properties_keys if k not in self._no_traverse_keys]
+        
+        iterable_keys = []
+        iterable_values = []
+        callable_keys = []
+        callable_values = []
+
+        for k in keys:
+            v = getattr(self, k)
+            if isinstance(v, Callable):
+                callable_keys.append(k)
+                callable_values.append(v)
+            else:
+                iterable_keys.append(k)
+                iterable_values.append(v)
+
+        for zipped_iterable_values in zip(*iterable_values):
+            return_dict = {k:v for k, v in zip(iterable_keys, zipped_iterable_values)}
+
+            for k, c in zip(callable_keys, callable_values):
+                print(return_dict)
+                return_dict[k] = c(self, return_dict)
+
             for h in self.vein_hooks:
                 return_dict = h(self, return_dict)
             yield return_dict
 
-    # def cyclize(self, obj):
-    #     if isinstance(obj, (tuple, list, cycle)):
-    #         return obj
-    #     else:
-    #         return 
+        # keys, values = zip(*(
+        #     (k, getattr(self, k))
+        #     for k in self._properties_keys if k not in ("name", "simultaneous", "leaf_hooks", "vein_hooks")
+        #     ))
+        # for zipped_values in zip(*values):
+        #     return_dict = {k:v for k, v in zip(keys, zipped_values)}
+
+        #     for h in self.vein_hooks:
+        #         return_dict = h(self, return_dict)
+        #     yield return_dict
 
 # --------------------------------------------------------------------
 
