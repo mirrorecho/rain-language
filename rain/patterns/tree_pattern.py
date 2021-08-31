@@ -106,7 +106,6 @@ class CellTree(TreePattern):
     def trigger_hook(self, start_dur=0, **kwargs):
         return kwargs
 
-
     # @property
     # def branches(self) -> Iterable[Pattern]:
     #     for branch in super().branches:

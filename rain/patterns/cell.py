@@ -13,9 +13,10 @@ class Cell(rain.Pattern):
     dur: Iterable = ()
     machine: Iterable = cycle((None,))
     simultaneous: bool = False
-    tags: Iterable = cycle((None,))
+    tags: Iterable[Iterable[str]] = cycle( ( (),) )
 
     _no_traverse_keys = ("name", "simultaneous", "leaf_hooks", "vein_hooks")
+
 
     @property
     def veins(self) -> Iterable[dict]:
@@ -30,6 +31,7 @@ class Cell(rain.Pattern):
         callable_values = []
 
         for k in keys:
+            # NOTE... using the leaves attribute
             v = getattr(self, k)
             if isinstance(v, Callable):
                 callable_keys.append(k)
@@ -41,13 +43,15 @@ class Cell(rain.Pattern):
         for zipped_iterable_values in zip(*iterable_values):
             return_dict = {k:v for k, v in zip(iterable_keys, zipped_iterable_values)}
 
-            for k, c in zip(callable_keys, callable_values):
-                print(return_dict)
-                return_dict[k] = c(self, return_dict)
-
             for h in self.vein_hooks:
                 return_dict = h(self, return_dict)
+
+            for k, c in zip(callable_keys, callable_values):
+                # print(return_dict)
+                return_dict[k] = c(self, return_dict)
+
             yield return_dict
+
 
         # keys, values = zip(*(
         #     (k, getattr(self, k))

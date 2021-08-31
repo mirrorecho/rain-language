@@ -6,14 +6,13 @@ from itertools import cycle, repeat
 
 print("============================================================")
 
-yo = "MAMA"
+def yomama():
+    for n in ["yo", "mama"]:
+        yield n
 
-def fancy():
-    global yo
-    print(yo)
-    yo = "HOT CAKES"
-
-fancy()
+y = next(yomama())
+z = next(yomama())
+print(y, z)
 
 
 # c1 = rain.NotatedMusicCell("C1")

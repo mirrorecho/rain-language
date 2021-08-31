@@ -4,8 +4,7 @@ import abjad
 from abjad.get import duration, pitches
 
 import rain
-from rain.score import tagging
-from rain.score import meters
+from rain.score import tagging, meters
 
 # --------------------------------------------------------------------
 
@@ -13,6 +12,7 @@ from rain.score import meters
 @dataclass
 class Staff(rain.Machine): 
     short_name = ""
+    meter: abjad.Meter = meters.METER_4_4 #TODO: better to save as string so it can be written to data store natively
 
     def __post_init__(self):
         super().__post_init__()
@@ -22,7 +22,6 @@ class Staff(rain.Machine):
         self.notation_object = abjad.Staff(name=self.name)
         self.total_dur = 0
         self.rests_dur = 0
-        self.meter = meters.METER_4_4
         self.current_meter_node = self.meter.root_node
 
     # TODO MAYBE: shouldn't need to pass node around as param ... just reset self.current_meter_node

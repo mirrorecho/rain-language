@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from typing import Any, Iterable, Iterator, Callable
-from itertools import cycle
 
 import rain
 
@@ -38,13 +37,11 @@ class Pattern(rain.Node):
             return_vein = h(self, return_vein)
         yield return_vein
 
+    def alter(self, alter_pattern):
+        rain.Alters.create(source=alter_pattern, target=self)
+        return alter_pattern
 
-    # def alter_call(self, alter:Callable[["rain.Pattern"], "rain.Pattern"]) -> "rain.AlterPatternAttrs":
-    #     ap = rain.AlterPattern.create(alter=alter)
-    #     rain.Alters.create(source=ap, target=self)
-    #     return ap
-
-    def __call__(self, **kwargs) -> "rain.AlterPatternAttrs":
+    def alter_with_attrs_and_lambdas(self, alter_type:"rain.AlterPattern", key=None, **kwargs):
         alter_attrs={}
         alter_lambdas={}
         for n,v in kwargs.items():
@@ -52,15 +49,22 @@ class Pattern(rain.Node):
                 alter_lambdas[n] = v
             else:
                 alter_attrs[n] = v
-        ap = rain.AlterPatternAttrs.create(alter_attrs=alter_attrs, alter_lambdas=alter_lambdas)
-        rain.Alters.create(source=ap, target=self)
-        return ap
+        return self.alter(alter_type.create(key, alter_attrs=alter_attrs, alter_lambdas=alter_lambdas))
 
-    # def alter_cycle(self, **kwargs) -> "rain.AlterPatternAttrs":
-    #     for n,v in kwargs.items():
-    #         kwargs[n] = cycle((v,))
-    #     return self.alter_me(**kwargs)
+    def __call__(self, key=None, **kwargs) -> "rain.AlterPatternVeins":
+        return self.alter_with_attrs_and_lambdas(rain.AlterPatternVeins, key, **kwargs)
 
+    def alter_leaves(self, key=None, **kwargs) -> "rain.AlterPatternLeaves":
+        return self.alter_with_attrs_and_lambdas(rain.AlterPatternLeaves, key, **kwargs)
+
+    def tag(self, *args, **kwargs):
+        return self.alter(rain.AlterPatternTagVeins.create(key=kwargs.pop("key",None), tags=args))
+
+    def __mul__(self, times):
+        return rain.Sequence.create().extend(*[self for i in range(times)])
+
+    def __add__(self, other):
+        return rain.Sequence.create().extend(self, other)
 
     def get_palette(self):
         return rain.Palette(*self.leaves)

@@ -13,9 +13,22 @@ class OutCell(rain.MusicCell):
     #TODO: MAYBE the scale as separate node(s).. yay!!
     scale: rain.Scale = rain.Scale(steps=scale_steps)
 
+    tonic: Iterable = cycle((None,))
+
+    # TODO MAYBE: implement this:
+    # mode:int = 0 
+
     degree: Iterable = cycle((None,))
 
-    pitch: Callable[["OutCell", dict], int] = (lambda s, v: s.scale[v["degree"]])
+    octave: Iterable = cycle((0,))
+
+    pitch: Callable[["OutCell", dict], int] = (
+        lambda s, v: rain.transpose(
+            s.scale.getitem_with_root(v["degree"], v["tonic"]), 
+            12*v["octave"]
+            )
+        )
+
 
 
 rain.context.register_types(OutCell)
@@ -27,8 +40,10 @@ class OutCellFactory():
 
     _base_scale = rain.Scale(steps=scale_steps)
 
-    def get_scale(self, tonic=None):
-        return self._base_scale.mode(self.mode) + (tonic or self.tonic)
-
     def __call__(self, *args, **kwargs) -> OutCell:
-        return OutCell.create(scale = self.get_scale(kwargs.pop("tonic", None)), *args, **kwargs)
+        tonic = kwargs.pop("tonic", self.tonic)
+        return OutCell.create(
+            scale = self._base_scale.mode(self.mode) + tonic,
+            tonic = cycle((None,)),
+            *args, **kwargs
+            )

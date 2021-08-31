@@ -2,8 +2,10 @@ from itertools import cycle, repeat
 
 import rain
 
-from rain.out.structures import OutCellFactory
+from rain.out.out_cell import OutCellFactory
 coming_cell = OutCellFactory(mode=4, tonic=6)
+
+IMPORTANT_RHYTHM = (None, 1, 0.25, 0.25, 0.5, 1.5, 0.75, 0.25, 0.25, 0.5, 0.5,)
 
 rain.Sequence.create("COMING_1").extend(
     coming_cell("COMING_A", degree=(None, 2, 3, 4), dur=(0.5, 0.5, 0.5, 2.5) ),

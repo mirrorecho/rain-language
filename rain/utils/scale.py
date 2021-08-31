@@ -22,7 +22,6 @@ class Scale():
 
     # TODO: add methods to swap between iterables of degrees and pitches
 
-
     @property
     def octave_size(self):
         """ Gets the size in semitones of the span of the "octave". """
@@ -42,19 +41,22 @@ class Scale():
         if root:
             self.root = root
 
-    def __getitem__(self, arg):
-        
+    def getitem_with_root(self, arg:int, root:int=None):
+        root = self.root if root is None else root
         if isinstance(arg, int):
             my_octave_and_step = divmod(arg, self.num_steps)
-            return (my_octave_and_step[0] * self.octave_size) + self.steps[my_octave_and_step[1]] + self.root
+            return (my_octave_and_step[0] * self.octave_size) + self.steps[my_octave_and_step[1]] + root
         elif arg is None:
             return None
         elif isinstance(arg, (list, tuple)): # TODO maybe ... duck typing instead?
-            return [self[a] for a in arg]
+            return [self.getitem_with_root(a, root) for a in arg]
         elif isinstance(arg, slice):
-            return [self[i] for i in range(arg.start, arg.stop, arg.step or 1)]
+            return [self.getitem_with_root(i, root) for i in range(arg.start, arg.stop, arg.step or 1)]
         else:
-            raise(TypeError("Scale indices must be integers, None slices, or tuples/lists"))
+            raise(TypeError("Scale indices must be integers, None slices, or tuples/lists"))        
+
+    def __getitem__(self, arg):
+        return self.getitem_with_root(arg)
 
     def contains(self, arg):
         return (arg - self.root) % self.octave_size in self.steps

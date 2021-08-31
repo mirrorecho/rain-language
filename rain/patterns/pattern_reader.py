@@ -53,7 +53,8 @@ class PatternReader(rain.LanguageBase):
                 pattern_time = max_branch_end_time
 
         else:
-            for vein in pattern.veins:
+            #NOTE: using pattern.leaves attribute here so that leaf_hooks are executed
+            for vein in next(pattern.leaves).veins:
                 self.add_trigger(pattern_time, vein)
                 pattern_time += vein["dur"]
         

@@ -55,8 +55,11 @@ class Language(LanguageBase, rain.GraphableInterface):
         self.__dict__.update(kwargs)
 
     @classmethod
-    def create(cls, *args, **kwargs):
-        me = cls(*args, **kwargs)
+    def create(cls, key=None, *args, **kwargs):
+        if key:
+            me = cls(key, *args, **kwargs)    
+        else:
+            me = cls(*args, **kwargs)
         return me.create_me()
 
     @classmethod
