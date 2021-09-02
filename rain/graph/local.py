@@ -88,7 +88,7 @@ class GraphLocal(rain.GraphInterface):
 
     def _check_key(self, key, exists=True):
         if (key in self) != exists:
-            raise KeyError(key + (" does not exist!" if exists else " already exists!"))
+            raise KeyError(str(key) + (" does not exist!" if exists else " already exists!"))
 
     def _add_label_index(self, label:str, _data:_Data):
         if label not in self._type_index:

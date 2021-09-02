@@ -74,8 +74,9 @@ class TreePattern(rain.Pattern):
 
         if not self.r("->", "CUE_FIRST").first:
             rain.CueFirst.create(source=self, target=cue_p_first)
-            
-        if cue_last := self.r("->", "CUE_LAST").first:
+
+        elif cue_last := self.r("->", "CUE_LAST").first:
+            cue_last.read()
             rain.CueNext.create(source=cue_last.target, target=cue_p_first)
             cue_last.delete()
 
@@ -94,7 +95,7 @@ class TreePattern(rain.Pattern):
         return self
 
     def append(self, pattern):
-        raise NotImplementedError()
+        return self.extend(pattern)
 
     def insert(self, index, pattern):
         raise NotImplementedError()
