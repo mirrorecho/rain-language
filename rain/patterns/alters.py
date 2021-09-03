@@ -105,7 +105,7 @@ class AlterPatternVeins(AlterPattern):
         return_dict.update(vein_dict)
         return_dict.update(self.alter_attrs)
         for n, l in self.alter_lambdas.items():
-            return_dict[n] = l(return_dict.get(n, None))
+            return_dict[n] = l(self, return_dict)
         return return_dict
 
     def __post_init__(self):
@@ -139,29 +139,33 @@ class AlterPatternTagVeins(AlterPattern):
         self.next_tags_generator = self.get_next_tags()
         self.vein_hooks = [lambda s, v: self.update_vein(v)]
 
+# --------------------------------------------------------------------
 
-    # @property 
-    # def altered_pattern(self) -> "rain.Pattern":
-    #     ap = self.alters_pattern
-    #     for l in ap.leaves:
-    #         if self.alter_attrs:
-    #             for n,v in self.alter_attrs.items():
-    #                 setattr(l, n, v)
-    #     return ap
+@dataclass
+#TODO: ditto as above, can't represent this natively in a graph ... OK?
+class Change(AlterPattern): #TODO: rename to something more specific?
+    """
+    """
 
-    # @property
-    # def leaves(self) -> Iterable["rain.Pattern"]:
-    #     for l in self.altered_pattern.leaves:
-    #         if self.alter_attrs:
-    #             for n,v in self.alter_attrs.items():
-    #                 setattr(l, n, v)
-    #         yield l
+    change_attrs: dict = None
+    _change_attrs_iters = None
 
-    # def setup_attrs(self, **kwargs):
-    #     self.alter_attrs = kwargs
-    #     self.save()
+    def change_me(self, vein_dict: dict) -> dict:
+        return_dict = {}
+        return_dict.update(vein_dict)
+        for n, v in self._change_attrs_iters.items():
+            change_value = next(v, False)
+            if change_value is not False:
+                return_dict[n] = change_value
 
+        return return_dict
 
+    def __post_init__(self):
+        super().__post_init__()
+        self._change_attrs_iters = {}
+        for n, v in self.change_attrs.items():
+            self._change_attrs_iters[n] = iter(v)
+        self.vein_hooks = [lambda s, v: self.change_me(v)]
 
 # --------------------------------------------------------------------
 

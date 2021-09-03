@@ -107,6 +107,7 @@ FLIPPING = rain.Sequence.create("FLIPPING").extend(
     flip_out("FLIPPING14", times=1, bookend_rests=(0.5,0)),
     flip_out("FLIPPING15", times=1, bookend_rests=(0.5,0)),
     flip_out("FLIPPING16", times=1, bookend_rests=(0.5,0)),
+    # TODO MAYBE: a longer pause before this last
     flip_out("FLIPPING17", times=32),
 
     # rain.Sequence.create("FLIP_FLIP_OUT"),

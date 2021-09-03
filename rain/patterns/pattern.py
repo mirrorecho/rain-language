@@ -41,6 +41,10 @@ class Pattern(rain.Node):
         rain.Alters.create(source=alter_pattern, target=self)
         return alter_pattern
 
+    def change(self, **kwargs):
+        key = kwargs.pop("key",None)
+        return self.alter(rain.Change.create(key, change_attrs=kwargs))
+
     def alter_with_attrs_and_lambdas(self, alter_type:"rain.AlterPattern", key=None, **kwargs):
         alter_attrs={}
         alter_lambdas={}
