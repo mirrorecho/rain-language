@@ -23,27 +23,26 @@ class TreePattern(rain.Pattern):
             self._cached_branches = list(self.get_branches())
         return self._cached_branches
 
-    #TODO same method as on Alters ... DRY!
-    def set_hooks(self, branch: rain.Pattern):
-        if self.leaf_hooks:
-            if not branch.leaf_hooks:
-                branch.leaf_hooks = []
-            branch.leaf_hooks.extend(self.leaf_hooks)
-        if self.vein_hooks:
-            if not branch.vein_hooks:
-                branch.vein_hooks = []
-            branch.vein_hooks.extend(self.vein_hooks)
-        return branch
-
-
     # TO CONSIDER: this is all perfectly fine for a local graph, but would
     # generate lots of queries to a graph DB ... how to optimize?   
     # ALSO TO CONSIDER... would be MUCH COOLER! if this returned a Select
     def get_branches(self):
+        for child_cue in self.get_child_cues():
+            yield rain.pattern_set_branch_hooks(self, child_cue.cues_pattern, child_cue)
+
+
+    def get_child_cues(self) -> rain.Cue:
         if child_cue := self.r("->", "CUE_FIRST").n().first:
-            yield self.set_hooks(child_cue.cues_pattern)
+            yield child_cue
             while child_cue := child_cue.r("->", "CUE_NEXT").n().first:
-                yield self.set_hooks(child_cue.cues_pattern)
+                yield child_cue
+
+    def get_descendant_cues(self) -> rain.Cue:
+        for child_cue in self.get_child_cues():
+            yield child_cue
+            child_pattern = child_cue.cues_pattern
+            if not child_pattern.is_leaf:
+                yield from child_pattern.get_descendant_cues()
 
     # DITTO... would be much cooler as a Select
     @property
@@ -63,6 +62,8 @@ class TreePattern(rain.Pattern):
         for leaf in self.leaves:
             yield from leaf.veins
 
+    # def get_node_cue(self, key:str, index=0):
+    #     for n in self.nodes:
 
     def extend_by_key(self, *keys):
         self.extend(*[rain.context.new_by_key(k) for k in keys])

@@ -22,6 +22,34 @@ def listify(*args):
             return_list.append(a)
     return return_list
 
+def pattern_set_branch_hooks(pattern:"rain.Pattern", branch:"rain.Pattern", cue:"rain.Cue"=None):
+    # TODO MAYBE: consider this:
+    # if self.node_hooks:
+    #     if not branch.node_hooks:
+    #         branch.node_hooks = []
+    #     branch.node_hooks.extend(self.node_hooks)
+    if pattern.leaf_hooks:
+        if not branch.leaf_hooks:
+            branch.leaf_hooks = []
+        branch.leaf_hooks.extend(pattern.leaf_hooks)
+    if pattern.vein_hooks:
+        if not branch.vein_hooks:
+            branch.vein_hooks = []
+        branch.vein_hooks.extend(pattern.vein_hooks)
+    if not branch._parentage:
+        branch._parentage = []
+    
+    #TODO MAYBE: this implementation isn't terribly elegant
+    
+    branch._parentage.append(pattern)
+    branch._parentage.extend(pattern._parentage)
+    # print("PARENTAGE:", [b.key for b in branch._parentage])
+    for p in branch._parentage:
+        if cue and isinstance(p, rain.AlterDescendant) and cue == p.decendant_alters_cue:
+            print("ALTERING DESCENDANT!", branch.key, "FROM", p.key)
+            pattern_set_branch_hooks(p.decendant_alters, branch, None)
+    return branch
+
 # ---------------------------------------------------------------
 
 # music cell utils:

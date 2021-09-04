@@ -8,8 +8,12 @@ class Pattern(rain.Node):
     # a node that represents an iterable over a group nodes ... each of which is connected
     # to this node, in a "pattern"
 
+    # TODO: MAYBE consider this
+    # node_hooks: Iterable[Callable[["rain.Pattern", "rain.Pattern"], "rain.Pattern"]] = ()
+    
     leaf_hooks: Iterable[Callable[["rain.Pattern", "rain.Pattern"], "rain.Pattern"]] = ()
     vein_hooks: Iterable[Callable[["rain.Pattern", Any, int], Any]] = ()
+    _parentage = () 
 
     @property
     def is_leaf(self):

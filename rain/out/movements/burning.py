@@ -34,13 +34,15 @@ burning_cell("TINY_BURN_LOW", degree=[-3,-4,-4,-1], dur=cycle([0.5]), tonic_mod=
 #     machine=cycle(("PIANO1",)),
 #     tags =cycle((None,)),
 # )
+rain.Parallel.create("TINIEST_BURN").extend(
+    rain.ref("TINIEST_BURN_HI")(degree=space_intervals, machine="PIANO1"),
+    rain.ref("TINIEST_BURN_LOW")(machine="PIANO2") 
+    )
+
 BURNING = rain.Sequence.create("BURNING")
 
 for i in range(3):
-    BURNING.append(rain.Parallel.create().extend(
-            rain.ref("TINIEST_BURN_HI")(degree=space_intervals, machine="PIANO1"),
-            rain.ref("TINIEST_BURN_LOW")(machine="PIANO2") 
-            ).alter(add_modulate(burning_tonic)))
+    BURNING.append(rain.ref("TINIEST_BURN").alter(add_modulate(burning_tonic)))
     burning_tonic.modulate(5)
 
 for i in range(2):
@@ -49,6 +51,17 @@ for i in range(2):
             rain.ref("TINY_BURN_LOW")(machine="PIANO2") 
             ).alter(add_modulate(burning_tonic)))
     burning_tonic.modulate(5)
+
+
+for c in BURNING.get_descendant_cues():
+    print(c.cues_pattern.key)
+
+# print(BURNING.ref("TINY_BURN_LOW"))
+
+# BURNING.alter_sub("TINY_BURN_LOW", )
+
+# for n in BURNING.nodes:
+#     print(type(n).__name__, n.key)
 
 
 # BURNING.append(rain.Parallel.create().extend(

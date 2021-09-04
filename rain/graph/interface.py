@@ -52,6 +52,11 @@ class GraphableInterface(ABC):
     def delete(self):
         self.graph.delete(self.get_key())
 
+    def __eq__(self, other:"GraphableInterface"):
+        try:
+            return self.get_key() == other.get_key()
+        except:
+            return False
 
 
 class SelectInterface(ABC): 

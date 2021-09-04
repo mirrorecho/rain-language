@@ -1,5 +1,5 @@
 from rain.utils.utils import (auto_key, to_snake_case, to_upper_snake_case, 
-    transpose, rest, listify)
+    transpose, rest, listify, pattern_set_branch_hooks)
 from rain.utils.scale import Scale
 
 from rain.graph.interface import (GraphableInterface, GraphableNodeInterface, 
@@ -23,7 +23,8 @@ from rain.patterns.cell import Cell, MusicCell, RestCell
 from rain.patterns.cue import Cue, Contains, Cues, CueNext, CueFirst, CueLast
 from rain.patterns.machine import Machine, Printer #, SynthDefMaker
 from rain.patterns.tree_pattern import TreePattern, CellTree, Sequence, Parallel, Combo, MachineTree
-from rain.patterns.alters import AlterPattern, AlterCue, Alters, AlterPatternVeins, AlterPatternLeaves, AlterPatternTagVeins, Change
+from rain.patterns.alters import (AlterPattern, Alters, AlterPatternVeins, 
+    AlterPatternLeaves, AlterPatternTagVeins, Change, AlterDescendant)
 from rain.patterns.pattern_reader import PatternReader
 
 from rain.score.staff import Staff
@@ -36,7 +37,8 @@ context.register_types(
     Pattern, Cell, Cue, Contains, Cues,
     CueNext, CueFirst, CueLast, TreePattern, MachineTree, Machine,
     CellTree, Sequence, Parallel, Combo,
-    AlterPattern, AlterCue, Alters, AlterPatternVeins, AlterPatternLeaves, AlterPatternTagVeins, Change,
+    AlterPattern, Alters, AlterPatternVeins, AlterPatternLeaves, AlterPatternTagVeins, 
+    Change, AlterDescendant,
     MusicCell, RestCell,
     Staff, StaffGroup, Score )
 
