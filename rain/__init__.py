@@ -18,18 +18,21 @@ from rain.language.select_ import Select, TargetedRelationshipSelect # note have
 
 
 from rain.patterns.palette import Palette
-from rain.patterns.pattern import Pattern
+from rain.patterns.pattern import AlterableMixin, Pattern
 from rain.patterns.cell import Cell, MusicCell, RestCell
 from rain.patterns.cue import Cue, Contains, Cues, CueNext, CueFirst, CueLast
 from rain.patterns.machine import Machine, Printer #, SynthDefMaker
 from rain.patterns.tree_pattern import TreePattern, CellTree, Sequence, Parallel, Combo, MachineTree
 from rain.patterns.alters import (AlterPattern, Alters, AlterPatternVeins, 
-    AlterPatternLeaves, AlterPatternTagVeins, Change, AlterDescendant)
+    AlterPatternLeaves, AlterPatternTagVeins, Change, MeddleHelper, Meddle, MeddleConnectAlter)
 from rain.patterns.pattern_reader import PatternReader
 
 from rain.score.staff import Staff
 from rain.score.staff_group import StaffGroup
 from rain.score.score import Score
+
+# ADDTIONAL IMPORTS THAT ARE NOT NODES IN THE GRAPH
+from rain.patterns.alters import Meddle
 
 # TO DO: use decorator instead of registering here
 context.register_types(
@@ -38,7 +41,7 @@ context.register_types(
     CueNext, CueFirst, CueLast, TreePattern, MachineTree, Machine,
     CellTree, Sequence, Parallel, Combo,
     AlterPattern, Alters, AlterPatternVeins, AlterPatternLeaves, AlterPatternTagVeins, 
-    Change, AlterDescendant,
+    Change, Meddle, MeddleConnectAlter,
     MusicCell, RestCell,
     Staff, StaffGroup, Score )
 

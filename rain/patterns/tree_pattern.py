@@ -40,9 +40,7 @@ class TreePattern(rain.Pattern):
     def get_descendant_cues(self) -> rain.Cue:
         for child_cue in self.get_child_cues():
             yield child_cue
-            child_pattern = child_cue.cues_pattern
-            if not child_pattern.is_leaf:
-                yield from child_pattern.get_descendant_cues()
+            yield from child_cue.cues_pattern.get_descendant_cues()
 
     # DITTO... would be much cooler as a Select
     @property

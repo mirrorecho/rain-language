@@ -2,17 +2,28 @@ from dataclasses import dataclass
 from typing import Callable, Iterable
 # import inspect
 import rain
+
 from itertools import cycle, repeat
+from rain.out.score_machine import score_with_meter
 
 print("============================================================")
 
-def yomama():
-    for n in ["yo", "mama"]:
-        yield n
+SANDBOX = rain.Parallel.create("SANDBOX").extend(
+    rain.MusicCell.create("POO", pitch=[0,2,5,4], dur=[1,1,1,1], machine=cycle(["PIANO1"]))("YOMAMA", machine="PIANO2"),
+    rain.MusicCell.create("POOP", pitch=[0,4,5,7], dur=[1,2,1,2], machine=cycle(["PIANO1"])),
+    )
 
-y = next(yomama())
-z = next(yomama())
-print(y, z)
+y = rain.ref("SANDBOX")
+
+for b in y.veins:
+    print("yo", b)
+
+if __name__ == "__main__":
+    score = score_with_meter()
+    score.reset()
+    pr = rain.PatternReader(SANDBOX, score.get_palette())
+    pr.read()
+    score.render()
 
 
 # c1 = rain.NotatedMusicCell("C1")

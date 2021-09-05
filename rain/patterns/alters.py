@@ -18,12 +18,9 @@ def transpose(pitches, value:int=0):
 class AlterPattern(rain.Pattern): 
     """represents an alteration directly to a pattern"""
 
-    alters_cue: bool = False
-
     def __post_init__(self):
         super().__post_init__()
         self._altered_pattern = None
-
 
     # TODO: needed?
     @property 
@@ -35,24 +32,25 @@ class AlterPattern(rain.Pattern):
     @property 
     def altered_pattern(self) -> "rain.Pattern":
         if self._altered_pattern is None:
-            self._altered_pattern = rain.pattern_set_branch_hooks(self, self.alters_pattern, None)
+            self._altered_pattern = rain.pattern_set_branch_hooks(self, self.alters_pattern, self.alters_cue)
+        # print("ALTERED PATTERN", self._altered_pattern.key)
         return self._altered_pattern
 
     @property 
+    def alters_cue(self) -> "rain.Cue":
+        return self.r("->", "ALTERS").n().first
+
+    @property 
     def alters_pattern(self) -> "rain.Pattern":
-        if self.alters_cue:
-            cue = self.r("->", "ALTERS").n().first
-            return cue.r("->", "CUES").n().first
-        else:
-            return self.r("->", "ALTERS").n().first
+        return self.alters_cue.r("->", "CUES").n().first
 
     @property
     def is_leaf(self):
-        return self.altered_pattern.is_leaf 
+        return False
 
     @property
     def branches(self) -> Iterable["rain.Pattern"]:
-        yield from self.altered_pattern.branches
+        yield self.altered_pattern
 
     @property
     def leaves(self) -> Iterable["rain.Pattern"]:
@@ -67,8 +65,12 @@ class AlterPattern(rain.Pattern):
     def veins(self) -> Iterable[Any]:
         yield from self.altered_pattern.veins
 
+    def get_child_cues(self) -> rain.Cue:
+        yield self.alters_cue
+
     def get_descendant_cues(self):
-        yield from self.altered_pattern.get_descendant_cues()
+        yield self.alters_cue
+        yield from self.alters_pattern.get_descendant_cues()
 
 # --------------------------------------------------------------------
 
@@ -113,6 +115,10 @@ class AlterPatternVeins(AlterPattern):
 
     def __post_init__(self):
         super().__post_init__()
+        if self.alter_attrs is None:
+            self.alter_attrs = {}
+        if self.alter_lambdas is None:
+            self.alter_lambdas = {}
         self.vein_hooks = [lambda s, v: self.update_vein(v)]
 
 # --------------------------------------------------------------------
@@ -171,42 +177,60 @@ class Change(AlterPattern): #TODO: rename to something more specific?
         self.vein_hooks = [lambda s, v: self.change_me(v)]
 
 # --------------------------------------------------------------------
-
-# TODO: reimplement according to above method IF NECESSARY
 @dataclass
-class AlterDescendant(AlterPattern): 
+class MeddleHelper(rain.AlterableMixin):
+    key: str
+    index: int = 0
+    _alter_pattern = None
+
+    def alter(self, alter_pattern:AlterPattern):
+        self._alter_pattern = alter_pattern
+        return self
+
+    def connect_alter(self, meddle_pattern:"Meddle"):
+        cue = meddle_pattern.find_cue(self.key, self.index)
+        rain.MeddleConnectAlter.create(source=meddle_pattern, target=self._alter_pattern)
+        rain.Alters.create(source=self._alter_pattern, target=cue)
+
+
+@dataclass
+class Meddle(AlterPattern): 
     """YO!"""
 
     # TODO MAYBE: this would be redundant, but might help caching the key for performance reasons
     # alters_key: str = ""
 
     @property 
-    def decendant_alters(self) -> AlterPattern:
-        return self.r("->", "DESCENDANT_ALTERS").n().first
+    def connected_alter(self) -> AlterPattern:
+        return self.r("->", "MEDDLE_CONNECT_ALTER").n().first
 
     @property 
-    def decendant_alters_cue(self) -> rain.Cue:
-        return self.decendant_alters.r("->", "ALTERS").n().first
+    def connected_alter_cue(self) -> rain.Cue:
+        return self.connected_alter.r("->", "ALTERS").n().first
 
+
+
+        
 # --------------------------------------------------------------------
 
 # TODO MAYBE: reimplement according to above method IF NECESSARY
 # @dataclass
-class AlterCue(rain.Node): 
-    """represents an alteration to a cued pattern or patterns"""
+# class AlterCue(rain.Node): 
+#     """represents an alteration to a cued pattern or patterns"""
 
-    @property 
-    def alters_cues(self) -> Tuple["rain.Cue"]:
-        return tuple(self.r("->", "ALTERS").n())
+#     @property 
+#     def alters_cues(self) -> Tuple["rain.Cue"]:
+#         return tuple(self.r("->", "ALTERS").n())
 
-    @property 
-    def alters_patterns(self) -> Tuple["rain.Pattern"]:
-        return tuple(c.cues_pattern for c in self.alters_cues)
+#     @property 
+#     def alters_patterns(self) -> Tuple["rain.Pattern"]:
+#         return tuple(c.cues_pattern for c in self.alters_cues)
 
 
 # --------------------------------------------------------------------
 class Alters(rain.Relationship): pass
 # relationship from AlterCue to the Cue it alters, or from AlterPattern to the Pattern it alters
 
-class DescendantAlters(rain.Relationship): pass
-# relationship from AlterCue to the Cue it alters, or from AlterPattern to the Pattern it alters
+class MeddleConnectAlter(rain.Relationship): pass
+# relationship from Meddle to the Alter node that describes the alteration and in turn
+# has an ALTERS relationship to the cue of a descendant node to be "meddled with"

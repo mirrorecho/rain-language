@@ -22,7 +22,7 @@ def space_intervals(s, v:dict):
         return degree
 
 
-burning_cell("TINIEST_BURN_HI", degree=[(4,5),(2,3),(6,7)], dur=cycle([0.5]))
+burning_cell("TINIEST_BURN_HI", degree=[(4,5),(2,3),(6,7)], dur=cycle([0.5]), machine=cycle(["FLUTE"]))
 burning_cell("TINIEST_BURN_LOW", degree=[-3,-4,-1], dur=cycle([0.5]), tonic_mod=cycle([5]))
 # burning_cell.modulate(5)
 burning_cell("TINY_BURN_HI", degree=[(4,5),(2,3),(6,7),2], dur=cycle([0.5]), tonic_mod=(0,0,0,5))
@@ -39,7 +39,7 @@ rain.Parallel.create("TINIEST_BURN").extend(
     rain.ref("TINIEST_BURN_LOW")(machine="PIANO2") 
     )
 
-BURNING = rain.Sequence.create("BURNING")
+BURNING = rain.Sequence.create()
 
 for i in range(3):
     BURNING.append(rain.ref("TINIEST_BURN").alter(add_modulate(burning_tonic)))
@@ -52,9 +52,19 @@ for i in range(2):
             ).alter(add_modulate(burning_tonic)))
     burning_tonic.modulate(5)
 
+# rain.ref("BURNING")("BURNING_MOD",
+#     rain.Meddle("TINIEST_BURN"),
+#     rain.Meddle("TINY_BURN_LOW"),
+#     )
 
-for c in BURNING.get_descendant_cues():
-    print(c.cues_pattern.key)
+mh = rain.MeddleHelper("TINIEST_BURN_LOW", 0)
+
+BURNING = BURNING.meddle(mh(dur=4)).meddle(mh(machine="FLUTE"))
+
+
+# for c in BURNING.get_descendant_cues():
+#     print(c.cues_pattern.key, "CUE EXISTS", c.key)
+
 
 # print(BURNING.ref("TINY_BURN_LOW"))
 
