@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Iterable, Callable, Tuple
+from typing import Any, Iterable, Iterator, Callable, Tuple
 
 import rain
 
@@ -18,14 +18,25 @@ def transpose(pitches, value:int=0):
 class AlterPattern(rain.Pattern): 
     """represents an alteration directly to a pattern"""
 
+    is_alter:bool = True
+    is_meddle_alter:bool = False
+
     def __post_init__(self):
         super().__post_init__()
         self._altered_pattern = None
 
     # TODO: needed?
-    @property 
+    @property
     def simultaneous(self) -> bool:
         return self.altered_pattern.simultaneous
+    
+    @property
+    def meddle_chain(self) -> Iterator["AlterPattern"]:
+        if self.is_meddle_alter:
+            yield self
+            alters_pattern = self.alters_pattern
+            if alters_pattern.is_alter and alters_pattern.is_meddle_alter:
+                yield from alters_pattern.meddle_chain
 
     #TODO: this is a bit confusing as a property (since each call creates a new object)
     # make it a vanilla method instead?
@@ -181,17 +192,25 @@ class Change(AlterPattern): #TODO: rename to something more specific?
 class MeddleHelper(rain.AlterableMixin):
     key: str
     index: int = 0
-    _alter_pattern = None
+    _alter_patterns = ()
 
     def alter(self, alter_pattern:AlterPattern):
-        self._alter_pattern = alter_pattern
+        alter_pattern.is_meddle_alter = True
+        alter_pattern.save()
+        if len(self._alter_patterns) > 0:
+            cue = rain.Cue.create()
+            rain.Alters.create(source=alter_pattern, target=cue)
+            rain.Cues.create(source=cue, target=self._alter_patterns[-1])
+        self._alter_patterns.append(alter_pattern)
         return self
 
-    def connect_alter(self, meddle_pattern:"Meddle"):
+    def connect_alters(self, meddle_pattern:"Meddle"):
         cue = meddle_pattern.find_cue(self.key, self.index)
-        rain.MeddleConnectAlter.create(source=meddle_pattern, target=self._alter_pattern)
-        rain.Alters.create(source=self._alter_pattern, target=cue)
+        rain.MeddleConnectAlter.create(source=meddle_pattern, target=self._alter_patterns[-1])
+        rain.Alters.create(source=self._alter_patterns[0], target=cue)
 
+    def __post_init__(self):
+        self._alter_patterns = []
 
 @dataclass
 class Meddle(AlterPattern): 
@@ -201,13 +220,19 @@ class Meddle(AlterPattern):
     # alters_key: str = ""
 
     @property 
-    def connected_alter(self) -> AlterPattern:
-        return self.r("->", "MEDDLE_CONNECT_ALTER").n().first
+    def connected_alters(self) -> Iterable[AlterPattern]:
+        yield from self.r("->", "MEDDLE_CONNECT_ALTER").n()
+
+    # def _get_final_cue(self, connected_alter:AlterPattern):
+    #     if connected_alter.is_meddle_alter:
+    #         return self._get_final_cue(connected_alter.alters_pattern)
+    #     else:
+    #         return connected_alter.alters_cue
 
     @property 
-    def connected_alter_cue(self) -> rain.Cue:
-        return self.connected_alter.r("->", "ALTERS").n().first
-
+    def connected_alters_cues(self) -> rain.Cue:
+        for connected_alter in self.connected_alters:
+            yield list(connected_alter.meddle_chain)[-1].alters_cue
 
 
         

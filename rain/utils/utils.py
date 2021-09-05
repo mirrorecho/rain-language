@@ -39,17 +39,20 @@ def pattern_set_branch_hooks(pattern:"rain.Pattern", branch:"rain.Pattern", cue:
     if not branch._parentage:
         branch._parentage = []
     
-    #TODO MAYBE: this implementation isn't terribly elegant
+    #TODO EVENTUALLY: this implementation isn't terribly elegant ... KISS
     
     branch._parentage.append(pattern)
     branch._parentage.extend(pattern._parentage)
     # print("PARENTAGE:", [b.key for b in branch._parentage])
     for p in branch._parentage:
-        if cue and isinstance(p, rain.Meddle) and cue == p.connected_alter_cue:
-            print("ALTERING DESCENDANT!", branch.key, "FROM", p.key)
-            # TODO: only a single alteration is handled with this implementation
-            # ... would be ideal to be able to chain Meddle alterations together
-            pattern_set_branch_hooks(p.connected_alter, branch, None)
+
+        if cue and isinstance(p, rain.Meddle) and cue in p.connected_alters_cues:
+            for connected_alter in p.connected_alters:
+                my_meddle_chain = list(connected_alter.meddle_chain)
+                if my_meddle_chain[-1].alters_cue == cue:
+                    # print("ALTERING DESCENDANT!", branch.key, "FROM", p.key)
+                    for meddle_alter in reversed(my_meddle_chain):
+                        pattern_set_branch_hooks(meddle_alter, branch, None)
     return branch
 
 # ---------------------------------------------------------------

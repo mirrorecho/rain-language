@@ -8,6 +8,9 @@ from rain.out.out_cell import (GlobalTonic, OutCell, OutCellFactory, AddDegrees,
     add_modulate)
 from rain.out.score_machine import score_with_meter, rest_all
 
+M = rain.MeddleHelper
+
+
 # TODO: likely change start global tonic
 burning_cell = OutCellFactory(mode=5, global_tonic=GlobalTonic(-4))
 burning_tonic = GlobalTonic(-4)
@@ -57,9 +60,14 @@ for i in range(2):
 #     rain.Meddle("TINY_BURN_LOW"),
 #     )
 
-mh = rain.MeddleHelper("TINIEST_BURN_LOW", 0)
+mh = M("TINIEST_BURN_LOW", 0)
 
-BURNING = BURNING.meddle(mh(dur=4)).meddle(mh(machine="FLUTE"))
+BURNING = BURNING.meddle(
+    M("TINIEST_BURN_LOW", 0)(dur=4),
+    M("TINY_BURN_HI")(dur=1).tag([">"])
+).meddle(M("TINIEST_BURN_LOW", 0)(machine="FLUTE"))
+
+print("0000000000000000000000000000000000000000000000000")
 
 
 # for c in BURNING.get_descendant_cues():

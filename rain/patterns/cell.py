@@ -15,8 +15,7 @@ class Cell(rain.Pattern):
     simultaneous: bool = False
     tags: Iterable[Iterable[str]] = cycle( ( (),) )
 
-    _no_traverse_keys = ("name", "simultaneous", "node_hooks", "leaf_hooks", "vein_hooks")
-
+    _no_traverse_keys = ("name", "simultaneous", "node_hooks", "leaf_hooks", "vein_hooks", "is_alter")
 
     @property
     def veins(self) -> Iterable[dict]:

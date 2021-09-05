@@ -15,12 +15,17 @@ class AlterableMixin():
         return self.alter(rain.Change.create(key, change_attrs=kwargs))
 
     def meddle(self, 
-        meddle_helper: "rain.MeddleHelper",
-        **kwargs
+        *args,
+        **kwargs # TODO: USED?
         ):
-        key = kwargs.pop("key", None)
+        if isinstance(args[0], str):
+            key = args.pop(0)
+        else:
+            key = None
         meddle_pattern = self.alter(rain.Meddle.create(key))
-        meddle_helper.connect_alter(meddle_pattern)
+        for meddle_helper in args:
+            # TODO: check for meddles connecting to the same cues (shouldn't be allowed)
+            meddle_helper.connect_alters(meddle_pattern)
         return meddle_pattern
 
 
@@ -55,6 +60,8 @@ class Pattern(rain.Node, AlterableMixin):
     leaf_hooks: Iterable[Callable[["rain.Pattern", "rain.Pattern"], "rain.Pattern"]] = ()
     vein_hooks: Iterable[Callable[["rain.Pattern", Any, int], Any]] = ()
     _parentage = () 
+
+    is_alter:bool = False
 
     @property
     def is_leaf(self):
