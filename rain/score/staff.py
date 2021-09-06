@@ -14,6 +14,8 @@ class Staff(rain.Machine):
     short_name = ""
     meter: abjad.Meter = meters.METER_4_4 #TODO: better to save as string so it can be written to data store natively
 
+    clef: str = "treble"
+
     def __post_init__(self):
         super().__post_init__()
         self.reset()

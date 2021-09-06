@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Any, Iterable, Iterator, Callable
+from itertools import cycle
 
 import rain
 
@@ -49,6 +50,8 @@ class AlterableMixin():
     def tag(self, *args, **kwargs):
         return self.alter(rain.AlterPatternTagVeins.create(key=kwargs.pop("key",None), tags=args))
 
+    def tag_all(self, *args, **kwargs):
+        return self.alter(rain.AlterPatternTagVeins.create(key=kwargs.pop("key",None), tags=cycle(args)))
 
 @dataclass
 class Pattern(rain.Node, AlterableMixin): 

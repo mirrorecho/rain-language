@@ -10,9 +10,9 @@ from rain.out.out_cell import OutCell
 def score_with_meter(meter=meters.METER_4_4):
     return rain.Score.create("OUT_SCORE", meter=meter).extend(
         rain.Staff.create("FLUTE", "Flute", meter=meter),
-        rain.StaffGroup.create("PIANO").extend(
+        rain.StaffGroup.create("PIANO", group_type="PianoStaff").extend(
             rain.Staff.create("PIANO1", "Piano 1", meter=meter),
-            rain.Staff.create("PIANO2", "Piano 2", meter=meter),
+            rain.Staff.create("PIANO2", "Piano 2", meter=meter, clef="bass"),
         )
     )
 

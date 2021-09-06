@@ -7,8 +7,10 @@ import rain
 
 @dataclass
 class StaffGroup(rain.MachineTree): 
+    group_type:str = None
+
     def reset(self):
-        self.notation_object = abjad.StaffGroup(name=self.name)
+        self.notation_object = abjad.StaffGroup(name=self.name, lilypond_type=self.group_type)
         for staff_thingy in self.branches:
             staff_thingy.reset()
             self.notation_object.append(staff_thingy.notation_object)

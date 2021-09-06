@@ -27,12 +27,17 @@ fermatas_inventory = set(
 # TODO MAYBE: deal with the set of tags that are NOT allowed
 
 def get_attachment(tag_name:str):
-    def set_note_head(x, index, style):
-        for leaf in x:
-            if isinstance(leaf, abjad.Chord):
-                abjad.tweak(leaf.note_heads[index]).style = style
-            elif isinstance(leaf, abjad.Note):
-                abjad.tweak(leaf.note_head).style = style
+
+    # TODO: won't work for noteheads that are tied
+    def set_note_head(leaf, index, style):
+        # abjad.override(leaf).style = style
+        # abjad.override(leaf).NoteHead.style = "#'" + style
+
+        if isinstance(leaf, abjad.Chord):
+            abjad.tweak(leaf.note_heads[index]).style = "#'" + style
+        elif isinstance(leaf, abjad.Note):
+            abjad.tweak(leaf.note_head).style ="#'" + style
+
 
     if tag_name in articulations_inventory:
         return abjad.Articulation(name=tag_name)

@@ -20,29 +20,29 @@ class Score(rain.MachineTree):
 
     #TODO: this is TOTALLY NASTY!
     #TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    def set_time_signature(self, staff_thingy):
-        if isinstance(staff_thingy, abjad.Staff):
-            if self.meter is meters.METER_4_4:
-                try:
+    def prep_staves(self, staff_machine):
+        if isinstance(staff_machine, rain.Staff):
+            try:
+                clef = abjad.Clef(staff_machine.clef)
+                abjad.attach(clef, staff_machine.notation_object[0])
+                if self.meter is meters.METER_4_4:
                     time_signature = abjad.TimeSignature((4, 4))
-                    abjad.attach(time_signature, staff_thingy[0], context="Score")
-                except:
-                    print("WARNING: can't attach time signature since staff is empty")
-            elif self.meter is meters.METER_6_8:
-                try:
+                    abjad.attach(time_signature, staff_machine.notation_object[0], context="Score")
+                elif self.meter is meters.METER_6_8:
                     time_signature = abjad.TimeSignature((6, 8))
-                    abjad.attach(time_signature, staff_thingy[0], context="Score")
-                except:
-                    print("WARNING: can't attach time signature since staff is empty")
-            else:
-                print("METER NOT FOUND!!!!!")
-        elif isinstance(staff_thingy, (abjad.Score, abjad.StaffGroup)):
-            for s in staff_thingy:
-                self.set_time_signature(s)
+                    abjad.attach(time_signature, staff_machine.notation_object[0], context="Score")
+                else:
+                    print("METER NOT FOUND!!!!!")
+            except:
+                print("WARNING: can't attach time signature or clef since staff is empty")
+        elif isinstance(staff_machine, rain.MachineTree):
+            for s in staff_machine:
+                self.prep_staves(s)
 
+    
     def render(self):
 
-        self.set_time_signature(self.notation_object)
+        self.prep_staves(self)
 
         abjad.show(self.notation_object,
             output_directory="./rain-language/rain/out/scores/", 

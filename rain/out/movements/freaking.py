@@ -31,14 +31,12 @@ rain.Parallel.create("FREAKING_PAR").extend(
         freaking_cell("FREAKING_BASS1", 
             degree=(-14, (-12, -7), -14, (-10, -7),),
             dur=cycle((1,)),
-            tags=cycle((["("],[")"])),
             ),
         freaking_cell("FREAKING_BASS2", 
             degree=(-16, (-14, -9), -16, (-11, -9),),
             dur=cycle((1,)),
-            tags=cycle((["("],[")"])),
             )
-    ) #.alter_leaves("FREAKING_BASS_SEQ_SLURRED", tags=cycle((["("],[")"]))) # TODO: sluring doesn't come out right... why?
+    ).tag_all(["("],[")"], key="FREAKING_BASS_SEQ_SLURRED")
 )
 
 rain.Parallel("FREAKING_PAR").meddle("FREAKING_PAR_PIANO",
@@ -48,43 +46,70 @@ rain.Parallel("FREAKING_PAR").meddle("FREAKING_PAR_PIANO",
 
 double_freak = OutCell("FREAKING1")*2
 
+def arm_lh(dur=1, pitches=[(-17,-15,-13,-12,-10,-8,-7,-5,-3)], instructions="_*"):
+    tags=(["note_head:" + str(i) + ":diamond" for i in range(len(pitches[0]))] + [".", ">", instructions],)
+    # print(tags)
+    return OutCell.create(pitch=pitches, dur=[dur], tags=tags)(machine="PIANO2") 
+
 FREAKING.extend(
 
-    rest_all(4), # TREMOLO just 1 bar?
+    # TODO: tremolo notation is odd / not specific
+    # also TODO: paramatize this
+    # also TODO MAYBE: tie tremolo pitches to the FREAKING1-4 cell pitches?
+    freaking_cell( degree=([-4,0],), dur=[4], tags=(["p", "\<", ":32"],), machine=["PIANO1"])(pitch_spell="SHARP"),
 
-    ((double_freak + OutCell("FREAKING2"))*2).tag(["f"])(machine="PIANO1"), # lower forarm on keys on first and final 8ths
+    # TODO: spell with sharps?
+    ((double_freak + OutCell("FREAKING2"))*2).tag(["f"]).tag_all(["."])(pitch_spell="SHARP")(machine="PIANO1"), # lower forarm on keys on first and final 8ths
 
-    rest_all(4), # TREMOLO just 1 bar?
+    freaking_cell( degree=([-3,-1,0],), dur=[4], tags=([":32"],), machine=["PIANO1"])(pitch_spell="SHARP"),
 
     # flute enters, highlighting the lines in an angular way
-    # lower forarm on keys on first and final 8ths    
-    (OutCell("FREAKING3") + OutCell("FREAKING2") + OutCell("FREAKING3")*2 )(machine="PIANO1"),
+    # lower forarm on keys on first (and maybe final 8ths??)
+    # (OutCell("FREAKING3") + OutCell("FREAKING2") + OutCell("FREAKING3")*2 )(machine="PIANO1"),
+    rain.Parallel.create().extend(
+        (rain.Sequence.create().extend_by_key("FREAKING3", "FREAKING2", "FREAKING3")*2 +
+            rain.Sequence.create().extend_by_key("FREAKING4", "FREAKING3")
+            ).tag_all(["."])(pitch_spell="SHARP")(machine="PIANO1"),
+        arm_lh(instructions="_* forearm on keys") + rest_all(14.5, "PIANO2") + arm_lh(0.5)
+    ),
 
-    (OutCell("FREAKING4") + OutCell("FREAKING3"))(machine="PIANO1"),
+    rain.Parallel.create().extend(
+        # TREMOLO, (maybe with arms on lower keys at start?)
+        freaking_cell( degree=([-3,-2,1],), dur=[4], tags=(["mp", "\<", ":32"],), 
+            machine=["PIANO1"])(pitch_spell="FLAT"),
+        # rest_all(4), 
+    ),
 
-    rest_all(4), # TREMOLO, with arms on lower keys at start
-
-    (OutCell("FREAKING4")*2)(machine="PIANO1") 
+    (OutCell("FREAKING4")*2).tag(["f"]).tag_all(["."])(pitch_spell="FLAT")(machine="PIANO1")
 )
 
 mod_and_seq(
-    (OutCell("FREAKING1")*2)(machine="PIANO1"),
+    (OutCell("FREAKING1")*2).tag_all(["."])(pitch_spell="FLAT")(machine="PIANO1"),
 
-    rest_all(4), # TREMOLO, with arms on lower keys at start
+    rain.Parallel.create().extend(
+        # TREMOLO, with arms on lower keys at start
+        freaking_cell( degree=([-4,0],), dur=[4], tags=([":32"],), 
+            machine=["PIANO1"])(pitch_spell="FLAT"),
+        arm_lh(),
+    ),
 
+    # TODO: mask some of this to add interest
     rain.Parallel("FREAKING_PAR_PIANO").meddle(
-        M("FREAKING_BASS_SEQ").tag(["bass"]), # TODO: bass should be at beginning of the staff
-        ), 
+        M("FREAKING_SEQ").tag_all(["."]), 
+        )(pitch_spell="FLAT"), 
     )
 
 mod_and_seq(
-    rain.Parallel("FREAKING_PAR_PIANO")
+    # TODO DITTO: mask some of this to add interest
+    rain.Parallel("FREAKING_PAR_PIANO").meddle(
+        M("FREAKING_SEQ").tag_all(["."]), 
+        )(pitch_spell="FLAT"), 
     )
 
 #TODO: funk this up a bit
 # right forarm on keys somewhere in here + RH tremolo
 mod_and_seq(
-    rain.Sequence("FREAKING_BASS_SEQ")(dur=0.5, machine="PIANO2")
+    rain.Sequence("FREAKING_BASS_SEQ")(dur=0.5, pitch_spell="FLAT", machine="PIANO2")
     )
 mod_and_seq(
     rain.Sequence("FREAKING_BASS_SEQ")(dur=0.5, machine="PIANO2")

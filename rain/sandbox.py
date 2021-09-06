@@ -2,28 +2,50 @@ from dataclasses import dataclass
 from typing import Callable, Iterable
 # import inspect
 import rain
+import abjad
 
 from itertools import cycle, repeat
 from rain.out.score_machine import score_with_meter
 
 print("============================================================")
 
-SANDBOX = rain.Parallel.create("SANDBOX").extend(
-    rain.MusicCell.create("POO", pitch=[0,2,5,4], dur=[1,1,1,1], machine=cycle(["PIANO1"]))("YOMAMA", machine="PIANO2"),
-    rain.MusicCell.create("POOP", pitch=[0,4,5,7], dur=[1,2,1,2], machine=cycle(["PIANO1"])),
-    )
 
-y = rain.ref("SANDBOX")
+staff = abjad.Staff()
+# staff.append(abjad.TremoloContainer(8, [abjad.Note.from_pitch_and_duration(0, (1/16)), abjad.Note.from_pitch_and_duration(7, (1/16))]))
+# staff.append("cs'4")
+# staff.append(abjad.TremoloContainer(2, "d'16 f'16"))
+# staff.append("ds'4")
 
-for b in y.veins:
-    print("yo", b)
+cluster = abjad.Cluster("<c' g'>4")
 
-if __name__ == "__main__":
-    score = score_with_meter()
-    score.reset()
-    pr = rain.PatternReader(SANDBOX, score.get_palette())
-    pr.read()
-    score.render()
+staff.append(cluster)
+staff.extend(abjad.Container("r4 r2"))
+abjad.show(cluster)  
+
+
+abjad.show(staff,
+    output_directory="./rain-language/rain/out/scores/", 
+    should_open=False,
+    render_prefix="material_mama",
+)  
+
+
+# SANDBOX = rain.Parallel.create("SANDBOX").extend(
+#     rain.MusicCell.create("POO", pitch=[0,2,5,4], dur=[1,1,1,1], machine=cycle(["PIANO1"]))("YOMAMA", machine="PIANO2"),
+#     rain.MusicCell.create("POOP", pitch=[0,4,5,7], dur=[1,2,1,2], machine=cycle(["PIANO1"])),
+#     )
+
+# y = rain.ref("SANDBOX")
+
+# for b in y.veins:
+#     print("yo", b)
+
+# if __name__ == "__main__":
+#     score = score_with_meter()
+#     score.reset()
+#     pr = rain.PatternReader(SANDBOX, score.get_palette())
+#     pr.read()
+#     score.render()
 
 
 # c1 = rain.NotatedMusicCell("C1")
