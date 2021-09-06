@@ -2,6 +2,7 @@ from abjad import score
 import rain
 
 from rain.score import meters
+from rain.out.out_cell import OutCell
 
 #TODO: revisit this implementation
 # ESPECIALLY... rethink should the Score node really carry the meter??? 
@@ -16,9 +17,9 @@ def score_with_meter(meter=meters.METER_4_4):
     )
 
 
-def rest_all(dur:int):
+def rest_all(dur:int, *args):
+    if not args:
+        args = ("FLUTE", "PIANO1", "PIANO2")
     return rain.Parallel.create().extend(
-        rain.rest(dur)(machine="FLUTE"),
-        rain.rest(dur)(machine="PIANO1"),
-        rain.rest(dur)(machine="PIANO2"),
+        *[OutCell.create(dur=[dur], degree=[None])(machine=m) for m in args]
     )

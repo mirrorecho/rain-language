@@ -18,6 +18,7 @@ class AlterableMixin():
         *args,
         **kwargs # TODO: USED?
         ):
+        args = list(args)
         if isinstance(args[0], str):
             key = args.pop(0)
         else:

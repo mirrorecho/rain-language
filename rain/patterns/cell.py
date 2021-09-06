@@ -73,6 +73,7 @@ class MusicCell(Cell):
 
 # --------------------------------------------------------------------
 
+# TODO: use? may conflict with other implementations of cells
 @dataclass
 class RestCell(MusicCell):
     pitch: Iterable = (None,)
