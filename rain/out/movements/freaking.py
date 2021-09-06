@@ -14,6 +14,7 @@ freaking_tonic = GlobalTonic(4)
 
 FREAKING = rain.Sequence.create("FREAKING")
 
+# TODO: this is copied into every movement... DRY
 def mod_and_seq(*patterns):
     freaking_tonic.modulate(2)
     FREAKING.append(

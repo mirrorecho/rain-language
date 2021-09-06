@@ -105,8 +105,11 @@ class Staff(rain.Machine):
                 leaves.append(abjad.Rest(d/4))
 
         if leaves and tags:
-            leaf = leaves[0]
             for tag_name in tags:
+                if tag_name in tagging.end_leaf_inventory:
+                    leaf = leaves[-1]
+                else:
+                    leaf = leaves[0]
                 attachment = tagging.get_attachment(tag_name)
                 if attachment:
                     if callable(attachment):

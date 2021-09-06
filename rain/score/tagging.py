@@ -24,6 +24,8 @@ fermatas_inventory = set(
     ("fermata", "shortfermata", "longfermata", "verylongfermata",)  
     )
 
+end_leaf_inventory = set( (")", "))", "8va!", "~") )
+
 # TODO MAYBE: deal with the set of tags that are NOT allowed
 
 def get_attachment(tag_name:str):
