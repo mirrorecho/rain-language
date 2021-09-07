@@ -108,8 +108,7 @@ def get_attachment(tag_name:str):
     elif tag_name[:2] == "!\\":
         return abjad.LilyPondLiteral(tag_name[1:], "after")
     elif tag_name[:14] == "markup_column:":
-        markup_list = [abjad.Markup(m) for m in tag_name[14:].split("|")]
-        return abjad.Markup.column(markup_list, direction=abjad.Up)
+        return list(reversed([abjad.Markup(m, direction=abjad.Up) for m in tag_name[14:].split("|")]))
     elif tag_name[:1] == "_":
         return abjad.Markup(tag_name[1:], direction=abjad.Down)
     else:

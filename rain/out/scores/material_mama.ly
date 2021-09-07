@@ -11,12 +11,109 @@
     <<
         \context Staff = "Flute"
         {
+            \time 4/4
+            \clef "treble"
+            r1
+            r1
+            r1
+            r1
+            r1
+            r8
+            cs'''8
+            \mf
+            - \staccato
+            e'''16
+            - \staccato
+            fs'''16
+            - \staccato
+            gs'''8
+            - \staccato
+            - \accent
+            r4
+            \tweak style #'cross
+            c'''4
+            - \accent
+            ^ \markup { * }
+            ^ \markup { (in any register) }
+            ^ \markup { roughly on this pitch }
+            ^ \markup { vocal sound into flute, }
+            ^ \markup { * make a scary/scared }
+            r8
+            cs'''8
+            - \staccato
+            e'''16
+            - \staccato
+            fs'''16
+            - \staccato
+            gs'''8
+            - \staccato
+            - \accent
+            r4
+            \tweak style #'cross
+            c'''4
+            - \accent
+            ^ \markup { * }
+            r2
+            fs'''2
+            \mp
+            \<
+            ~
+            fs'''2
+            ~
+            fs'''4
+            ~
+            fs'''8
+            cs''''8
+            \f
+            - \accent
+            - \staccato
+            r1
+            r8
+            df'''8
+            - \staccato
+            gf'''16
+            - \staccato
+            af'''16
+            - \staccato
+            bf'''8
+            - \staccato
+            - \accent
+            r4
+            \tweak style #'cross
+            c'''4
+            - \accent
+            ^ \markup { * }
+            r4
+            \tweak style #'cross
+            c'''4
+            - \accent
+            ^ \markup { * }
+            af''2
+            \mf
+            \<
+            ef'''4
+            \f
+            - \accent
+            - \staccato
+            r4
+            r2
+            gf'''4
+            (
+            bf'''4
+            - \accent
+            )
+            r2
+            ef'''4
+            (
+            gf'''4
+            - \accent
+            )
         }
         \context PianoStaff = ""
         <<
             \context Staff = "Piano 1"
             {
-                \tempo Lively 4=144
+                \tempo Agitated 4=144
                 \time 4/4
                 \clef "treble"
                 <as e'>1
@@ -24,7 +121,7 @@
                 \p
                 \<
                 as8
-                \f
+                \mf
                 - \staccato
                 ds'8
                 - \staccato
@@ -356,8 +453,16 @@
                 - \accent
                 _ \markup { * }
                 r1
-                r1
-                r1
+                r2
+                r4
+                <e,, e,>4
+                - \accent
+                - \staccato
+                r4
+                <gf,, gf,>4
+                - \accent
+                - \staccato
+                r2
                 <
                     \tweak style #'diamond
                     g,
@@ -383,18 +488,18 @@
                 _ \markup { * }
                 r4
                 r2
-                gf,4
-                (
+                r4
                 <bf, gf>4
-                )
+                - \tenuto
+                - \accent
                 gf,4
                 (
                 <d gf>4
                 )
-                ef,4
-                (
-                <gf, ef>4
-                )
+                ef4
+                - \tenuto
+                - \accent
+                r4
                 ef,4
                 (
                 <c ef>4

@@ -1,9 +1,9 @@
 import rain
-from math import floor
+from math import floor, ceil
 
-TOTAL_POMO = 3
+TOTAL_POMO = 13
 
-FREAKING_BARS_COMPLETE = []
+FREAKING_BARS_COMPLETE = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 SPACING_BARS_COMPLETE = []
 PASSING_BARS_COMPLETE = []
 MAKING_BARS_COMPLETE = []
@@ -25,7 +25,7 @@ coming_bars = 28
 total_bars = (freaking_bars + spacing_bars + passing_bars + making_bars + burning_bars
     + flipping_bars + coming_bars)
 
-bars_per_pomo = 2
+bars_per_pomo = 1
 total_pomos_alloted = total_bars/bars_per_pomo
 
 variance = total_bars_complete - (TOTAL_POMO*bars_per_pomo)
@@ -58,7 +58,7 @@ else:
 print()
 print("================================================")
 print("REMAINING: ", bars_remaining, "BARS")
-print("EXPECTED POMOS NEEDED: ", bars_remaining/bars_per_pomo, " - TAKING ", pomo_time(bars_remaining/bars_per_pomo))
+print("EXPECTED POMOS NEEDED: ", ceil(bars_remaining/bars_per_pomo), " - TAKING ", pomo_time(bars_remaining/bars_per_pomo))
 
 print()
 print("================================================")

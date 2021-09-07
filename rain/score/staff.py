@@ -119,6 +119,9 @@ class Staff(rain.Machine):
                 if attachment:
                     if callable(attachment):
                         attachment(leaf)
+                    elif isinstance(attachment, (list, tuple)):
+                        for m in attachment:
+                            abjad.attach(m, leaf)
                     else:
                         # TODO MAYBE: stem tremolos should be attached to every leaf in logical tie...
                         abjad.attach(attachment, leaf)
