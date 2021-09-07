@@ -86,6 +86,16 @@ def get_attachment(tag_name:str):
         return abjad.BarLine(tag_name)
     elif tag_name in clefs_inventory:
         return abjad.Clef(tag_name)
+    elif tag_name.startswith("tempo:"):
+        tempo_indicators = tag_name.split(":")[1:]
+        print("YO TEMPO", tempo_indicators)
+        tempo_units_per_minute, tempo_duration_num, tempo_duration_den = tempo_indicators[:3]
+        tempo_text = tempo_indicators[3] if len(tempo_indicators)==4 else None
+        if tempo_units_per_minute:
+            tempo_reference_duration = (int(tempo_duration_num),int(tempo_duration_den))
+        else:
+            tempo_reference_duration = None
+        return abjad.MetronomeMark(tempo_reference_duration, units_per_minute=int(tempo_units_per_minute), textual_indication=tempo_text)
     elif tag_name in colors_inventory:
         return lambda x : abjad.label(x).color_leaves(tag_name)
     elif tag_name in colors_inventory:

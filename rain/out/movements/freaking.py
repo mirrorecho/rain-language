@@ -134,6 +134,7 @@ mod_and_seq(
     rest_all(8), # HYPERVENTILATE INTO FLUTE (air tones only) ... dog whining
 )
 
+FREAKING = FREAKING.tag(["tempo:144:1:4:Lively"])
 
 if __name__ == "__main__":
     score = score_with_meter()
