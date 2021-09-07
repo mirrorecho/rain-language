@@ -10,16 +10,16 @@ from rain import ref, par, seq, par_ref, seq_ref
 
 M = rain.MeddleHelper
 
-# TODO: likely change start global tonic
+# TODO: MAYBE change start global tonic?
 spacing_cell = OutCellFactory(mode=0, global_tonic=GlobalTonic(8))
 spacing_tonic = GlobalTonic(8)
 
 SPACING = rain.Sequence.create("SPACING")
 
+# TODO: these are repeated in every movement... DRY
 def mod_and_seq_return(*patterns):
     spacing_tonic.modulate(7)
     return seq(*patterns).alter(add_modulate(spacing_tonic))
-
 
 def mod_and_seq(*patterns):
     SPACING.append(mod_and_seq_return(*patterns))
@@ -36,9 +36,9 @@ seq("SPACING_SEQ",
     spacing_cell("SPACING2", degree=[None, -2, -5, -4, -3, 1, 0], dur=[0.5, 0.5, 0.25, 0.25, 0.25, 0.75, 1.5] ),
     spacing_cell("SPACING3", degree=[None, 0, -1, -2, -1, 0], dur=[0.5, 0.5, 0.5, 0.5, 1.5, 0.5] ),
 ).tag(
-    [],["p", "("],["["],["]", ")"],["("],[")"],
+    [],["("],["["],["]", ")"],["("],[")"],
     [], ["-","\<"],["("],[],[")"],["(","\>"],[")","\!"],
-    [], ["("],[],[")"],  ["("],[")"],
+    [], ["("],["["],["]", ")"],  ["("],[")"],
     key="SPACING_SEQ_SLURRED"
 )
 
@@ -76,7 +76,7 @@ SPACING.extend(
         # rest_all(2, "FLUTE") + 
         seq_ref("SPACING_SEQ_SLURRED").meddle(
             M("SPACING2").change(octave=[0,0,1,1,1], degree=[None,1]),
-            )(machine="FLUTE", pitch_spell="SHARP"),
+            ).tag([],["p"])(machine="FLUTE", pitch_spell="SHARP"),
         seq(
             par_ref("PIANO_TWINKLE"),
             par_ref("PIANO_RISE"),
@@ -98,7 +98,9 @@ SPACING.extend(
 mod_and_seq(
     par(
         seq_ref("SPACING_SEQ_SLURRED").meddle(
-            M("SPACING1").change(dur=[False, 1.5, 1.5], octave=[0,-1,0,0,0,1], degree=spacing_2_mod_degrees),
+            M("SPACING1").change(dur=[False, 1.5, 1.5], octave=[0,-1,0,0,0,1], degree=spacing_2_mod_degrees).tag(
+                [],["\<"],[],[],[],["mp"]
+                ),
             M("SPACING3").change(dur=[False, False,False,False,0.5,1.5],),
             )(machine="FLUTE"),
         seq(
@@ -126,7 +128,8 @@ mod_and_seq(
         # NOTE: can't nest the modulations... messes up the outer mod (that's why using tonic_mod on here)
         seq(
             rest_all(8, "PIANO1"), 
-            seq_ref("SPACING_SEQ")(tonic_mod=7, machine="PIANO1", pitch_spell="FLAT"),
+            # TODO: bring this back
+            # seq_ref("SPACING_SEQ")(tonic_mod=7, machine="PIANO1", pitch_spell="FLAT"),
            
         ),
     ),
