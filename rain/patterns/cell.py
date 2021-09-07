@@ -70,6 +70,7 @@ class Cell(rain.Pattern):
 class MusicCell(Cell):
     pitch: Iterable = cycle((None,))
     pitch_spell: Iterable[str] = cycle((None,),)
+    leaf_durs: Iterable = cycle((None,))
 
 # --------------------------------------------------------------------
 

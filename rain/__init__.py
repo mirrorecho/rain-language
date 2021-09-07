@@ -1,5 +1,5 @@
 from rain.utils.utils import (auto_key, to_snake_case, to_upper_snake_case, 
-    transpose, rest, listify, pattern_set_branch_hooks)
+    transpose, rest, listify, pattern_set_branch_hooks, key_from_args, par, seq, par_ref, seq_ref)
 from rain.utils.scale import Scale
 
 from rain.graph.interface import (GraphableInterface, GraphableNodeInterface, 

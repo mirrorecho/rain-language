@@ -66,6 +66,27 @@ def transpose(pitches, value:int=0, octave:int=0):
     except:
         return pitches + value if pitches is not None else pitches
 
+def key_from_args(args_tuple:tuple):
+    args = list(args_tuple)
+    if isinstance(args[0], str):
+        key = args.pop(0)
+    else:
+        key = None
+    return key, args
 
 def rest(dur:int):
     return rain.RestCell.create(dur=(dur,))
+
+def par(*args) -> "rain.Parallel":
+    key, args = key_from_args(args)
+    return rain.Parallel.create(key).extend(*args)
+
+def seq(*args) -> "rain.Sequence":
+    key, args = key_from_args(args)
+    return rain.Sequence.create(key).extend(*args)
+
+def par_ref(key:str) -> "rain.Parallel":
+    return rain.Parallel(key)
+
+def seq_ref(key:str) -> "rain.Sequence":
+    return rain.Sequence(key)

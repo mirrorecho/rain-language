@@ -49,38 +49,43 @@ class Staff(rain.Machine):
         abjad.show(self.notation_object)
 
 
-    def trigger_lt(self, dur, pitch, force_durs=None, pitch_spell=None, tags=(), **kwargs):
+    def trigger_lt(self, dur, pitch, leaf_durs=None, pitch_spell=None, tags=(), **kwargs):
 
         def meter_node_dur(node):
             meter_pair = node.duration.pair 
             return meter_pair[0]/meter_pair[1]*4
 
-        if force_durs:
-            durs = force_durs
+        if leaf_durs:
+            if isinstance(leaf_durs, (list, tuple)):
+                durs = leaf_durs
+            else:
+                durs = [leaf_durs]
         else:
             durs = []
-            dur_remaining = dur
+        dur_remaining = dur
 
-            while dur_remaining > 0:
+        while dur_remaining > 0:
 
-                while meter_node_dur(self.current_meter_node) > dur_remaining \
-                        and isinstance(self.current_meter_node, abjad.rhythmtrees.RhythmTreeContainer):
-                    self.current_meter_node = self.current_meter_node[0]
-                
-                dur_meter = meter_node_dur(self.current_meter_node)
+            while meter_node_dur(self.current_meter_node) > dur_remaining \
+                    and isinstance(self.current_meter_node, abjad.rhythmtrees.RhythmTreeContainer):
+                self.current_meter_node = self.current_meter_node[0]
+            
+            dur_meter = meter_node_dur(self.current_meter_node)
 
-                if dur_meter >= dur_remaining:
+            if dur_meter >= dur_remaining:
+                if not leaf_durs:
                     durs.append(dur_remaining)
-                    # current_meter_offset = dur_remaining # needed?
-                    dur_remaining = 0
+                # current_meter_offset = dur_remaining # needed?
+                dur_remaining = 0
 
-                else:
+            else:
+                if not leaf_durs:
                     durs.append(dur_meter)
-                    dur_remaining -= dur_meter
-                    # current_meter_offset = 0 # needed?
-                
-                # if current_meter_offset == 0:
-                self.current_meter_node = self.meter_next_sibling_or_aunt(self.current_meter_node)
+                dur_remaining -= dur_meter
+                # current_meter_offset = 0 # needed?
+            
+            # if current_meter_offset == 0:
+            self.current_meter_node = self.meter_next_sibling_or_aunt(self.current_meter_node)
 
         leaves = []
 
@@ -126,7 +131,7 @@ class Staff(rain.Machine):
         dur=1,
         pitch=None,
         pitch_spell = None,
-        force_durs = None,
+        leaf_durs = None,
         tags=(),
         **kwargs,
         ):
@@ -141,13 +146,12 @@ class Staff(rain.Machine):
             if pitch is None:
                 # TODO: handle force_dur / tags for rests here
                 self.rests_dur += dur
-
             else:
                 if self.rests_dur > 0:
-                    self.trigger_lt(dur=self.rests_dur, pitch=None, force_durs=None, **kwargs)
+                    self.trigger_lt(dur=self.rests_dur, pitch=None, leaf_durs=None, **kwargs)
                     self.rests_dur = 0
                 self.trigger_lt(dur=dur, pitch=pitch, pitch_spell=pitch_spell, 
-                    force_durs=force_durs, tags=tags, **kwargs)
+                    leaf_durs=leaf_durs, tags=tags, **kwargs)
             
         self.total_dur = self.total_dur + delta + dur
         

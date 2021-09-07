@@ -12,18 +12,14 @@ class AlterableMixin():
         return alter_pattern
 
     def change(self, **kwargs):
-        key = kwargs.pop("key",None)
+        key = kwargs.pop("key",None) #TODO maybe, put key as optional first arg
         return self.alter(rain.Change.create(key, change_attrs=kwargs))
 
     def meddle(self, 
         *args,
         **kwargs # TODO: USED?
         ):
-        args = list(args)
-        if isinstance(args[0], str):
-            key = args.pop(0)
-        else:
-            key = None
+        key, args = rain.key_from_args(args)
         meddle_pattern = self.alter(rain.Meddle.create(key))
         for meddle_helper in args:
             # TODO: check for meddles connecting to the same cues (shouldn't be allowed)
@@ -48,9 +44,11 @@ class AlterableMixin():
         return self.alter_with_attrs_and_lambdas(rain.AlterPatternLeaves, key, **kwargs)
 
     def tag(self, *args, **kwargs):
+        #TODO maybe, put key as optional first arg
         return self.alter(rain.AlterPatternTagVeins.create(key=kwargs.pop("key",None), tags=args))
 
     def tag_all(self, *args, **kwargs):
+        #TODO maybe, put key as optional first arg
         return self.alter(rain.AlterPatternTagVeins.create(key=kwargs.pop("key",None), tags=cycle(args)))
 
 @dataclass
