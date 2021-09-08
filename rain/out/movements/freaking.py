@@ -46,18 +46,18 @@ par_ref("FREAKING_PAR").meddle("FREAKING_PAR_PIANO",
     M("FREAKING_BASS_SEQ")(machine="PIANO2"), 
     ) 
 
-def flute_figure(ref_key):
+def flute_figure(ref_key, octave=2):
     ref_cell = OutCell(ref_key).read()
     ref_degrees = ref_cell.degree
     return freaking_cell(
         degree = (None, ref_degrees[1], ref_degrees[2], ref_degrees[2]+1, ref_degrees[2]+2),
         dur = [0.5, 0.5, 0.25, 0.25, 0.5],
-        octave=cycle([2]),
+        octave=cycle([octave]),
         tags = ([],["."],["."],["."],[".",">"],),
         machine=cycle(["FLUTE"]),
     )
 
-def flute_freak(ref_key, instructions=""):
+def flute_freak(ref_key, octave=2, dur=(1,1), instructions=""):
     ref_cell = OutCell(ref_key).read()
     ref_degrees = ref_cell.degree
     freak_tags = ["note_head:0:cross", ">","*"]
@@ -65,8 +65,8 @@ def flute_freak(ref_key, instructions=""):
         freak_tags.append(instructions)
     return freaking_cell(
         degree=[None,ref_degrees[0]],
-        dur = (1,1),
-        octave = cycle([2]),
+        dur = dur,
+        octave = cycle([octave]),
         tags = ([], freak_tags),
         machine=cycle(["FLUTE"]),
     )
@@ -77,6 +77,12 @@ def arm_lh(dur=1, pitches=[(-17,-15,-13,-12,-10,-8,-7,-5,-3)], instructions="_*"
     tags=(["note_head:" + str(i) + ":diamond" for i in range(len(pitches[0]))] + [".", ">", instructions],)
     # print(tags)
     return OutCell.create(pitch=pitches, dur=[dur], tags=tags)(machine="PIANO2") 
+
+def arm_rh(dur=1,pitches=[(2,4,5,7,9,11,12,14,16,17)], instructions="*"):
+    return arm_lh(dur=dur, pitches=pitches, instructions=instructions)(machine="PIANO1") 
+
+# ======================================================================
+# ======================================================================
 
 FREAKING.extend(
 
@@ -98,7 +104,7 @@ FREAKING.extend(
             flute_figure("FREAKING3").tag([],["mf"]),
             flute_freak("FREAKING2", instructions="markup_column:* make a scary/scared|vocal sound into flute,|roughly on this pitch|(in any register)"),
             flute_figure("FREAKING3"),
-            flute_freak("FREAKING3"),
+            flute_freak("FREAKING3", instructions="(vary the sound each time)"),
             # TODO.. encapsulate this....
             freaking_cell(
                 degree=(None, 1,5),
@@ -122,6 +128,7 @@ FREAKING.extend(
     par(
         flute_figure("FREAKING4") + flute_freak("FREAKING4"),
         (OutCell("FREAKING4")*2).tag(["f"]).tag_all(["."])(machine="PIANO1"),
+        # TODO: paramatarize these off beats - DRY
         freaking_cell(
             degree=(None, [0,7]),
             dur=(3,1,),
@@ -157,8 +164,9 @@ mod_and_seq(
     ),
 
 
-    # TODO: mask some of this to add interest
+    # TODO: (MAYBE more) mask some of this to add interest
     par(
+        # TODO... this is repeated... paramatize and DRY
         freaking_cell(
             dur=(1,1,2,1,1,2),
             degree=(0,2,None,-2,0,None),
@@ -172,41 +180,158 @@ mod_and_seq(
         )(pitch_spell="FLAT"), 
     )
 
+# MEASURE 16 ===========================================================
 mod_and_seq(
-    # TODO DITTO: mask some of this to add interest
-    rain.Parallel("FREAKING_PAR_PIANO").meddle(
-        M("FREAKING_SEQ").tag_all(["."]), 
-        )(pitch_spell="FLAT"), 
+    # TODO (MAYBE more) DITTO: mask some of this to add interest
+    par(
+        seq(
+            flute_figure("FREAKING1", octave=1),
+            flute_figure("FREAKING2", octave=1),
+            freaking_cell(
+                dur=(1,1,),
+                degree=(-2,0,),
+                tags=(["("],[")",">"])
+                )(octave=1, machine="FLUTE"),
+                flute_figure("FREAKING4", octave=1),
+                )(machine="FLUTE"),
+        par_ref("FREAKING_PAR_PIANO").meddle(
+            M("FREAKING_SEQ").tag_all(["."]), 
+            ), 
+        )(pitch_spell="FLAT")
     )
 
 #TODO: funk this up a bit
 # right forarm on keys somewhere in here + RH tremolo
 mod_and_seq(
-    rain.Sequence("FREAKING_BASS_SEQ")(dur=0.5, pitch_spell="FLAT", machine="PIANO2")
+    par(
+        seq(
+            flute_freak("FREAKING2", octave=1),
+            flute_freak("FREAKING4", octave=1),
+            )(pitch_spell="FLAT"),
+        freaking_cell( 
+            degree=([-4,0],), dur=[4], tags=(["p", "\<", ":32"],),
+            )(pitch_spell="FLAT", octave=1, machine="PIANO1"),
+        rain.Sequence("FREAKING_BASS_SEQ").tag_all(["."])(dur=0.5, pitch_spell="FLAT", machine="PIANO2")
+        )
     )
 mod_and_seq(
-    rain.Sequence("FREAKING_BASS_SEQ")(dur=0.5, machine="PIANO2")
+    par(
+        seq(
+            flute_freak("FREAKING1", octave=1),
+            flute_freak("FREAKING2", dur=(0.5,0.5), octave=1),
+            flute_freak("FREAKING3", dur=(0.5,0.5), octave=1),
+        )(pitch_spell="FLAT"),
+        seq(
+            freaking_cell( 
+                degree=([-4,-1,0], None), dur=[1,1], tags=(["f",">","."],[]),
+                )(octave=1, machine="PIANO1"),
+                flute_figure("FREAKING1", octave=1)(machine="PIANO1"),
+            )(pitch_spell="SHARP"),
+        rain.Sequence("FREAKING_BASS_SEQ").tag_all(["."])(pitch_spell="SHARP", dur=0.5, machine="PIANO2")
     )
+)
+# MEASURE 20 ===========================================================
 mod_and_seq(
-    rain.Parallel("FREAKING_PAR_PIANO"),
-    rest_all(4), # TREMOLO, but insert this into the middle of the above
+    par(
+        flute_figure("FREAKING1", octave=1) + flute_figure("FREAKING2", octave=1),
+        seq(OutCell("FREAKING1"), OutCell("FREAKING2"),).change(
+            degree=[None],
+        ).tag_all(["."])(octave=1, machine="PIANO1"),
+        OutCell("FREAKING_BASS1")(machine="PIANO2").change(
+            degree=([-7,0],None),
+            octave=[-2, False, -1, -1],
+        ).tag([">","."],[],["("],[")"]),
+    )(pitch_spell="SHARP"),
+    par(
+        rest_all(1, "FLUTE") + flute_freak("FREAKING3").change(
+            dur=[3,1],
+            octave=[1, 1],
+            degree=[0],
+            ).tag(["p", "\<"],["f"]),
+        seq(
+            par(
+                freaking_cell( 
+                degree=([-4,-1,0],), dur=[4], tags=(["p", "\<", ":32"],),
+                )(octave=1, machine="PIANO1"),
+                freaking_cell( 
+                degree=([-1,0,3],), dur=[4], tags=(["p", "\<", ":32"],),
+                )(octave=-2, machine="PIANO2"),
+                )(pitch_spell="SHARP"),
+            par(
+                seq(OutCell("FREAKING2"), OutCell("FREAKING3"),).tag_all(["."]
+                    ).change(degree=[None]).tag([],["f"])(octave=1, machine="PIANO1"),
+                # TODO PARAMATIZE THIS
+                freaking_cell(
+                    degree=(None, [0,7])*2,
+                    dur=(1,)*4,
+                    tags=([],[">","."])*2
+                )(octave=-3, machine="PIANO2")
+                # OutCell("FREAKING_BASS2")(machine="PIANO2"),
+            )(pitch_spell="SHARP"),
+        ),
+    )
     # # after the tremolo, start moving towards parallel
-    )
+    ) 
+# MEASURE 20 ===========================================================
 mod_and_seq( # #emphasize electo sounds from the beginning! (full circle)
-    rain.Sequence("FREAKING_SEQ")(machine="PIANO1"), # parallel motion ... also TODO speed up the harmonic progress
+    # parallel motion ... also TODO speed up the harmonic progress
+    par(
+        # seq_ref("FREAKING_SEQ").tag_all(["."])(octave=2, machine="PIANO1"), 
+        # seq_ref("FREAKING_SEQ").tag_all(["."])(octave=-2, machine="PIANO2"), 
+        seq(rest_all(4, "FLUTE"), flute_freak("FREAKING3")),
+        seq_ref("FREAKING_SEQ").tag_all(["."])(octave=2, machine="PIANO1"), 
+        seq(
+            seq(seq(OutCell("FREAKING1"), OutCell("FREAKING2"),)).tag_all(["."])(octave=-2, machine="PIANO2"), 
+                # TODO PARAMATIZE THIS
+                freaking_cell(
+                    degree=(None, [0,7]),
+                    dur=(1,)*2,
+                    tags=([],[">","."])
+                )(octave=-3, machine="PIANO2"),
+            OutCell("FREAKING4").tag_all(["."])(octave=-2, machine="PIANO2"),             
+            )
+    )(pitch_spell="SHARP")
     )
+
 mod_and_seq( # #emphasize electo sounds from the beginning! (full circle)
-    rain.Sequence("FREAKING_SEQ")(machine="PIANO1"), # DITTO parallel motion ... also TODO speed up the harmonic progress
+    # DITTO parallel motion ... also TODO speed up the harmonic progress
+    par(
+        seq(rest_all(2, "FLUTE"), flute_freak("FREAKING1"), flute_freak("FREAKING2"), flute_freak("FREAKING3"), ),
+        seq_ref("FREAKING_SEQ").tag_all(["."])(octave=2, machine="PIANO1"), 
+        seq(
+            OutCell("FREAKING1").tag_all(["."])(octave=-2, machine="PIANO2"), 
+                # TODO PARAMATIZE THIS
+                freaking_cell(
+                    degree=(None, [0,7])*3,
+                    dur=(1,)*6,
+                    tags=([],[">","."])*3
+                )(octave=-3, machine="PIANO2"),
+            # OutCell("FREAKING4").tag_all(["."])(octave=-2, machine="PIANO2"),             
+            )
+    )(pitch_spell="FLAT")
     )
     # #abrupt big chord end
 mod_and_seq(
-    rest_all(4), # very low / high temolo, ending with both arms on keys
-)
-mod_and_seq(
-    rest_all(8), # HYPERVENTILATE INTO FLUTE (air tones only) ... dog whining
+    rest_all(1),
+    #TODO: arm move placement up/down
+    par(arm_rh().tag(["markup_column:try to capture only|the tail of the sound|with the pedal"]), arm_lh().tag(["pedal"]),), # very low / high temolo, ending with both arms on keys
+    rest_all(2),
+    par(
+        freaking_cell( 
+            degree=[1], dur=[4], tags=(["fermata", "f", "note_head:0:diamond",
+            "markup_column:hyperventilate into flute!|(air tones only)", "|."],),
+            )(machine="FLUTE"),        
+        freaking_cell( 
+            degree=([-4, 0],), dur=[4], tags=(["fermata", "ppp", ":32", "|."],),
+            )(octave=1, machine="PIANO1"),
+        rest_all(4, "PIANO2")
+        # TODO maybe: these low notes instead of rest
+        # freaking_cell(degree=([0,3],), octave=[-3], dur=[4], tags=([],))(machine="PIANO2")
+    )
+    # HYPERVENTILATE INTO FLUTE (air tones only) ... dog whining
 )
 
-FREAKING = FREAKING.tag(["tempo:144:1:4:Agitated"])
+FREAKING = FREAKING.tag(["tempo:160:1:4:Agitated"])
 
 if __name__ == "__main__":
     score = score_with_meter()

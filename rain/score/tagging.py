@@ -78,6 +78,10 @@ def get_attachment(tag_name:str):
         return abjad.Ottava(n=-1)
     elif tag_name == "8va!" or tag_name == "8vb!":
         return abjad.Ottava(n=0, format_slot="after")
+    elif tag_name == "pedal":
+        return abjad.StartPianoPedal()
+    elif tag_name == "pedal!":
+        return abjad.StopPianoPedal()
     elif tag_name == "{":
         print("WARNING: horizontal bracket not implemented")
         # return abjad.HorizontalBracket() # TO DO - CONSIDER... add markup?
@@ -88,7 +92,6 @@ def get_attachment(tag_name:str):
         return abjad.Clef(tag_name)
     elif tag_name.startswith("tempo:"):
         tempo_indicators = tag_name.split(":")[1:]
-        print("YO TEMPO", tempo_indicators)
         tempo_units_per_minute, tempo_duration_num, tempo_duration_den = tempo_indicators[:3]
         tempo_text = tempo_indicators[3] if len(tempo_indicators)==4 else None
         if tempo_units_per_minute:
