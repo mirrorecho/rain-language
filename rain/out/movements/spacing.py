@@ -75,6 +75,7 @@ SPACING.extend(
     par(
         # rest_all(2, "FLUTE") + 
         seq_ref("SPACING_SEQ_SLURRED").meddle(
+            M("SPACING1").change(),
             M("SPACING2").change(octave=[0,0,1,1,1], degree=[None,1]),
             ).tag([],["p"])(machine="FLUTE", pitch_spell="SHARP"),
         seq(
@@ -101,11 +102,24 @@ mod_and_seq(
             M("SPACING1").change(dur=[False, 1.5, 1.5], octave=[0,-1,0,0,0,1], degree=spacing_2_mod_degrees).tag(
                 [],["\<"],[],[],[],["mp"]
                 ),
-            M("SPACING3").change(dur=[False, False,False,False,0.5,1.5],),
+            M("SPACING3").change(
+                dur=[False, False, 0.25,0.75,0.25,1.75],
+                octave=[0,0,0,1,1,1,],
+                ),
             )(machine="FLUTE"),
         seq(
-            spacing_cell(degree=([1,7],-2,-1,0), dur=[1,1,1,1], octave=[0,1,0,1])(machine="PIANO1"),
-            OutCell("SPACING1")(dur=0.5).change(octave=[0,0,1,1,0,1]).tag([],["("],[],[],[],[")"])(machine="PIANO1"),
+            par(
+                seq(
+                    spacing_cell(degree=([1,7],-2,-1,0), dur=[1,1,1,1], octave=[0,1,0,1]),
+                    OutCell("SPACING1")(dur=0.5, leaf_durs=None).change(octave=[0,0,1,1,0,1]).tag([],["("],[],[],[],[")"]),
+                    )(machine="PIANO1"),
+                spacing_cell(
+                    degree=(-1,0,0,-1,-2,-3,[-4,4]), 
+                    dur=[1]*7,
+                    octave=(0,0,-1,-1,-2,-3,-3),
+                    tags=([],[],[],[],["bass"],[],[])
+                    )(machine="PIANO2")
+            ),
             # TODO: DRY DRY!!!!!! ... almost the same as PIANO_RISE (just cropped off first quarter-note)
             # refactor with auto-cropping
             par("PIANO_RISE2",
@@ -115,26 +129,32 @@ mod_and_seq(
                     )(machine="PIANO1"),
                 spacing_cell("RISE_L2", degree=([-3,5],-2,-1,0), dur=(1,0.5,0.5,1)).tag(
                     ["bass"], [], [], []).change(
-                        octave=[-2,-2,-1,-1]
+                        octave=[-3,-2,-1,-1]
                     )(machine="PIANO2")
-                )
+                ),
+            par_ref("PIANO_TWINKLE").meddle(
+                M("TWINKLE_H")(octave=1),
+                M("TWINKLE_L").tag([],["treble"]),
+            ),
             ),
     )(pitch_spell="SHARP"),
 )
 
-mod_and_seq(
-    par(
-        seq_ref("SPACING_SEQ")(machine="FLUTE", pitch_spell="SHARP"),
-        # NOTE: can't nest the modulations... messes up the outer mod (that's why using tonic_mod on here)
-        seq(
-            rest_all(8, "PIANO1"), 
-            # TODO: bring this back
-            # seq_ref("SPACING_SEQ")(tonic_mod=7, machine="PIANO1", pitch_spell="FLAT"),
+# mod_and_seq(
+#     par(
+#         seq_ref("SPACING_SEQ")(machine="FLUTE", pitch_spell="SHARP"),
+#         # NOTE: can't nest the modulations... messes up the outer mod (that's why using tonic_mod on here)
+#         seq(
+#             rest_all(8, "PIANO1"), 
+#             # TODO: bring this back
+#             # seq_ref("SPACING_SEQ")(tonic_mod=7, machine="PIANO1", pitch_spell="FLAT"),
            
-        ),
-    ),
-    rest_all(2) #rain.rest(2),
-)
+#         ),
+#     ),
+#     rest_all(2) #rain.rest(2),
+# )
+
+SPACING = SPACING.tag(["tempo:60:1:4:Aloof"])
 
 # mod_and_seq(
 #     OutCell("SPACING_SEQ")(machine="FLUTE", pitch_spell="FLAT"),
