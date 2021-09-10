@@ -188,6 +188,31 @@ class Change(AlterPattern): #TODO: rename to something more specific?
         self.vein_hooks = [lambda s, v: self.change_me(v)]
 
 # --------------------------------------------------------------------
+
+# @dataclass
+# # TODO: would be ideal to make this work by index (not every 0 or 1)
+# class CutAlterPattern(AlterPattern): #TODO: rename to something more specific?
+#     """
+#     """
+
+#     cuts: Iterable = None
+#     _cuts_iters = None
+
+#     def cut_me(self, vein_dict: dict) -> dict:
+#         return_dict = {}
+#         return_dict.update(vein_dict)
+#         cut_value = next(self._cuts_iters, False)
+#         if not cut_value:
+#             return(vein_dict)
+
+#         return return_dict
+
+#     def __post_init__(self):
+#         super().__post_init__()
+#         self._cuts_iters = iter(self.cuts)
+#         self.vein_hooks = [lambda s, v: self.cut_me(v)]
+
+# --------------------------------------------------------------------
 @dataclass
 class MeddleHelper(rain.AlterableMixin):
     key: str

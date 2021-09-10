@@ -11,227 +11,235 @@
     <<
         \context Staff = "Flute"
         {
-            \time 4/4
+            \tempo Dreamy 4.=92
+            \time 6/8
             \clef "treble"
-            r1
-            r2
-            r8
-            a'8
+            cs'''2.
             \p
-            (
-            gs'8
-            [
-            e'8
-            )
-            ]
-            fs'16
-            (
-            gs'8.
-            ~
-            gs'4
-            )
-            r8
-            a'8
-            - \tenuto
-            \<
-            b'16
-            (
-            c''16
-            d''16
-            )
-            a'16
-            \>
-            ~
-            (
-            a'8
-            gs'8
-            \!
-            ~
-            gs'4
-            )
-            r8
-            gs'8
-            (
-            fs'8
-            [
-            e'8
-            )
-            ]
-            fs'4
-            ~
-            (
-            fs'8
-            gs'8
-            )
-            r2
-            r8
-            e'8
             \<
             ~
             (
-            e'4
+            cs'''8
+            gs''8
+            fs''8
+            e''8
             ds''4
-            ~
-            [
-            ds''8
-            cs''8
-            )
-            ]
-            cs''16
-            (
-            b''8.
             \mp
-            ~
-            b''4
             )
-            r8
-            b'8
-            - \tenuto
+            r2.
+            r4.
+            as''4.
+            \p
             \<
-            fs'16
-            (
-            g'16
-            a'16
-            )
-            e''16
-            \>
             ~
             (
+            as''8
+            \mp
+            gs''8
+            fs''8
             e''8
             ds''8
-            \!
-            ~
+            )
+            gs''8
+            (
+            fs''8
+            e''8
+            ds''8
+            )
+            e''8
+            (
             ds''4
             )
+            r2.
+            bf''8
+            \>
+            (
+            f''8
+            ef''8
+            df''8
+            c''8
+            )
+            f''8
+            (
+            ef''8
+            df''8
+            c''8
+            )
+            ef''8
+            (
+            df''8
+            c''8
+            \p
+            )
+            r4.
             r8
-            ds''8
+            r8
+            c''8
+            \<
             (
-            cs''16
-            [
-            b''16
+            df''8
+            c''8
+            g''8
             ~
-            ]
-            b''8
+            g''8
             )
-            cs'''16
-            (
-            ds'''16
+            a''4
+            \mp
             ~
-            ds'''8
-            ~
-            ds'''4
-            )
+            a''2.
+            \fermata
         }
         \context PianoStaff = ""
         <<
             \context Staff = "Piano 1"
             {
-                \tempo Aloof 4=60
-                \time 4/4
+                \time 6/8
                 \clef "treble"
-                gs''2
-                \pp
-                gs''2
-                gs''2
-                gs''8
-                gs''4
-                c''''8
-                ~
-                c''''8
-                fs''4
-                <gs''' c''''>8
-                <b'' d'''>4
-                <c''' b'''>4
-                fs'8
-                gs'8
-                a''8
-                gs''8
-                gs''8
-                gs''4
-                c''''8
-                ~
-                c''''8
-                fs''4
-                <gs''' c''''>8
-                <c''' gs'''>4
-                gs'''4
-                <e'' ds'''>4
-                b''4
-                cs''4
-                ds'''4
+                r2.
+                r4.
                 r8
+                r8
+                gs'8
+                \p
+                \<
+                (
+                fs''8
+                e''8
+                ds''8
+                fs''8
+                e''8
+                ds''8
+                \mp
+                )
                 e''8
                 (
-                ds'''8
-                b''8
-                cs''8
-                ds'''8
-                )
-                <g'' fs'''>4
-                cs''8
-                ds'''8
-                e''8
-                ds'''8
-                ds'''8
-                ds'''4
-                g'''8
+                ds''8
+                as'8
                 ~
-                g'''8
-                cs'''4
-                <ds''' g'''>8
+                as'8
+                )
+                <c'' df''>4
+                ~
+                <c'' df''>2.
+                <bf ef' gf'>4.
+                \pp
+                ~
+                <bf ef' gf'>4
+                c''8
+                \mp
+                (
+                df''8
+                ef''8
+                bf'8
+                ~
+                bf'8
+                )
+                <c'' df''>4
+                ~
+                <c'' df''>2.
+                <g c' ef'>4.
+                ~
+                <g c' ef'>4
+                c'8
+                (
+                df'8
+                ef'8
+                bf'8
+                ~
+                bf'8
+                )
+                <c'' df''>4
+                <g' c'' df''>4.
+                ~
+                <g' c'' df''>8
+                <g' bf' c'' f''>4
+                <a'' bf''>2.
+                \fermata
+                g'8
+                d'8
+                c'8
+                bf8
+                a8
+                d'8
+                c'8
+                bf8
+                a8
+                c'8
+                bf8
+                a8
+                bf8
+                a8
+                e8
+                ~
+                e8
+                <fs g>8
+                ~
+                <fs g>8
+                ~
+                <fs g>2.
+                e'8
+                d'8
+                c'8
+                bf8
+                a8
+                d'8
+                c'8
+                bf8
+                a8
+                bf8
+                a4
             }
             \context Staff = "Piano 2"
             {
-                \time 4/4
+                \time 6/8
                 \clef "bass"
-                gs,,2
-                a2
+                r2.
+                r2.
                 \clef "treble"
-                fs'2
-                r8
-                a'4
-                b'8
+                <as ds' fs'>2.
+                <as ds' e'>4.
                 ~
-                b'8
-                e'4
-                gs'8
-                <a' gs''>4
+                <as ds' e'>8
+                <bf df' ef' af'>4
                 \clef "bass"
-                <d, e>4
-                e,8
-                fs8
-                gs4
-                r8
+                ef,,2.
+                \pp
+                ~
+                ef,,2.
                 \clef "treble"
-                a'4
-                b'8
+                <bf df' ef'>4.
                 ~
-                b'8
-                e'4
-                gs'8
-                gs'4
-                ds''4
-                cs''4
-                ds''4
-                ds'4
-                cs'4
+                <bf df' ef'>8
+                <bf df' ef' af'>4
                 \clef "bass"
-                b,4
-                a,,4
-                <g,, a,>4
-                \clef "bass"
-                <a,, b,>4
-                b,8
+                ef,,2.
+                c,2.
+                ~
+                c,2.
+                <c g>4.
+                ~
+                <c g>8
+                <c a>4
+                c,2.
+                \fermata
+                r2.
+                r2.
+                r2.
+                r2.
+                r2.
+                r2.
+                r2.
                 cs'8
-                ds'4
-                r8
-                \clef "treble"
-                e''4
-                fs''8
-                ~
-                fs''8
-                b'4
-                ds''8
+                b8
+                a8
+                g8
+                fs8
+                b8
+                a8
+                g8
+                fs8
+                g8
+                fs4
             }
         >>
     >>

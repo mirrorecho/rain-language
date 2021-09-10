@@ -55,8 +55,11 @@ class PatternReader(rain.LanguageBase):
         else:
             #NOTE: using pattern.leaves attribute here so that leaf_hooks are executed
             for vein in next(pattern.leaves).veins:
-                self.add_trigger(pattern_time, vein)
-                pattern_time += vein["dur"]
+                # TODO: this is a rather hokey way to implement cuts to 
+                # patterns... refactor?
+                if vein.get("machine", None) != "SKIP":
+                    self.add_trigger(pattern_time, vein)
+                    pattern_time += vein["dur"]
         
         return pattern_time
 

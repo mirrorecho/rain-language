@@ -55,6 +55,19 @@ class Staff(rain.Machine):
             meter_pair = node.duration.pair 
             return meter_pair[0]/meter_pair[1]*4
 
+        # TODO: consider moving this to the tagging module
+        def tag_leaf(leaf, tag_name):
+            attachment = tagging.get_attachment(tag_name)
+            if attachment:
+                if callable(attachment):
+                    attachment(leaf)
+                elif isinstance(attachment, (list, tuple)):
+                    for m in attachment:
+                        abjad.attach(m, leaf)
+                else:
+                    # TODO MAYBE: stem tremolos should be auto-attached to every leaf in logical tie...
+                    abjad.attach(attachment, leaf)
+
         if leaf_durs:
             if isinstance(leaf_durs, (list, tuple)):
                 durs = leaf_durs
@@ -110,21 +123,19 @@ class Staff(rain.Machine):
                 leaves.append(abjad.Rest(d/4))
 
         if leaves and tags:
-            for tag_name in tags:
-                if tag_name in tagging.end_leaf_inventory:
-                    leaf = leaves[-1]
-                else:
-                    leaf = leaves[0]
-                attachment = tagging.get_attachment(tag_name)
-                if attachment:
-                    if callable(attachment):
-                        attachment(leaf)
-                    elif isinstance(attachment, (list, tuple)):
-                        for m in attachment:
-                            abjad.attach(m, leaf)
+            for tag_thingy in tags:
+                if isinstance(tag_thingy, str):
+                    tag_name = tag_thingy
+                    if tag_name in tagging.end_leaf_inventory:
+                        leaf = leaves[-1]
                     else:
-                        # TODO MAYBE: stem tremolos should be attached to every leaf in logical tie...
-                        abjad.attach(attachment, leaf)
+                        leaf = leaves[0]
+                    tag_leaf(leaf, tag_name)
+                elif isinstance(tag_thingy, (tuple, list)):
+                    for leaf, tag_name in zip(leaves, tag_thingy):
+                        if tag_name:
+                            tag_leaf(leaf, tag_name)
+
 
         self.notation_object.extend(leaves)
 
