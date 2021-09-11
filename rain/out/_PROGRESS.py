@@ -25,7 +25,7 @@ coming_bars = 28
 total_bars = (freaking_bars + spacing_bars + passing_bars + making_bars + burning_bars
     + flipping_bars + coming_bars)
 
-bars_per_pomo = 1
+bars_per_pomo = 0.75
 total_pomos_alloted = total_bars/bars_per_pomo
 
 variance = total_bars_complete - (TOTAL_POMO*bars_per_pomo)
