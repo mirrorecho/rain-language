@@ -309,7 +309,7 @@ class AddChordDegree(AlterPattern):
             if existing_degree is None:
                 return_dict["degree"] = current_degree
             else:
-                return_dict["degree"] = rain.listify(existing_degree, existing_degree+current_degree)
+                return_dict["degree"] = [existing_degree] + [existing_degree + d for d in rain.listify(current_degree)]
         return return_dict
 
     def __post_init__(self):

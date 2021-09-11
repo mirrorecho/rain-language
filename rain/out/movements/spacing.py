@@ -3,8 +3,7 @@ from itertools import cycle, repeat
 
 import rain
 
-from rain.out.out_cell import (GlobalTonic, OutCell, OutCellFactory, AddDegrees, Mask,
-    add_modulate)
+from rain.out.out_cell import (GlobalTonic, OutCell, OutCellFactory, add_modulate)
 from rain.out.score_machine import score_with_meter, rest_all
 from rain import ref, par, seq, par_ref, seq_ref
 
