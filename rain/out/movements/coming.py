@@ -55,13 +55,13 @@ COMING.extend(
     par(
         # seq_ref("COMING_1")(machine="FLUTE"),
         # TODO: start with single notes, then two-note chords
-        rest_all(1, "PIANO1") + seq_ref("OSTI_CHORDS")(machine="PIANO1"),
+        rest_all(1, "PIANO1") + seq_ref("OSTI_CHORDS").tag(["p"])(machine="PIANO1"),
         coming_cell(dur=[4,4,4,2,2,], degree=[0]*8)(octave=-1, machine="PIANO2")
     ),
     par(
         # TODO: ideally this is only the first two notes
         rest_all(4, "FLUTE") + OutCell("COMING_A").tag(
-            [],["("],[],[")"]
+            [],["(", "p"],[],[")"]
             )(octave=1, machine="FLUTE"),
         # TODO: consider fancifying this piano part
         coming_cell(degree=[None]+chord_seqa[:3], dur=[1,2,2,3])(machine="PIANO1"),
@@ -105,6 +105,7 @@ COMING.extend(
     rest_all(3),
 )
 
+# # # coming_tonic.modulate(3)
 # MEASURE 17 ===================================================================
 mod_and_seq(3,
     par(
@@ -134,7 +135,7 @@ mod_and_seq(5,
     par(
         seq(
             rest_all(5,"FLUTE"),
-            OutCell("RISE").change(dur=[3,4]).tag(["\<"],["f"]),
+            OutCell("RISE").change(dur=[3,4]).tag(["\<"],["mf"]),
             )(octave=2, pitch_spell="FLAT",machine="FLUTE"),
         seq(
             OutCell("COMING_B_SWAP").change(
@@ -163,7 +164,7 @@ mod_and_seq(5,
     par(
         seq(
             OutCell("COMING_D").change(dur=[1]),
-            ).tag([],["("],[],[")"])(pitch_spell="FLAT", octave=1, machine="FLUTE"),
+            ).tag([],["(","\>"],[],[")","\!"])(pitch_spell="FLAT", octave=1, machine="FLUTE"),
         seq(
             OutCell("COMING_A_SWAP").change(
                 dur=[False,1,1,5.5],
@@ -178,7 +179,97 @@ mod_and_seq(5,
         )(pitch_spell="FLAT", machine="PIANO2")
     )
 )
+# MEASURE 28 ===================================================================
+mod_and_seq(3,
+    par(
+        seq(
+            rest_all(2,"FLUTE"),
+            OutCell("RISE").change(dur=[2,4]).tag(["\<"],["f"])(octave=2),
+            OutCell("COMING_D").change(dur=[1,1,1,1], octave=[0,0,1,2]).tag(
+                [],[],["~"]),
+            )(pitch_spell="SHARP",machine="FLUTE"),
+        seq(
+            OutCell("COMING_B_SWAP").change(
+                dur=[False]*4+[1],
+                octave=(0,0,0,1,1),
+                ).tag([],["("],[],[],[")"]).add_chord_degree(None,7,7,7,7)(pitch_spell="FLAT"),
+            OutCell("COMING_C").change(
+                dur=[False]*4+[3],
+                octave=(-1,-1,-1,0,1),
+                ).tag([],["("],[],[],[")"]).add_chord_degree(None,7,7,7,7)(pitch_spell="SHARP"),
+            )(machine="PIANO1"),
+        seq(
+            coming_cell(dur=[1,1,1,2], 
+                degree=[2,1,-2,-3,],
+                ).tag([]).add_chord_degree(7,7,7,7)(octave=-2, pitch_spell="FLAT"),
+            coming_cell(dur=[1,1,1,1,1,1,1,1], 
+                degree=[4,4,1,1,0,0,0],
+                ).tag([],[],[],[],[],[],["~"],).add_chord_degree(4,4,7,7,4,(4,7),(4,7))(octave=-2, pitch_spell="SHARP"),
+        )(machine="PIANO2")
+    )
+)
 
+# MEASURE 31 ===================================================================
+mod_and_seq(3,
+    par(
+        seq(
+            # OutCell("RISE").change(dur=[2,4]).tag([],[])(octave=2),
+            OutCell("COMING_C").change(
+                dur=[3,1,1,1,2], 
+                # octave=[1,1,1,1]
+                ).tag([],["("],[],[],[")"]),
+            )(octave=1, pitch_spell="SHARP", machine="FLUTE"),
+        seq(
+            coming_cell(degree=[None]+chord_seq, dur=[0.5]+[1]*7+[0.5],
+                leaf_durs=[False,1,False,1,False,1]*4,
+                octave=(0,0,0,1,1,1,1,2,2)
+                ).tag([],["("],[],[],[],[],[],[],[")"],).add_degree(None, -3,7,-3,-2,0,None,-2),
+            )(pitch_spell="SHARP", machine="PIANO1"),
+        seq(
+            coming_cell(dur=[1,1,1,2,1,2], 
+                degree=[-2,1,-2,-3,-1,-2],
+                ).tag([]).add_chord_degree((4,7),7,7,7,7,(4,7))(octave=-2),
+            # coming_cell(dur=[1,1,1,1,1,1,1,1], 
+            #     degree=[4,4,1,1,0,0,0],
+            #     ).tag([]).add_chord_degree(4,4,7,7,4,(4,7),(4,7))(octave=-2, pitch_spell="SHARP"),
+        )(pitch_spell="SHARP", machine="PIANO2")
+    )
+)
+# MEASURE 33 ===================================================================
+mod_and_seq(-7,
+    par(
+        seq(
+            # OutCell("RISE").change(dur=[2,4]).tag([],[])(octave=2),
+            OutCell("COMING_A_SWAP").change(
+                dur=[1.5,0.5,0.5,1.5], 
+                octave=[1,1,1,2]
+                ).tag([],["("],[],[")"]),
+            OutCell("COMING_B").tag([],["("],[],[")"])(octave=2),
+            rest_all(1, "FLUTE") + OutCell("RISE")(octave=3),
+            rest_all(1, "FLUTE") + OutCell("RISE").tag(["\>"],)(octave=2),
+            rest_all(1, "FLUTE") + OutCell("RISE").tag([],["p","fermata", "|."])(octave=1),
+            )(pitch_spell="SHARP", machine="FLUTE"),
+        seq(
+            coming_cell(degree=[None]+chord_seq, dur=[0.5]+[1]*6+[1.5],
+                leaf_durs=[False,1,False,1,False,1,False, (0.5,1)],
+                octave=(0,0,0,1,1,1,1,1,1)
+                ).tag([],["("],[],[],[],[],[],[")"],
+                ).add_degree(None, 5,7,0,0,0,None,0),
+            rest_all(1, "PIANO1") + seq_ref("OSTI_CHORDS"
+                ).change(octave=[0]*5+[1,1,1]).add_degree(7,7,7,7,11,None,None,5).tag(
+                [],["\>"]),
+            coming_cell(degree=[(0,7)], dur=[4]).tag(["fermata", "pp", "|."])(octave=1)
+            )(pitch_spell="SHARP", machine="PIANO1"),
+        seq(
+            coming_cell(dur=[1,1,1,1,1,2,1], 
+                degree=[-5,-6,-3,-2,0,0,5],
+                ).tag([]).add_chord_degree(7,(4,7),7,7,7,(4,7))(octave=-1),
+            coming_cell(dur=[2,1,1,2,1,1,2,2,2,2,4], 
+                degree=[(0,4,7),0,5,(0,4),0,5,(0,4),(0,4),(0,4),0,0],
+                ).tag([],[],[],[],[],[],[],[],[],[], ["|.", "fermata"])(octave=-1),
+        )(pitch_spell="SHARP", machine="PIANO2")
+    )
+)
 
 COMING = COMING.tag(["tempo:112:1:4:???"])
 

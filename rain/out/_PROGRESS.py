@@ -1,7 +1,7 @@
 import rain
 from math import floor, ceil
 
-TOTAL_POMO = 61
+TOTAL_POMO = 72
 
 FREAKING_BARS_COMPLETE = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,8,19,20,21,22,23,24,25,26,27,28]
 SPACING_BARS_COMPLETE = [1,2,3,4,5,6,7,8]
@@ -10,7 +10,7 @@ MAKING_BARS_COMPLETE = [1,2]
 BURNING_BARS_COMPLETE = []
 FLIPPING_BARS_COMPLETE = []
 COMING_BARS_COMPLETE = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,
-    23,24,25,26,27]
+    23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39]
 
 total_bars_complete = len(FREAKING_BARS_COMPLETE+SPACING_BARS_COMPLETE+PASSING_BARS_COMPLETE+
     MAKING_BARS_COMPLETE+BURNING_BARS_COMPLETE+FLIPPING_BARS_COMPLETE+COMING_BARS_COMPLETE)
@@ -21,7 +21,7 @@ passing_bars = 18
 making_bars = 24
 burning_bars = 18
 flipping_bars = 20
-coming_bars = 36
+coming_bars = 39
 
 total_bars = (freaking_bars + spacing_bars + passing_bars + making_bars + burning_bars
     + flipping_bars + coming_bars)
