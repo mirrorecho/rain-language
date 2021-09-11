@@ -58,6 +58,7 @@ class OutCellFactory():
 
     _base_scale = rain.Scale(steps=scale_steps)
 
+
     def modulate(self, pitches):
         self.global_tonic.modulate(pitches)
 
@@ -70,67 +71,6 @@ class OutCellFactory():
             *args, **kwargs
             )
 
-
-@dataclass
-#TODO: ditto as above, can't represent this natively in a graph ... OK?
-class AddDegrees(rain.AlterPattern):
-    """
-    """
-
-    degrees: Iterable = cycle((None,))
-    _degrees_iter = ()
-
-    def add_degrees(self, vein_dict: dict) -> dict:
-        return_dict = {}
-        return_dict.update(vein_dict)
-
-        current_degree = next(self._degrees_iter, None)
-
-        if current_degree is not None:
-            existing_degree = return_dict["degree"]
-            if existing_degree is None:
-                return_dict["degree"] = current_degree
-            else:
-                return_dict["degree"] = rain.listify(existing_degree, current_degree)
-        return return_dict
-
-    def __post_init__(self):
-        super().__post_init__()
-        self._degrees_iter = iter(self.degrees)
-        self.vein_hooks = [lambda s, v: self.add_degrees(v)]
-
-rain.context.register_types(AddDegrees)
-
-
-@dataclass
-#TODO: ditto as above, can't represent this natively in a graph ... OK?
-class Mask(rain.AlterPattern):
-    """
-    """
-
-    _mask_attrs = ("degree",)
-    _mask_iter = ()
-
-    mask: Iterable[bool] = cycle((True,))
-
-    def mask_me(self, vein_dict: dict) -> dict:
-        current_mask = next(self._mask_iter, True)
-
-        if current_mask:
-            return vein_dict
-        else:
-            return_dict = {}
-            return_dict.update(vein_dict)           
-            for attr in self._mask_attrs:
-                return_dict[attr] = None
-            return return_dict
-
-    def __post_init__(self):
-        super().__post_init__()
-        self._mask_iter = iter(self.mask)
-        self.vein_hooks = [lambda s, v: self.mask_me(v)]
-
-rain.context.register_types(Mask)
 
 
 @dataclass

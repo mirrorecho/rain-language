@@ -24,7 +24,8 @@ from rain.patterns.cue import Cue, Contains, Cues, CueNext, CueFirst, CueLast
 from rain.patterns.machine import Machine, Printer #, SynthDefMaker
 from rain.patterns.tree_pattern import TreePattern, CellTree, Sequence, Parallel, Combo, MachineTree
 from rain.patterns.alters import (AlterPattern, Alters, AlterPatternVeins, 
-    AlterPatternLeaves, AlterPatternTagVeins, Change, MeddleHelper, Meddle, MeddleConnectAlter)
+    AlterPatternLeaves, AlterPatternTagVeins, Change, MeddleHelper, Meddle, MeddleConnectAlter,
+    AddDegree, AddChordDegree, Mask)
 from rain.patterns.pattern_reader import PatternReader
 
 from rain.score.staff import Staff
@@ -42,6 +43,7 @@ context.register_types(
     CellTree, Sequence, Parallel, Combo,
     AlterPattern, Alters, AlterPatternVeins, AlterPatternLeaves, AlterPatternTagVeins, 
     Change, Meddle, MeddleConnectAlter,
+    AddDegree, AddChordDegree, Mask,
     MusicCell, RestCell,
     Staff, StaffGroup, Score )
 

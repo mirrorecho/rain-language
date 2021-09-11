@@ -3,8 +3,7 @@ from itertools import cycle, repeat
 
 import rain
 
-from rain.out.out_cell import (GlobalTonic, OutCell, OutCellFactory, AddDegrees, Mask,
-    add_modulate)
+from rain.out.out_cell import (GlobalTonic, OutCell, OutCellFactory, add_modulate)
 from rain.out.score_machine import score_with_meter, rest_all
 from rain import ref, par, seq, par_ref, seq_ref
 
@@ -46,59 +45,59 @@ seq("OSTI_CHORDS",
     coming_cell("CHORD1", degree=chord_seqa+chord_seqb, dur=[2]*7+[1])
 )
 
-COMING.extend(
-    par(
-        # seq_ref("COMING_1")(machine="FLUTE"),
-        # TODO: start with single notes, then two-note chords
-        rest_all(1, "PIANO1") + seq_ref("OSTI_CHORDS")(machine="PIANO1"),
-        coming_cell(dur=[4,4,4,2,2,], degree=[0]*8)(octave=-1, machine="PIANO2")
-    ),
-    par(
-        # TODO: ideally this is only the first two notes
-        rest_all(4, "FLUTE") + OutCell("COMING_A").tag(
-            [],["("],[],[")"]
-            )(octave=1, machine="FLUTE"),
-        # TODO: consider fancifying this piano part
-        coming_cell(degree=[None]+chord_seqa[:3], dur=[1,2,2,3])(machine="PIANO1"),
-        coming_cell(dur=[4,4], degree=[0]*4)(octave=-1, machine="PIANO2")
-    ),
-    # TODO: ADD TALKING?????
-    # TODO: this doesn't work... 
-    rest_all(4).tag_all(["fermata"]),
-    par(
-        seq(rest_all(4, "FLUTE"),
-            OutCell("COMING_A").tag(
-            [],["("],[],[")"]
-            ),
-            OutCell("COMING_B").tag(
-            [],["("],[],[],[")"]
-            ),
-            )(octave=1, machine="FLUTE"),
-        # TODO: begin highlighting flute part in piano
-        coming_cell(degree=[None]+chord_seqa + chord_seqb[:2], dur=[1,2,2,3,2,2,2,2])(machine="PIANO1"),
-        coming_cell(dur=[4,2,2,2,2,2,], degree=[0]*7)(octave=-1, machine="PIANO2")
-    ),
-    # TODO: DITTO AS ABOVE, this fermata doesn't work...
-    rest_all(2).tag_all(["fermata"]),
-    #TODO: consider starting to modulate here (DOWN A FIFTH)
-    par(
-        seq(
-            OutCell("COMING_A").tag(
-            [],["("],[],[")"]
-            ),
-            OutCell("COMING_B").tag(
-            [],["("],[],[],[")"]
-            ),
-            OutCell("COMING_C").tag(
-            [],["("],[],[],[")"]
-            ),
-            )(octave=1, machine="FLUTE"),
-        # TODO: begin highlighting flute part in piano
-        coming_cell(degree=[None]+chord_seq[2:], dur=[1,2,2,3,2,2,5])(machine="PIANO1"),
-        coming_cell(dur=[2,2,2,2,4,2,3], degree=[None]+[0]*7)(octave=-1, machine="PIANO2")
-    ),
-    rest_all(3),
-)
+# COMING.extend(
+#     par(
+#         # seq_ref("COMING_1")(machine="FLUTE"),
+#         # TODO: start with single notes, then two-note chords
+#         rest_all(1, "PIANO1") + seq_ref("OSTI_CHORDS")(machine="PIANO1"),
+#         coming_cell(dur=[4,4,4,2,2,], degree=[0]*8)(octave=-1, machine="PIANO2")
+#     ),
+#     par(
+#         # TODO: ideally this is only the first two notes
+#         rest_all(4, "FLUTE") + OutCell("COMING_A").tag(
+#             [],["("],[],[")"]
+#             )(octave=1, machine="FLUTE"),
+#         # TODO: consider fancifying this piano part
+#         coming_cell(degree=[None]+chord_seqa[:3], dur=[1,2,2,3])(machine="PIANO1"),
+#         coming_cell(dur=[4,4], degree=[0]*4)(octave=-1, machine="PIANO2")
+#     ),
+#     # TODO: ADD TALKING?????
+#     # TODO: this doesn't work... 
+#     rest_all(4).tag_all(["fermata"]),
+#     par(
+#         seq(rest_all(4, "FLUTE"),
+#             OutCell("COMING_A").tag(
+#             [],["("],[],[")"]
+#             ),
+#             OutCell("COMING_B").tag(
+#             [],["("],[],[],[")"]
+#             ),
+#             )(octave=1, machine="FLUTE"),
+#         # TODO: begin highlighting flute part in piano
+#         coming_cell(degree=[None]+chord_seqa + chord_seqb[:2], dur=[1,2,2,3,2,2,2,2])(machine="PIANO1"),
+#         coming_cell(dur=[4,2,2,2,2,2,], degree=[0]*7)(octave=-1, machine="PIANO2")
+#     ),
+#     # TODO: DITTO AS ABOVE, this fermata doesn't work...
+#     rest_all(2).tag_all(["fermata"]),
+#     #TODO: consider starting to modulate here (DOWN A FIFTH)
+#     par(
+#         seq(
+#             OutCell("COMING_A").tag(
+#             [],["("],[],[")"]
+#             ),
+#             OutCell("COMING_B").tag(
+#             [],["("],[],[],[")"]
+#             ),
+#             OutCell("COMING_C").tag(
+#             [],["("],[],[],[")"]
+#             ),
+#             )(octave=1, machine="FLUTE"),
+#         # TODO: begin highlighting flute part in piano
+#         coming_cell(degree=[None]+chord_seq[2:], dur=[1,2,2,3,2,2,5])(machine="PIANO1"),
+#         coming_cell(dur=[2,2,2,2,4,2,3], degree=[None]+[0]*7)(octave=-1, machine="PIANO2")
+#     ),
+#     rest_all(3),
+# )
 
 # MEASURE 16 ===================================================================
 mod_and_seq(3,
@@ -124,12 +123,22 @@ mod_and_seq(3,
     ),
 )
 
+# MEASURE 22 ===================================================================
 mod_and_seq(5,
     par(
         seq(
-            OutCell("COMING_B").tag(
-            [],["("],[],[],[")"]
+            OutCell("COMING_B").change(
+                degree=[False,False,4,10],
+                dur=[False,False,False,2,2.5],
+                octave=[0,1,1],
+                # leaf_durs=[False,False,False,(0.5,1.5)],
+                ).add_chord_degree(None,None,None,7,7)(
+            ).tag(
+            [],["(","]"],["["],["]"],[")"]
             ),
+        coming_cell(dur=[1]*4, 
+            degree=[4,4,4,4]
+            )(octave=-1, machine="PIANO2")
         )(machine="PIANO1")
     ),
 )

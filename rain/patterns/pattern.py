@@ -26,6 +26,17 @@ class AlterableMixin():
             meddle_helper.connect_alters(meddle_pattern)
         return meddle_pattern
 
+    def add_chord_degree(self, *args):
+        key, args = rain.key_from_args(args)
+        return self.alter(rain.AddChordDegree.create(key, degree=args))
+
+    def add_degree(self, *args):
+        key, args = rain.key_from_args(args)
+        return self.alter(rain.AddDegree.create(key, degree=args))
+
+    def mask(self, *args):
+        key, args = rain.key_from_args(args)
+        return self.alter(rain.Mask.create(key, mask=args))
 
     def alter_with_attrs_and_lambdas(self, alter_type:"rain.AlterPattern", key=None, **kwargs):
         alter_attrs={}

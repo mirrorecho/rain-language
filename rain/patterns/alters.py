@@ -260,7 +260,93 @@ class Meddle(AlterPattern):
             yield list(connected_alter.meddle_chain)[-1].alters_cue
 
 
-        
+@dataclass
+#TODO: ditto as above, can't represent this natively in a graph ... OK?
+class AddDegree(AlterPattern):
+    """
+    """
+
+    degree: Iterable = ()
+    _degree_iter = ()
+
+    def add_degrees(self, vein_dict: dict) -> dict:
+        return_dict = {}
+        return_dict.update(vein_dict)
+
+        current_degree = next(self._degree_iter, None)
+
+        if current_degree is not None:
+            existing_degree = return_dict["degree"]
+            if existing_degree is None:
+                return_dict["degree"] = current_degree
+            else:
+                return_dict["degree"] = rain.listify(existing_degree, current_degree)
+        return return_dict
+
+    def __post_init__(self):
+        super().__post_init__()
+        self._degree_iter = iter(self.degree)
+        self.vein_hooks = [lambda s, v: self.add_degrees(v)]
+
+
+@dataclass
+#TODO: ditto as above, can't represent this natively in a graph ... OK?
+class AddChordDegree(AlterPattern):
+    """
+    """
+
+    degree: Iterable = ()
+    _degree_iter = ()
+
+    def add_degrees(self, vein_dict: dict) -> dict:
+        return_dict = {}
+        return_dict.update(vein_dict)
+
+        current_degree = next(self._degree_iter, None)
+
+        if current_degree is not None:
+            existing_degree = return_dict["degree"]
+            if existing_degree is None:
+                return_dict["degree"] = current_degree
+            else:
+                return_dict["degree"] = rain.listify(existing_degree, existing_degree+current_degree)
+        return return_dict
+
+    def __post_init__(self):
+        super().__post_init__()
+        self._degree_iter = iter(self.degree)
+        self.vein_hooks = [lambda s, v: self.add_degrees(v)]
+
+
+@dataclass
+#TODO: ditto as above, can't represent this natively in a graph ... OK?
+class Mask(AlterPattern):
+    """
+    """
+
+    _mask_attrs = ("degree",)
+    _mask_iter = ()
+
+    mask: Iterable[bool] = ()
+
+    def mask_me(self, vein_dict: dict) -> dict:
+        current_mask = next(self._mask_iter, True)
+
+        if current_mask:
+            return vein_dict
+        else:
+            return_dict = {}
+            return_dict.update(vein_dict)           
+            for attr in self._mask_attrs:
+                return_dict[attr] = None
+            return return_dict
+
+    def __post_init__(self):
+        super().__post_init__()
+        self._mask_iter = iter(self.mask)
+        self.vein_hooks = [lambda s, v: self.mask_me(v)]
+
+
 # --------------------------------------------------------------------
 
 # TODO MAYBE: reimplement according to above method IF NECESSARY

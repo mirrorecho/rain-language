@@ -1,7 +1,7 @@
 import rain
 from math import floor, ceil
 
-TOTAL_POMO = 54
+TOTAL_POMO = 56
 
 FREAKING_BARS_COMPLETE = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,8,19,20,21,22,23,24,25,26,27,28]
 SPACING_BARS_COMPLETE = [1,2,3,4,5,6,7,8]
