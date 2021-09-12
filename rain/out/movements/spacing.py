@@ -204,4 +204,4 @@ if __name__ == "__main__":
     score.reset()
     pr = rain.PatternReader(SPACING, score.get_palette())
     pr.read()
-    score.render()
+    score.render("SPACING")

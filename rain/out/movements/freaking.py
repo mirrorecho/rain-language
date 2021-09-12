@@ -337,4 +337,4 @@ if __name__ == "__main__":
     score.reset()
     pr = rain.PatternReader(FREAKING, score.get_palette())
     pr.read()
-    score.render()
+    score.render("FREAKING")
