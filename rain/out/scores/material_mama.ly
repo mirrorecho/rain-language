@@ -21,7 +21,7 @@
                 bf'8
                 \f
                 - \staccato
-                cs''8
+                df''8
                 - \accent
                 (
                 e''16
@@ -30,7 +30,7 @@
                 c''16
                 (
                 ef''16
-                fs''16
+                gf''16
                 - \staccato
                 - \accent
                 )
@@ -419,7 +419,7 @@
                 bf16
                 bf16
                 (
-                cs'16
+                df'16
                 e'16
                 - \staccato
                 - \accent

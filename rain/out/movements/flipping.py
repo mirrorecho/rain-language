@@ -83,7 +83,7 @@ def flip_cluster(key_prefix:str=None, times=1, degrees=(0,1,2,3,4), **kwargs):
 
 #TODO: ADD SPACE
 FLIPPING = seq("FLIPPING", 
-    flip("FLIP0").tag(["f"]),
+    flip("FLIP0").tag(["f"])(pitch_spell="FLAT"),
     flip_out("FLIPPING0", bookend_rests=(0.5,1)), #TODO: start with single 4ths before stacked 4ths
     flip_out("FLIPPING1", times=2, bookend_rests=(0,1.5)),
     flip("FLIP1", intro_times=2),
@@ -114,11 +114,12 @@ FLIPPING = seq("FLIPPING",
     # # TODO MAYBE: a longer pause before this last
     flip_out("FLIPPING17", times=32),
 
-    # rain.Sequence.create("FLIP_FLIP_OUT"),
+    # TODO: WHAT WAS THIS????
+    # seq("FLIP_FLIP_OUT"), 
     # flip_out("FLIPPING1", times=2),
-    # rain.rest(1.5)(machine="PIANO1"),
+    # rest_all(1.5, "PIANO1"),
     # flip(intro_times=2)(pitch_spell="FLAT"),
-    # rain.rest(0.5)(machine="PIANO1"),
+    # rest_all(0.5, "PIANO1"),
     # flip_out("FLIPPING2", times=4),
 )
 
