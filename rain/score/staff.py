@@ -157,7 +157,7 @@ class Staff(rain.Machine):
         # TO DO: encapsulate all of this into something that writes to an abjad container
 
         if dur > 0:
-            if pitch is None:
+            if pitch is None and not tags and not leaf_durs:
                 # TODO: handle force_dur / tags for rests here
                 self.rests_dur += dur
             else:

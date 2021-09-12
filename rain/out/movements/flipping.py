@@ -81,37 +81,38 @@ def flip_cluster(key_prefix:str=None, times=1, degrees=(0,1,2,3,4), **kwargs):
             )
         ), **kwargs)
 
+#TODO: ADD SPACE
 FLIPPING = seq("FLIPPING", 
     flip("FLIP0").tag(["f"]),
     flip_out("FLIPPING0", bookend_rests=(0.5,1)), #TODO: start with single 4ths before stacked 4ths
     flip_out("FLIPPING1", times=2, bookend_rests=(0,1.5)),
     flip("FLIP1", intro_times=2),
-    # rain.ref("FLIPPING0"),
-    # flip_cluster(times=2),
-    # flip_out("FLIPPING2", times=3, bookend_rests=(0,1)),
-    # flip("FLIP2", intro_times=3),
-    # flip_out("FLIPPING3", times=1, bookend_rests=(0.5,2)),
-    # flip_out("FLIPPING4", times=8, bookend_rests=(0,2)),
-    # flip_cluster(times=4, bookend_rests=(0,1)), # TODO: times=1 doesn't work. WHY?
-    # flip("FLIP3", intro_times=4, bookend_rests=(0,1)),
-    # flip("FLIP4", intro_times=5),
-    # flip_out("FLIPPING5", bookend_rests=(0.5,1)),
-    # flip_out("FLIPPING6", times=2, bookend_rests=(0,1.5)),
-    # flip_out("FLIPPING7", times=4, bookend_rests=(0,1)),
-    # flip_out("FLIPPING8", times=12, bookend_rests=(0,1)),
-    # flip_cluster(times=2),
-    # flip_out("FLIPPING9", times=2, bookend_rests=(0,0.5)),
-    # flip("FLIP5", intro_times=1),
-    # flip_out("FLIPPING10", times=1, bookend_rests=(0.5,0)),
-    # flip("FLIP6", intro_times=1),
-    # flip_out("FLIPPING11", times=1, bookend_rests=(0.5,0)),
-    # flip_out("FLIPPING12", times=4, bookend_rests=(0.5,0)),
-    # flip_out("FLIPPING13", times=1, bookend_rests=(0,0)),
-    # flip_out("FLIPPING14", times=1, bookend_rests=(0.5,0)),
-    # flip_out("FLIPPING15", times=1, bookend_rests=(0.5,0)),
-    # flip_out("FLIPPING16", times=1, bookend_rests=(0.5,0)),
+    rain.ref("FLIPPING0"),
+    flip_cluster(times=2),
+    flip_out("FLIPPING2", times=3, bookend_rests=(0,1)),
+    flip("FLIP2", intro_times=3),
+    flip_out("FLIPPING3", times=1, bookend_rests=(0.5,2)),
+    flip_out("FLIPPING4", times=8, bookend_rests=(0,2)),
+    flip_cluster(times=4, bookend_rests=(0,1)), # TODO: times=1 doesn't work. WHY?
+    flip("FLIP3", intro_times=4, bookend_rests=(0,1)),
+    flip("FLIP4", intro_times=5),
+    flip_out("FLIPPING5", bookend_rests=(0.5,1)),
+    flip_out("FLIPPING6", times=2, bookend_rests=(0,1.5)),
+    flip_out("FLIPPING7", times=4, bookend_rests=(0,1)),
+    flip_out("FLIPPING8", times=12, bookend_rests=(0,1)),
+    flip_cluster(times=2),
+    flip_out("FLIPPING9", times=2, bookend_rests=(0,0.5)),
+    flip("FLIP5", intro_times=1),
+    flip_out("FLIPPING10", times=1, bookend_rests=(0.5,0)),
+    flip("FLIP6", intro_times=1),
+    flip_out("FLIPPING11", times=1, bookend_rests=(0.5,0)),
+    flip_out("FLIPPING12", times=4, bookend_rests=(0.5,0)),
+    flip_out("FLIPPING13", times=1, bookend_rests=(0,0)),
+    flip_out("FLIPPING14", times=1, bookend_rests=(0.5,0)),
+    flip_out("FLIPPING15", times=1, bookend_rests=(0.5,0)),
+    flip_out("FLIPPING16", times=1, bookend_rests=(0.5,0)),
     # # TODO MAYBE: a longer pause before this last
-    # flip_out("FLIPPING17", times=32),
+    flip_out("FLIPPING17", times=32),
 
     # rain.Sequence.create("FLIP_FLIP_OUT"),
     # flip_out("FLIPPING1", times=2),
@@ -121,7 +122,7 @@ FLIPPING = seq("FLIPPING",
     # flip_out("FLIPPING2", times=4),
 )
 
-FLIPPING = FLIPPING.tag(["tempo:132:1:4:???"])
+# FLIPPING = FLIPPING.tag(["tempo:132:1:4:???"])
 
 if __name__ == "__main__":
     score = score_with_meter()
