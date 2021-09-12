@@ -136,20 +136,60 @@ mod_and_seq(
         seq(
             passing_cell(degree=[0,(0,4),(0,5),0], dur=[6,2,1,3], octave=[-2,-1,-1,-2], 
                 leaf_durs=[False, (1.5, 0.5), 1, False],
-                ).tag([],[],[],["fermata"])(machine="PIANO2"),
+                ).tag([],[],[],["fermata", "~"])(machine="PIANO2"),
         ),
     )
 )
 
 mod_and_seq(
-    seq_ref("PASSING_SEQA")(machine="PIANO1"),
-    seq_ref("PASSING_SEQB")(machine="PIANO1"),
-    rest_all(3), # this is downward motion "LH" figure only
+    par(
+        seq(
+            rest_all(1, "FLUTE").tag(["tempo:54:3:8:Freely, Slowing Down"]).change(
+                leaf_durs=[1]),
+            OutCell("PASSING1").change(
+                degree=[False,False,False,False,None],
+                dur=[False,False,False,1,False,1],
+                leaf_durs=[False,False,False,False,False,1],
+                )(octave=1).tag(["(","\>"],[],[],[")"],[],["fermata","("]),
+            OutCell("PASSING2").change(
+                dur=[False,False,1,1,1,3],
+                leaf_durs=[False,False,1,1,1,],
+                degree=[False,False,False,None],
+                )(octave=1).tag(
+                    [],[],[")", "fermata"], [],["("],[")", "fermata", "pp", "|."])
+        )(machine="FLUTE"),
+        seq(
+            OutCell("PASSING_CHORD1").change(dur=[3],
+                )(octave=1).tag(["pp", "~"]), # TODO: why won't tagging fermata on second leaf work here?
+            OutCell("PASSING_CHORD1").change(dur=[1.5],
+                )(octave=1).tag(["fermata"]),
+            
+            OutCell("PASSING_CHORD3").change(dur=[1.5], leaf_durs=[1.5],
+                )(octave=1).tag(["~"]),
+            OutCell("PASSING_CHORD3").change(dur=[1.5], leaf_durs=[1.5],
+                )(octave=1).tag(["fermata"]),
+            
+            OutCell("PASSING_CHORD2").change(dur=[1.5],
+                ).tag(["~", "bass"]),
+            OutCell("PASSING_CHORD2").change(dur=[3],
+                ).tag(["fermata"]),
+
+        )(machine="PIANO1"),
+        passing_cell(
+            dur=[1.5,1.5,4,2,3], 
+            leaf_durs=[1.5,1.5,(3,1),2,3],
+            degree=[2,0,0,1,0], octave=[-2,-1,-1,0,-3],
+            ).tag(
+            [],["~"],["fermata"],["fermata"],["fermata","8vb","|."])(machine="PIANO2")
+    )
+    # seq_ref("PASSING_SEQA")(machine="PIANO1"),
+    # seq_ref("PASSING_SEQB")(machine="PIANO1"),
+    # rest_all(3), # this is downward motion "LH" figure only
     )
 
-mod_and_seq(
-    seq_ref("PASSING_SEQB")(machine="PIANO2"),
-    )
+# mod_and_seq(
+#     seq_ref("PASSING_SEQB")(machine="PIANO2"),
+#     )
 
 PASSING = PASSING.tag(["tempo:92:3:8:Dreamy"])
 
