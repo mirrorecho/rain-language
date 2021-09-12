@@ -121,7 +121,7 @@ def get_attachment(tag_name:str):
     elif tag_name[:14] == "markup_column:":
         return list(reversed([abjad.Markup(m, direction=abjad.Up) for m in tag_name[14:].split("|")]))
     else:
-        return abjad.Markup(tag_name, direction=direction)
+        return abjad.Markup(tag_name, direction=direction or abjad.Up)
 
 
 # TODO: CONSIDER RE-IMPLEMENTING PIECES FROM BELOW AS NEEDED

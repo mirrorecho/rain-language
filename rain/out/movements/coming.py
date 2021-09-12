@@ -55,8 +55,8 @@ COMING.extend(
     par(
         # seq_ref("COMING_1")(machine="FLUTE"),
         # TODO: start with single notes, then two-note chords
-        rest_all(1, "PIANO1") + seq_ref("OSTI_CHORDS").tag(["p"])(machine="PIANO1"),
-        coming_cell(dur=[4,4,4,2,2,], degree=[0]*8)(octave=-1, machine="PIANO2")
+        rest_all(1, "PIANO1") + seq_ref("OSTI_CHORDS")(machine="PIANO1"),
+        coming_cell(dur=[4,4,4,2,2,], degree=[0]*8).tag(["^p"])(octave=-1, machine="PIANO2")
     ),
     par(
         # TODO: ideally this is only the first two notes

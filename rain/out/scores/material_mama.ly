@@ -18,1043 +18,863 @@
             r1
             r1
             r1
-            gs''1
-            \p
-            \<
-            d'''8.
+            r8
+            cs'''8
             \mf
-            b''16
-            ~
-            b''8
-            d'''8
-            b''8
-            d'''8
-            r4
-            r4
-            ef'''4
-            - \tenuto
-            bf''4
-            - \tenuto
-            gf''4
-            - \tenuto
-            r1
-            af''1
-            \p
-            \<
-            f''8.
-            \mf
-            af''16
-            ~
-            af''8
-            f''8
-            af''8
-            f''8
-            r4
-            f''8.
-            d''16
-            ~
-            d''8
-            f''8
-            d''8
-            f''8
-            r4
-            d''8.
-            f''16
-            ~
-            f''8
-            d''8
-            f''8
-            d''8
-            r4
-            b''1
-            \p
-            \<
-            f'''8.
-            d'''16
-            ~
-            d'''4
-            ~
-            d'''4
-            r4
-            f'''8.
-            d'''16
-            ~
-            d'''4
-            ~
-            d'''4
-            r4
-            c'''8.
-            (
-            a''16
-            ~
-            a''8
-            )
-            fs''8
-            ~
-            (
-            fs''16
-            a''8.
-            )
-            d''16
-            (
-            c''8.
-            )
-            b'8.
-            (
-            a'16
-            ~
-            a'8
-            )
-            c'8
-            ~
-            c'4
-            r4
-            r1
-            r1
-            r1
-            r2
-            b''4
-            \mf
-            \<
-            ~
-            b''8
+            - \staccato
+            e'''16
+            - \staccato
+            fs'''16
+            - \staccato
             gs'''8
+            - \staccato
+            - \accent
+            r4
+            \tweak style #'cross
+            c'''4
+            - \accent
+            ^ \markup { * }
+            ^ \markup { (in any register) }
+            ^ \markup { roughly on this pitch }
+            ^ \markup { vocal sound into flute, }
+            ^ \markup { * make a scary/scared }
+            r8
+            cs'''8
+            - \staccato
+            e'''16
+            - \staccato
+            fs'''16
+            - \staccato
+            gs'''8
+            - \staccato
+            - \accent
+            r4
+            \tweak style #'cross
+            c'''4
+            - \accent
+            ^ \markup { * }
+            ^ \markup { (vary the sound each time) }
+            r2
+            fs'''2
+            \mp
+            \<
+            ~
+            fs'''2
+            ~
+            fs'''4
+            ~
+            fs'''8
+            cs''''8
+            \f
+            - \accent
+            - \staccato
+            r1
+            r8
+            df'''8
+            - \staccato
+            gf'''16
+            - \staccato
+            af'''16
+            - \staccato
+            bf'''8
+            - \staccato
+            - \accent
+            r4
+            \tweak style #'cross
+            c'''4
+            - \accent
+            ^ \markup { * }
+            r4
+            \tweak style #'cross
+            c'''4
+            - \accent
+            ^ \markup { * }
+            af''2
+            \mf
+            \<
+            ef'''4
             \f
             - \accent
             - \staccato
             r4
-            fs'''4
-            - \tenuto
-            cs'''4
-            - \tenuto
-            a''4
-            - \tenuto
-            r8.
-            - \tenuto
-            r16
-            - \tenuto
-            r8
-            a''8
-            - \tenuto
-            ~
-            a''8
-            fs''8
-            - \tenuto
-            b''4
-            - \tenuto
-            cs'''8.
-            - \tenuto
-            cs'''16
-            - \tenuto
-            ~
-            cs'''8
-            cs'''8
-            - \tenuto
-            ~
-            cs'''8
-            cs'''8
-            - \tenuto
-            cs'''4
-            - \tenuto
-            r1
-            r1
-            r8
-            [
-            b''8
-            \mp
-            - \tenuto
-            \<
-            ]
-            b''8
-            - \tenuto
-            [
-            b''8
-            - \tenuto
-            ]
-            b''8
-            - \tenuto
-            [
-            b''8
-            - \tenuto
-            ]
-            b''8
-            - \tenuto
+            r2
+            gf'''4
+            (
+            bf'''4
             - \accent
-            [
-            b''8
-            \f
+            )
+            r2
+            ef'''4
+            (
+            gf'''4
+            - \accent
+            )
+            r2
+            r8
+            g''8
+            - \staccato
+            af''16
+            - \staccato
+            bf''16
+            - \staccato
+            c'''8
             - \staccato
             - \accent
-            ]
+            r8
+            g''8
+            - \staccato
+            af''16
+            - \staccato
+            bf''16
+            - \staccato
+            c'''8
+            - \staccato
+            - \accent
+            f''4
+            (
+            af''4
+            - \accent
+            )
+            r8
+            f''8
+            - \staccato
+            bf''16
+            - \staccato
+            c'''16
+            - \staccato
+            d'''8
+            - \staccato
+            - \accent
+            r4
+            \tweak style #'cross
+            gf''4
+            - \accent
+            ^ \markup { * }
+            r4
+            \tweak style #'cross
+            gf''4
+            - \accent
+            ^ \markup { * }
+            r4
+            \tweak style #'cross
+            gf''4
+            - \accent
+            ^ \markup { * }
+            r8
+            \tweak style #'cross
+            af''8
+            - \accent
+            ^ \markup { * }
+            r8
+            \tweak style #'cross
+            af''8
+            - \accent
+            ^ \markup { * }
+            r8
+            cs'''8
+            - \staccato
+            d'''16
+            - \staccato
+            e'''16
+            - \staccato
+            fs'''8
+            - \staccato
+            - \accent
+            r8
+            cs'''8
+            - \staccato
+            d'''16
+            - \staccato
+            e'''16
+            - \staccato
+            fs'''8
+            - \staccato
+            - \accent
+            r4
+            d'''4
+            \p
+            \<
+            ~
+            d'''2
+            \tweak style #'cross
+            bf''4
+            \f
+            - \accent
+            ^ \markup { * }
+            r4
+            r2
+            r1
+            r4
+            \tweak style #'cross
+            c'''4
+            - \accent
+            ^ \markup { * }
+            r2
+            r2
+            r4
+            \tweak style #'cross
+            c'''4
+            - \accent
+            ^ \markup { * }
+            r4
+            \tweak style #'cross
+            d'''4
+            - \accent
+            ^ \markup { * }
+            r4
+            \tweak style #'cross
+            d'''4
+            - \accent
+            ^ \markup { * }
+            r1
+            \tweak style #'diamond
+            bf'1
+            \fermata
+            \f
+            ^ \markup { (air tones only) }
+            ^ \markup { hyperventilate into flute! }
+            \bar "|."
         }
         \context PianoStaff = ""
         <<
             \context Staff = "Piano 1"
             {
-                \tempo Intense 4=126
+                \tempo Agitated 4=160
                 \time 4/4
                 \clef "treble"
-                ef''8.
+                <as e'>1
+                :32
                 \p
-                (
-                c''16
-                ~
-                c''8
-                )
-                a''8
-                ~
-                (
-                a''16
-                c''8.
-                )
-                f''16
-                (
-                ef''8.
-                )
-                d''8.
-                (
-                c''16
-                ~
-                c''8
-                )
-                ef''8
-                ~
-                (
-                ef''16
-                c''8.
-                )
-                f''16
-                (
-                g''8.
-                )
-                g''8.
-                g''16
-                ~
-                g''8
-                g''8
-                ~
-                g''16
-                g''8.
-                g''16
-                (
-                f''8.
-                )
-                c''8.
-                (
-                a''16
-                ~
-                a''8
-                )
-                fs''8
-                ~
-                (
-                fs''16
-                a''8.
-                )
-                d''16
-                (
-                c''8.
-                )
-                b'8.
-                (
-                a''16
-                ~
-                a''8
-                )
-                c''8
-                ~
-                (
-                c''16
-                a''8.
-                )
-                d'''16
-                (
-                e'''8.
-                )
-                e'''8.
                 \<
-                e'''16
-                ~
-                e'''8
-                e'''8
-                ~
-                e'''16
-                e'''8.
-                e'''16
-                (
-                d'''8.
-                )
-                gs''1
+                as8
                 \mf
-                r4
-                \clef "bass"
-                <ef gf bf>4
-                ~
-                <ef gf bf>2
-                ef8
-                (
-                [
-                gf8
-                ]
-                ef8
-                [
-                gf8
-                )
-                ]
-                f8
-                (
-                [
-                af8
-                ]
-                f8
-                [
-                af8
-                )
-                ]
-                gf8
-                (
-                [
-                bf8
-                ]
-                gf8
-                [
-                bf8
-                )
-                ]
-                af8
-                (
-                [
-                c'8
-                )
-                ]
-                bf8
-                (
-                [
-                d'8
-                ]
-                bf8
-                [
-                d'8
-                )
-                ]
-                c'8
-                (
-                [
-                ef'8
-                )
-                ]
-                d'8
-                (
-                [
-                f'8
-                ]
-                d'8
-                [
-                f'8
-                )
-                ]
-                \clef "treble"
-                ef'8
-                (
-                [
-                g'8
-                ]
-                ef'8
-                [
-                g'8
-                )
-                ]
-                f'8
-                (
-                [
-                a'8
-                ]
-                f'8
-                [
-                a'8
-                )
-                ]
-                g'8
-                (
-                [
-                b'8
-                ]
-                g'8
-                [
-                b'8
-                )
-                ]
-                a'8
-                (
-                [
-                c''8
-                )
-                ]
-                b'8
-                (
-                [
-                d''8
-                ]
-                b'8
-                [
-                d''8
-                )
-                ]
-                c''8
-                (
-                [
-                ef''8
-                )
-                ]
-                d''8
-                (
-                [
-                f''8
-                ]
-                d''8
-                [
-                f''8
-                )
-                ]
-                <b' g''>1
-                <b' g''>1
-                <fs' e''>1
-                <gs' e''>1
-                ~
-                <gs' e''>1
-                <c'' c'''>8.
-                - \tenuto
-                <a' a''>16
-                - \tenuto
-                ~
-                <a' a''>8
-                <fs' fs''>8
-                - \tenuto
-                ~
-                <fs' fs''>8
-                <a' a''>8
-                - \tenuto
-                <d'' d'''>4
-                - \tenuto
-                <b' b''>8.
-                - \tenuto
-                <a' a''>16
-                - \tenuto
-                ~
-                <a' a''>8
-                <c'' c'''>8
-                - \tenuto
-                ~
-                <c'' c'''>8
-                <a' a''>8
-                - \tenuto
-                r4
-                - \tenuto
-                r8
-                [
-                <fs' a' fs''>8
-                \mp
-                - \tenuto
-                \<
-                ]
-                <fs' a' fs''>8
-                - \tenuto
-                [
-                <fs' a' fs''>8
-                - \tenuto
-                ]
-                <gs' b' gs''>8
-                - \tenuto
-                [
-                <gs' b' gs''>8
-                - \tenuto
-                ]
-                <gs' b' gs''>8
-                - \tenuto
-                - \accent
-                [
-                <gs' b' gs''>8
-                \f
                 - \staccato
-                - \accent
-                ]
-                r4
-                <fs' a' cs''>4
-                ~
-                <fs' a' cs''>2
-                r4
+                ds'8
+                - \staccato
+                e'8
+                - \staccato
+                ds'8
+                - \staccato
+                as8
+                - \staccato
+                ds'8
+                - \staccato
+                e'8
+                - \staccato
+                ds'8
+                - \staccato
+                c'8
+                - \staccato
+                ds'8
+                - \staccato
+                e'8
+                - \staccato
+                ds'8
+                - \staccato
+                as8
+                - \staccato
+                ds'8
+                - \staccato
+                e'8
+                - \staccato
+                ds'8
+                - \staccato
+                as8
+                - \staccato
+                ds'8
+                - \staccato
+                e'8
+                - \staccato
+                ds'8
+                - \staccato
+                c'8
+                - \staccato
+                ds'8
+                - \staccato
+                e'8
+                - \staccato
+                ds'8
+                - \staccato
+                <c' ds' e'>1
+                :32
+                c'8
+                - \staccato
+                cs'8
+                - \staccato
+                e'8
+                - \staccato
+                cs'8
+                - \staccato
+                c'8
+                - \staccato
+                ds'8
+                - \staccato
+                e'8
+                - \staccato
+                ds'8
+                - \staccato
+                c'8
+                - \staccato
+                cs'8
+                - \staccato
+                e'8
+                - \staccato
+                cs'8
+                - \staccato
+                c'8
+                - \staccato
+                cs'8
+                - \staccato
+                e'8
+                - \staccato
+                cs'8
+                - \staccato
+                c'8
+                - \staccato
+                ds'8
+                - \staccato
+                e'8
+                - \staccato
+                ds'8
+                - \staccato
+                c'8
+                - \staccato
+                cs'8
+                - \staccato
+                e'8
+                - \staccato
+                cs'8
+                - \staccato
+                c'8
+                - \staccato
+                cs'8
+                - \staccato
                 fs'8
-                (
-                [
-                a'8
-                )
-                ]
-                gs'8
-                (
-                [
-                b'8
-                )
-                ]
-                a'8
-                (
-                [
-                cs''8
-                )
-                ]
-                b'8
-                (
-                [
-                ds''8
-                )
-                ]
-                cs''8
-                (
-                [
-                f''8
-                )
-                ]
-                ds''8
-                (
-                [
-                fs''8
-                )
-                ]
-                f''8
-                (
-                [
-                gs''8
-                )
-                ]
-                r4
-                g'8
-                (
-                [
-                b'8
-                )
-                ]
-                a'8
-                (
-                [
-                c''8
-                )
-                ]
-                b'8
-                (
-                [
-                d''8
-                )
-                ]
-                c''8
-                (
-                [
-                ef''8
-                )
-                ]
-                d''8
-                (
-                [
-                f''8
-                )
-                ]
-                ef''8
-                (
-                [
-                g''8
-                )
-                ]
-                f''8
-                (
-                [
-                a''8
-                )
-                ]
-                r8
-                [
-                <a' c'' a''>8
+                - \staccato
+                cs'8
+                - \staccato
+                c'8
+                - \staccato
+                cs'8
+                - \staccato
+                e'8
+                - \staccato
+                cs'8
+                - \staccato
+                <c' df' gf'>1
+                :32
                 \mp
-                - \tenuto
                 \<
-                ]
-                <a' c'' a''>8
-                - \tenuto
-                [
-                <a' c'' a''>8
-                - \tenuto
-                ]
-                <b' d'' b''>8
-                - \tenuto
-                [
-                <b' d'' b''>8
-                - \tenuto
-                ]
-                <b' d'' b''>8
-                - \tenuto
-                - \accent
-                [
-                <b' d'' b''>8
+                c'8
                 \f
                 - \staccato
-                - \accent
-                ]
-                r1
-                \clef "bass"
-                c8
-                \>
-                (
-                ef8
-                g8
+                df'8
+                - \staccato
+                gf'8
+                - \staccato
+                df'8
+                - \staccato
                 c'8
-                \clef "treble"
+                - \staccato
+                df'8
+                - \staccato
+                gf'8
+                - \staccato
+                df'8
+                - \staccato
+                c'8
+                - \staccato
+                f'8
+                - \staccato
+                gf'8
+                - \staccato
+                f'8
+                - \staccato
+                c'8
+                - \staccato
+                f'8
+                - \staccato
+                gf'8
+                - \staccato
+                f'8
+                - \staccato
+                <c' gf'>1
+                :32
+                c'8
+                - \staccato
+                f'8
+                - \staccato
+                gf'8
+                - \staccato
+                f'8
+                - \staccato
+                d'8
+                - \staccato
+                f'8
+                - \staccato
+                gf'8
+                - \staccato
+                f'8
+                - \staccato
+                d'8
+                - \staccato
                 ef'8
+                - \staccato
+                gf'8
+                - \staccato
+                ef'8
+                - \staccato
+                d'8
+                - \staccato
+                ef'8
+                - \staccato
+                af'8
+                - \staccato
+                ef'8
+                - \staccato
+                d'8
+                - \staccato
                 g'8
-                c''8
-                ef''8
-                g''8
-                c'''8
-                ef'''8
-                g'''8
-                \ottava 1
-                c''''8
-                ef''''8
-                g''''8
-                c'''''8
+                - \staccato
+                af'8
+                - \staccato
+                g'8
+                - \staccato
+                e'8
+                - \staccato
+                g'8
+                - \staccato
+                af'8
+                - \staccato
+                g'8
+                - \staccato
+                e'8
+                - \staccato
+                f'8
+                - \staccato
+                af'8
+                - \staccato
+                f'8
+                - \staccato
+                e'8
+                - \staccato
+                f'8
+                - \staccato
+                bf'8
+                - \staccato
+                f'8
+                - \staccato
+                <e'' bf''>1
+                :32
                 \p
-                ~
-                c'''''1
-                )
-                \ottava 0
+                \<
+                <fs'' b'' c'''>4
+                \f
+                - \accent
+                - \staccato
+                r4
+                r8
+                b''8
+                - \staccato
+                c'''16
+                - \staccato
+                d'''16
+                - \staccato
+                e'''8
+                - \staccato
+                - \accent
+                r8
+                - \staccato
+                cs'''8
+                - \staccato
+                d'''8
+                - \staccato
+                cs'''8
+                - \staccato
+                as''8
+                - \staccato
+                cs'''8
+                - \staccato
+                d'''8
+                - \staccato
+                cs'''8
+                - \staccato
+                <gs'' cs''' d'''>1
+                :32
+                \p
+                \<
+                r8
+                - \staccato
+                cs'''8
+                \f
+                - \staccato
+                d'''8
+                - \staccato
+                cs'''8
+                - \staccato
+                as''8
+                - \staccato
+                b''8
+                - \staccato
+                d'''8
+                - \staccato
+                b''8
+                - \staccato
+                as''8
+                - \staccato
+                ds'''8
+                - \staccato
+                e'''8
+                - \staccato
+                ds'''8
+                - \staccato
+                c'''8
+                - \staccato
+                ds'''8
+                - \staccato
+                e'''8
+                - \staccato
+                ds'''8
+                - \staccato
+                c'''8
+                - \staccato
+                cs'''8
+                - \staccato
+                e'''8
+                - \staccato
+                cs'''8
+                - \staccato
+                c'''8
+                - \staccato
+                cs'''8
+                - \staccato
+                fs'''8
+                - \staccato
+                cs'''8
+                - \staccato
+                c'''8
+                - \staccato
+                f'''8
+                - \staccato
+                gf'''8
+                - \staccato
+                f'''8
+                - \staccato
+                d'''8
+                - \staccato
+                f'''8
+                - \staccato
+                gf'''8
+                - \staccato
+                f'''8
+                - \staccato
+                d'''8
+                - \staccato
+                ef'''8
+                - \staccato
+                gf'''8
+                - \staccato
+                ef'''8
+                - \staccato
+                d'''8
+                - \staccato
+                ef'''8
+                - \staccato
+                af'''8
+                - \staccato
+                ef'''8
+                - \staccato
+                r4
+                <
+                    \tweak style #'diamond
+                    d'
+                    \tweak style #'diamond
+                    e'
+                    \tweak style #'diamond
+                    f'
+                    \tweak style #'diamond
+                    g'
+                    \tweak style #'diamond
+                    a'
+                    \tweak style #'diamond
+                    b'
+                    \tweak style #'diamond
+                    c''
+                    \tweak style #'diamond
+                    d''
+                    \tweak style #'diamond
+                    e''
+                    \tweak style #'diamond
+                    f''
+                >4
+                - \staccato
+                - \accent
+                ^ \markup { * }
+                ^ \markup { with the pedal }
+                ^ \markup { the tail of the sound }
+                ^ \markup { try to capture only }
+                r2
+                <d'' af''>1
+                :32
+                \fermata
+                \ppp
+                \bar "|."
             }
             \context Staff = "Piano 2"
             {
                 \time 4/4
                 \clef "bass"
-                c8
-                (
-                [
-                ef8
-                ]
-                c8
-                [
-                ef8
-                )
-                ]
-                d8
-                (
-                [
-                f8
-                ]
-                d8
-                [
-                f8
-                )
-                ]
-                ef8
-                (
-                [
-                g8
-                ]
-                ef8
-                [
-                g8
-                )
-                ]
-                f8
-                (
-                [
-                a8
-                )
-                ]
-                g8
-                (
-                [
-                b8
-                ]
-                g8
-                [
-                b8
-                )
-                ]
-                a8
-                (
-                [
-                c'8
-                )
-                ]
-                b8
-                (
-                [
-                d'8
-                ]
-                b8
-                [
-                d'8
-                )
-                ]
-                \clef "treble"
-                c'8
-                (
-                [
-                e'8
-                ]
-                c'8
-                [
-                e'8
-                )
-                ]
-                d'8
-                (
-                [
-                fs'8
-                ]
-                d'8
-                [
-                fs'8
-                )
-                ]
-                e'8
-                (
-                [
-                gs'8
-                ]
-                e'8
-                [
-                gs'8
-                )
-                ]
-                fs'8
-                (
-                [
-                a'8
-                )
-                ]
-                gs'8
-                (
-                [
-                b'8
-                ]
-                gs'8
-                [
-                b'8
-                )
-                ]
-                a'8
-                (
-                [
-                c''8
-                )
-                ]
-                b'8
-                (
-                [
-                d''8
-                ]
-                b'8
-                [
-                d''8
-                )
-                ]
-                <e' e''>1
-                \clef "bass"
-                <ef,, ef,>1
-                ef,8
-                (
-                [
-                gf,8
-                ]
-                ef,8
-                [
-                gf,8
-                )
-                ]
-                f,8
-                (
-                [
-                af,8
-                ]
-                f,8
-                [
-                af,8
-                )
-                ]
-                gf,8
-                (
-                [
-                bf,8
-                ]
-                gf,8
-                [
-                bf,8
-                )
-                ]
-                af,8
-                (
-                [
-                c8
-                )
-                ]
-                bf,8
-                (
-                [
-                d8
-                ]
-                bf,8
-                [
-                d8
-                )
-                ]
-                c8
-                (
-                [
-                ef8
-                )
-                ]
-                d8
-                (
-                [
-                f8
-                ]
-                d8
-                [
-                f8
-                )
-                ]
-                ef8
-                (
-                [
-                g8
-                ]
-                ef8
-                [
-                g8
-                )
-                ]
-                f8
-                (
-                [
-                a8
-                ]
-                f8
-                [
-                a8
-                )
-                ]
-                g8
-                (
-                [
-                b8
-                ]
-                g8
-                [
-                b8
-                )
-                ]
-                a8
-                (
-                [
-                c'8
-                )
-                ]
-                b8
-                (
-                [
-                d'8
-                ]
-                b8
-                [
-                d'8
-                )
-                ]
-                c'8
-                (
-                [
-                ef'8
-                )
-                ]
-                d'8
-                (
-                [
-                f'8
-                ]
-                d'8
-                [
-                f'8
-                )
-                ]
-                <g g'>1
-                <g g'>1
-                <a e'>1
-                <a e'>1
-                ~
-                <a e'>1
-                <a e'>4
-                - \tenuto
-                <a e'>4
-                - \tenuto
-                <a e'>4
-                - \tenuto
-                <a e'>4
-                - \tenuto
-                <b fs'>4
-                - \tenuto
-                <b fs'>4
-                - \tenuto
-                <b fs'>4
-                - \tenuto
-                <b fs'>4
-                - \tenuto
-                r8
-                [
-                <e, e>8
-                - \tenuto
-                ]
-                <e, e>8
-                - \tenuto
-                [
-                <e, d>8
-                - \tenuto
-                ]
-                <e, d>8
-                - \tenuto
-                [
-                <e, d>8
-                - \tenuto
-                ]
-                <e, d>8
-                - \tenuto
-                - \accent
-                [
-                <e, d>8
+                r1
+                r1
+                r1
+                r1
+                r1
+                <
+                    \tweak style #'diamond
+                    g,
+                    \tweak style #'diamond
+                    a,
+                    \tweak style #'diamond
+                    b,
+                    \tweak style #'diamond
+                    c
+                    \tweak style #'diamond
+                    d
+                    \tweak style #'diamond
+                    e
+                    \tweak style #'diamond
+                    f
+                    \tweak style #'diamond
+                    g
+                    \tweak style #'diamond
+                    a
+                >4
                 - \staccato
                 - \accent
-                ]
+                _ \markup { * forearm on keys }
                 r4
-                <fs, fs>4
-                - \tenuto
-                <cs, cs>4
-                - \tenuto
-                <a,, a,>4
-                - \tenuto
-                r4
-                fs,8
-                (
-                [
-                a,8
-                )
-                ]
-                gs,8
-                (
-                [
-                b,8
-                )
-                ]
-                a,8
-                (
-                [
-                cs8
-                )
-                ]
-                b,8
-                (
-                [
-                ds8
-                )
-                ]
-                cs8
-                (
-                [
-                f8
-                )
-                ]
-                ds8
-                (
-                [
-                fs8
-                )
-                ]
-                f8
-                (
-                [
-                gs8
-                )
-                ]
-                r4
-                g,8
-                (
-                [
-                b,8
-                )
-                ]
-                a,8
-                (
-                [
-                c8
-                )
-                ]
-                b,8
-                (
-                [
-                d8
-                )
-                ]
-                c8
-                (
-                [
-                ef8
-                )
-                ]
-                d8
-                (
-                [
-                f8
-                )
-                ]
-                ef8
-                (
-                [
-                g8
-                )
-                ]
-                f8
-                (
-                [
-                a8
-                )
-                ]
-                r8
-                [
-                <g, g>8
-                - \tenuto
-                ]
-                <g, g>8
-                - \tenuto
-                [
-                <g, f>8
-                - \tenuto
-                ]
-                <g, f>8
-                - \tenuto
-                [
-                <g, f>8
-                - \tenuto
-                ]
-                <g, f>8
-                - \tenuto
-                - \accent
-                [
-                <g, f>8
-                - \staccato
-                - \accent
-                ]
+                r2
+                r1
+                r1
                 r2
                 r4
-                <c,, c,>4
+                r8
+                <
+                    \tweak style #'diamond
+                    g,
+                    \tweak style #'diamond
+                    a,
+                    \tweak style #'diamond
+                    b,
+                    \tweak style #'diamond
+                    c
+                    \tweak style #'diamond
+                    d
+                    \tweak style #'diamond
+                    e
+                    \tweak style #'diamond
+                    f
+                    \tweak style #'diamond
+                    g
+                    \tweak style #'diamond
+                    a
+                >8
+                - \staccato
                 - \accent
-                ~
-                <c,, c,>1
-                ~
-                <c,, c,>1
-                ~
-                <c,, c,>1
+                _ \markup { * }
+                r1
+                r2
+                r4
+                <e,, e,>4
+                - \accent
+                - \staccato
+                r4
+                <gf,, gf,>4
+                - \accent
+                - \staccato
+                r2
+                <
+                    \tweak style #'diamond
+                    g,
+                    \tweak style #'diamond
+                    a,
+                    \tweak style #'diamond
+                    b,
+                    \tweak style #'diamond
+                    c
+                    \tweak style #'diamond
+                    d
+                    \tweak style #'diamond
+                    e
+                    \tweak style #'diamond
+                    f
+                    \tweak style #'diamond
+                    g
+                    \tweak style #'diamond
+                    a
+                >4
+                - \staccato
+                - \accent
+                _ \markup { * }
+                r4
+                r2
+                r4
+                <bf, gf>4
+                - \tenuto
+                - \accent
+                gf,4
+                (
+                <d gf>4
+                )
+                ef4
+                - \tenuto
+                - \accent
+                r4
+                ef,4
+                (
+                <c ef>4
+                )
+                af,4
+                (
+                <c af>4
+                )
+                af,4
+                (
+                <e af>4
+                )
+                f,4
+                (
+                <af, f>4
+                )
+                f,4
+                (
+                <d f>4
+                )
+                bf,8
+                - \staccato
+                <d bf>8
+                - \staccato
+                bf,8
+                - \staccato
+                <gf bf>8
+                - \staccato
+                g,8
+                - \staccato
+                <bf, g>8
+                - \staccato
+                g,8
+                - \staccato
+                <e g>8
+                - \staccato
+                c8
+                - \staccato
+                <e c'>8
+                - \staccato
+                c8
+                - \staccato
+                <gs c'>8
+                - \staccato
+                a,8
+                - \staccato
+                <c a>8
+                - \staccato
+                a,8
+                - \staccato
+                <fs a>8
+                - \staccato
+                <d, d>4
+                - \accent
+                - \staccato
+                r4
+                d,4
+                (
+                <as, d>4
+                )
+                <cs d gs>1
+                :32
+                \p
+                \<
+                r4
+                <d, d>4
+                - \accent
+                - \staccato
+                r4
+                <d, d>4
+                - \accent
+                - \staccato
+                as,,8
+                - \staccato
+                ds,8
+                - \staccato
+                e,8
+                - \staccato
+                ds,8
+                - \staccato
+                c,8
+                - \staccato
+                ds,8
+                - \staccato
+                e,8
+                - \staccato
+                ds,8
+                - \staccato
+                r4
+                <e,, e,>4
+                - \accent
+                - \staccato
+                c,8
+                - \staccato
+                cs,8
+                - \staccato
+                fs,8
+                - \staccato
+                cs,8
+                - \staccato
+                c,8
+                - \staccato
+                f,8
+                - \staccato
+                gf,8
+                - \staccato
+                f,8
+                - \staccato
+                r4
+                <gf,, gf,>4
+                - \accent
+                - \staccato
+                r4
+                <gf,, gf,>4
+                - \accent
+                - \staccato
+                r4
+                <gf,, gf,>4
+                - \accent
+                - \staccato
+                r4
+                <
+                    \tweak style #'diamond
+                    g,
+                    \tweak style #'diamond
+                    a,
+                    \tweak style #'diamond
+                    b,
+                    \tweak style #'diamond
+                    c
+                    \tweak style #'diamond
+                    d
+                    \tweak style #'diamond
+                    e
+                    \tweak style #'diamond
+                    f
+                    \tweak style #'diamond
+                    g
+                    \tweak style #'diamond
+                    a
+                >4
+                - \staccato
+                - \accent
+                _ \markup { * }
+                \sustainOn
             }
         >>
     >>
