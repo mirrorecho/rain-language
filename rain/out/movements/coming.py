@@ -278,4 +278,4 @@ if __name__ == "__main__":
     score.reset()
     pr = rain.PatternReader(COMING, score.get_palette())
     pr.read()
-    score.render()
+    score.render("COMING")

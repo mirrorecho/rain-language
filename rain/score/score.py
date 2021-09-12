@@ -40,12 +40,12 @@ class Score(rain.MachineTree):
                 self.prep_staves(s)
 
     
-    def render(self):
+    def render(self, name=""):
 
         self.prep_staves(self)
 
         abjad.show(self.notation_object,
             output_directory="./rain-language/rain/out/scores/", 
             should_open=False,
-            render_prefix="material_mama",
+            render_prefix="SCORE_" + self.key + "_" + name,
         )

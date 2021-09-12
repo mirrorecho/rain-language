@@ -1,5 +1,5 @@
 # PDFS and MIDI
-*.pdf
+# *.pdf ALLOWING PDFS FOR NOW SO I CAN TRANSFER FROM CONTAINER ... come up with a better solution
 *.midi
 *.mid
 *.log
