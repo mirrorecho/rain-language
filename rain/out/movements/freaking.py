@@ -98,7 +98,7 @@ FREAKING.extend(
     # flute enters, highlighting the lines in an angular way
     # lower forarm on keys on first (and maybe final 8ths??)
     # (OutCell("FREAKING3") + OutCell("FREAKING2") + OutCell("FREAKING3")*2 )(machine="PIANO1"),
-    rain.Parallel.create().extend(
+    par(
         seq(
             flute_figure("FREAKING3").tag([],["mf"]),
             flute_freak("FREAKING2", instructions="markup_column:* make a scary/scared|vocal sound into flute,|roughly on this pitch|(in any register)"),

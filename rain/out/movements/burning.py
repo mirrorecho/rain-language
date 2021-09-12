@@ -6,15 +6,22 @@ import rain
 
 from rain.out.out_cell import (GlobalTonic, OutCell, OutCellFactory, add_modulate)
 from rain.out.score_machine import score_with_meter, rest_all
+from rain import ref, par, seq, par_ref, seq_ref
+from rain.score import meters
 
 M = rain.MeddleHelper
-
 
 # TODO: likely change start global tonic
 burning_cell = OutCellFactory(mode=5, global_tonic=GlobalTonic(-4))
 burning_tonic = GlobalTonic(-4)
 
-# current_tonic = start_tonic # TODO: keep this?????
+# TODO: these are repeated in every movement... DRY
+def mod_and_seq_return(pitches=5, *patterns):
+    burning_tonic.modulate(pitches)
+    return seq(*patterns).alter(add_modulate(burning_tonic))
+
+def mod_and_seq(pitches=5, *patterns):
+    BURNING.append(mod_and_seq_return(pitches, *patterns))
 
 def space_intervals(s, v:dict):
     degree = v["degree"]
@@ -36,7 +43,7 @@ burning_cell("TINY_BURN_LOW", degree=[-3,-4,-4,-1], dur=cycle([0.5]), tonic_mod=
 #     machine=cycle(("PIANO1",)),
 #     tags =cycle((None,)),
 # )
-rain.Parallel.create("TINIEST_BURN").extend(
+par("TINIEST_BURN").extend(
     rain.ref("TINIEST_BURN_HI")(degree=space_intervals, machine="PIANO1"),
     rain.ref("TINIEST_BURN_LOW")(machine="PIANO2") 
     )

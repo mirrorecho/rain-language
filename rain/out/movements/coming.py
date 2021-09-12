@@ -271,7 +271,7 @@ mod_and_seq(-7,
     )
 )
 
-COMING = COMING.tag(["tempo:112:1:4:???"])
+COMING = COMING.tag(["tempo:112:1:4"])
 
 if __name__ == "__main__":
     score = score_with_meter()
