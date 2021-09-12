@@ -176,11 +176,11 @@ mod_and_seq(
 
         )(machine="PIANO1"),
         passing_cell(
-            dur=[1.5,1.5,4,2,3], 
-            leaf_durs=[1.5,1.5,(3,1),2,3],
-            degree=[2,0,0,1,0], octave=[-2,-1,-1,0,-3],
+            dur=[1.5,1.5,4,2,1,2], 
+            leaf_durs=[1.5,1.5,(3,1),2,1,2],
+            degree=[2,0,0,1,None,0], octave=[-2,-1,-1,-1,0,-3],
             ).tag(
-            [],["~"],["fermata"],["fermata"],["fermata","8vb","|."])(machine="PIANO2")
+            [],["~"],["fermata"],["fermata"],["fermata"],["^fff", "fermata","8vb","|."])(machine="PIANO2")
     )
     # seq_ref("PASSING_SEQA")(machine="PIANO1"),
     # seq_ref("PASSING_SEQB")(machine="PIANO1"),

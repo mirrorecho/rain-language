@@ -40,25 +40,33 @@ def get_attachment(tag_name:str):
         elif isinstance(leaf, abjad.Note):
             abjad.tweak(leaf.note_head).style ="#'" + style
 
+    direction = None
+    if len(tag_name)>1:
+        if tag_name[0] == "_":
+            direction = abjad.Down
+            tag_name = tag_name[1:]
+        elif tag_name[0] == "^":
+            direction = abjad.Up
+            tag_name = tag_name[1:]
 
     if tag_name in articulations_inventory:
-        return abjad.Articulation(name=tag_name)
+        return abjad.Articulation(name=tag_name, direction=direction)
     elif tag_name in dynamics_inventory:
-        return abjad.Dynamic(name=tag_name)
+        return abjad.Dynamic(name=tag_name, direction=direction)
     elif tag_name == "(":
-        return abjad.StartSlur()
+        return abjad.StartSlur(direction=direction)
     elif tag_name == "((":
-        return abjad.StartPhrasingSlur()
+        return abjad.StartPhrasingSlur(direction=direction)
     elif tag_name == ")":
         return abjad.StopSlur()
     elif tag_name == "))":
         return abjad.StopPhrasingSlur()
     elif tag_name in hairpins_inventory:
-        return abjad.StartHairpin(tag_name[1])
+        return abjad.StartHairpin(tag_name[1], direction=direction)
     elif tag_name == r"\!":
         return abjad.StopHairpin()
     elif tag_name == "[":
-        return abjad.StartBeam()
+        return abjad.StartBeam(direction=direction)
     elif tag_name == "]":
         return abjad.StopBeam()
     elif tag_name in fermatas_inventory:
@@ -71,7 +79,7 @@ def get_attachment(tag_name:str):
         print("WARNING: tremolos not implemented")
         # return abjad.Tremolo(beam_count=tremolo_count, is_slurred=True)
     elif tag_name == "~":
-        return abjad.Tie()
+        return abjad.Tie(direction=direction)
     elif tag_name == "8va":
         return abjad.Ottava(n=1)
     elif tag_name == "8vb":
@@ -112,10 +120,8 @@ def get_attachment(tag_name:str):
         return abjad.LilyPondLiteral(tag_name[1:], "after")
     elif tag_name[:14] == "markup_column:":
         return list(reversed([abjad.Markup(m, direction=abjad.Up) for m in tag_name[14:].split("|")]))
-    elif tag_name[:1] == "_":
-        return abjad.Markup(tag_name[1:], direction=abjad.Down)
     else:
-        return abjad.Markup(tag_name, direction=abjad.Up)
+        return abjad.Markup(tag_name, direction=direction)
 
 
 # TODO: CONSIDER RE-IMPLEMENTING PIECES FROM BELOW AS NEEDED
