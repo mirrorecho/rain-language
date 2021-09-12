@@ -317,6 +317,7 @@ class AddChordDegree(AlterPattern):
         self._degree_iter = iter(self.degree)
         self.vein_hooks = [lambda s, v: self.add_degrees(v)]
 
+# =========================================================================
 
 @dataclass
 #TODO: ditto as above, can't represent this natively in a graph ... OK?

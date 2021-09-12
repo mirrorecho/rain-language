@@ -26,20 +26,26 @@ def mod_and_seq(pitches=2, *patterns):
 
 making_rhythm = [0.75]*4 + [0.25, 0.75]
 making_rhythm_durs = (0.75, [0.25, 0.5], [0.5, 0.25], 0.75, 0.25, 0.75)
+making_rhythm_yo = [0.75, 0.75, 1, 0.5, 1]
+making_rhythm_yo_durs = [0.75, [0.25, 0.5], [0.5, 0.5], 0.5, 1]
 making_degrees1 = [2,0,5,0,3,2]
 making_degrees2 = [1,0,2,0,3,4,]
 making_degrees3 = [4,4,4,4,4,3]
 
 
 
-def make_walk(key=None, degree=0, repeat_degree=7, repeats=(2,2,2,1,2,1,2)):
+def make_walk(key=None, degree=0, step_degree=2, walk_degree=1, repeats=(2,2,2,1,2,1,2)):
     degrees = []
+    tags=[]
     for rep in repeats:
         for r in range(rep):
-            degrees.extend([degree,degree+2])
-        degree += 1
-    print(degrees)
-    return making_cell(degree=degrees, dur=cycle([0.5])).tag_all(["["], ["]"])
+            degrees.extend([degree,degree+step_degree])
+        tags.append(["("])
+        for i in range(rep*2-2):
+            tags.append([])
+        tags.append([")"])
+        degree += walk_degree
+    return making_cell(degree=degrees, tags=tags, dur=cycle([0.5])).tag_all(["[",], ["]",])
 
 # TODO: DRY
 making_cell("MAKING1",
@@ -55,23 +61,178 @@ OutCell("MAKING1").change(key="MAKING3", degree=making_degrees3).tag(
         [],[],[],[],["("],[")"],key="MAKING3_SLURRED",
     )
 
+making_cell(degree=[0,-3,-5], dur=[1,1,1]).tag_all("-", key="MAKING_DOWN")
+
+jig_rhythm=making_rhythm[:2]+[0.5,0.5,0.5]
+making_cell(
+    degree=cycle([3,1]), dur=jig_rhythm,
+    ).change(key="MAKING_JIG", leaf_durs=[0.75])
+
+def making_whole(degree=0, octave=0, dur=4, key=None):
+    return making_cell(key=key, degree=[degree], octave=[octave], dur=[dur])
+
 seq("MAKINGA_SLURRED", OutCell("MAKING1_SLURRED"), OutCell("MAKING2_SLURRED"), OutCell("MAKING3_SLURRED"),)
+
+# TODO: would be REALLY COOL to vary the number of reps here
+making_cell(dur=[0.5]*8, degree=[-1]*8).tag(
+    [],["-"],["-"],["-"],["-"],["-"],["-",">"],[".", ">"]).tag_all("[", "]", 
+    key="MAKING_TENSE")
 
 # =====================================================================
 
-MAKING.extend(
-    par(
-        seq_ref("MAKINGA_SLURRED")(octave=1, machine="PIANO1"),
-        make_walk()(octave=-1, machine="PIANO2") 
-    )
-)
+# MAKING.extend(
+#     par(
+#         seq_ref("MAKINGA_SLURRED").tag(["p"])(octave=1, machine="PIANO1"),
+#         make_walk()(octave=-1, machine="PIANO2") 
+#     )
+# )
+
+# TODO: WARNING WARNIGN!!!!!
+making_tonic.modulate(-3)
+
+# mod_and_seq(-3,
+#     par(
+#         seq(
+#             rest_all(8, "FLUTE"),
+#             making_whole(-1, octave=2).tag(["p","\<"]),
+#             OutCell("MAKING_JIG").tag(["mf"])(octave=2),
+#             rest_all(1, "FLUTE"),
+#             )(machine="FLUTE"),
+#         #TODO: consider changing the end of this:            
+#         seq(
+#             seq_ref("MAKINGA_SLURRED").change(
+#                 octave=[1,2,1,2,1,1,1,2,1,]+[2]*9,
+#                 ).tag([],[],[],[],[],[],[],[],[],[],[],[],["\<"],),
+#             making_whole(-1, octave=2).tag(["mf"])
+#             )(machine="PIANO1"),
+#         seq(
+#             make_walk(degree=2).tag(["treble"]),
+#             making_whole((-3,4), octave=1),
+#             )(machine="PIANO2") 
+#     )(pitch_spell="SHARP")
+# )
+
+# MEASURE 8 =============================================
+# TODO: WARNING WARNIGN!!!!!
+making_tonic.modulate(6)
+
+# mod_and_seq(6,
+#     par(
+#         seq(
+#             rest_all(1, "FLUTE"),
+#             OutCell("MAKING_DOWN")(octave=2),
+#             rest_all(4, "FLUTE"),
+#             making_whole(3, octave=1).tag(["p","\<"]),
+#             OutCell("MAKING_JIG").tag(["mf"])(octave=1),
+#             )(machine="FLUTE"),
+#         # TODO: vary up these walks a little bit
+#         seq(
+#             making_cell(degree=[None,(0,2,4)], dur=[1,3]).tag([], ["bass"]),
+#             make_walk()(octave=-2),
+#             )(octave=-1, machine="PIANO1"),
+#         seq(
+#             making_cell(dur=[4], degree=[(0,7)], octave=[-3]).tag(["bass"]),
+#             make_walk()(octave=-2),
+#             )(machine="PIANO2")
+#     )(pitch_spell="FLAT")
+# )
+
+# MEASURE 12 =============================================
 
 mod_and_seq(-3,
     par(
-        seq_ref("MAKINGA_SLURRED")(octave=1, machine="PIANO1"),
-        make_walk()(machine="PIANO2") 
-    ) 
+        seq(
+            OutCell("MAKING_JIG")(octave=1), rest_all(1, "FLUTE"),
+            OutCell("MAKING_JIG")(octave=1), rest_all(1, "FLUTE"),
+            making_whole(-1, octave=2).tag(["p","\<"]),
+            making_cell(degree=[3,1, None], dur=[0.75, 2.25, 1])(octave=2).change(leaf_durs=[0.75]),
+            #TODO: add the above to the graph so this can be DRY
+            making_cell(degree=[3,1, None], dur=[0.75, 2.25, 1])(octave=2).change(leaf_durs=[0.75]),
+            )(machine="FLUTE"),
+        #TODO: consider changing the end of this:            
+        seq(
+            make_walk(degree=2).tag(["treble"])(octave=0),
+            making_whole((-1,4), octave=1),
+            making_whole((-1,4), octave=1),
+            )(machine="PIANO1") ,
+        seq(
+            make_walk(degree=2)(octave=-1),
+            making_whole((-3,4), octave=0),
+            making_whole((-3,4), octave=0),
+            )(machine="PIANO2") 
+    )(pitch_spell="FLAT")
 )
+
+# MEASURE 15 =============================================
+mod_and_seq(-3,
+    par(
+        seq(
+            OutCell("MAKING1_SLURRED").change(octave=[2,2,1,2,1,1]),
+            OutCell("MAKING2_SLURRED").alter_leaves(dur=making_rhythm[:2])(octave=1),
+            making_cell(degree=[2, None], dur=[1.5,1])
+        )(machine="FLUTE"),
+        seq(
+            making_whole((-2,4), octave=1),
+            making_whole((-1,4), octave=1, dur=8),
+            )(machine="PIANO1"),
+        seq(
+            making_whole((0,4), octave=0),
+            making_whole((0,4), octave=0, dur=8),
+            )(machine="PIANO2"),
+    )(pitch_spell="SHARP"),
+    # MEASURE 20 =============================================
+    par(
+        seq(
+            rest_all(10, "FLUTE"),
+            making_cell(degree=[1, 6], dur=[1.5,0.5])(octave=2).tag(["mf","\<"], ["f", ">", "."])
+        )(machine="FLUTE"),
+        # TODO: consider not having octaves doubled on ALL of these
+        seq(
+            OutCell("MAKING1").alter_leaves(
+                dur=making_rhythm_yo, leaf_durs=making_rhythm_yo_durs
+                ).change(octave=[1,1,0,1,1]
+                ).add_chord_degree(*([7]*6)).tag_all("-"),
+            OutCell("MAKING2").alter_leaves(
+                dur=making_rhythm_yo, leaf_durs=making_rhythm_yo_durs
+                ).change(degree=[False]*4 + [None],
+                ).add_chord_degree(*([7]*4))(octave=1).tag_all("-"),
+            OutCell("MAKING_TENSE").change(
+                degree=[None]+ [(-2,0,5)]*3 + [(-1,1,6)]*4)(octave=1).tag(
+                [],["mp", "\<"],[],[],[],[],[],["f"],)
+            )(machine="PIANO1"),
+        seq(
+            making_cell(dur=[1]*4, degree=[(0,4)]*4).tag_all("-"),
+            making_cell(dur=[1]*4, degree=[(1,5)]*4).tag_all("-"),
+            OutCell("MAKING_TENSE").change(
+                degree=[None]+ [(-3,4)]*2 + [(-3,3)]*5)(octave=-1)
+            )(machine="PIANO2"),
+    )(pitch_spell="SHARP")
+)
+
+# MEASURE 23 =============================================
+mod_and_seq(-3,
+    par(
+        seq(
+            rest_all(1, "FLUTE"), OutCell("MAKING_DOWN")(octave=3),
+            OutCell("MAKING2").alter_leaves(
+                dur=making_rhythm_yo, leaf_durs=making_rhythm_yo_durs
+                ).change(degree=[None, None])(octave=2).tag_all("-"),
+            OutCell("MAKING3").alter_leaves(
+                dur=making_rhythm_yo, leaf_durs=making_rhythm_yo_durs
+                )(octave=2).tag_all("-"),
+        )(machine="FLUTE"),
+        seq(
+            making_cell(degree=[None,(0,2,4)], dur=[1,3])(octave=1),
+            rest_all(1, "PIANO1"), make_walk(repeats=[1]*7)(octave=1),
+            )(machine="PIANO1"),
+        seq(
+            rest_all(1, "PIANO2") + OutCell("MAKING_DOWN").add_chord_degree(-7,-7,-7),
+            rest_all(1, "PIANO2"), make_walk(repeats=[1]*7)(octave=-1),
+        )(machine="PIANO2"),
+    )(pitch_spell="SHARP")
+)
+
+
 
 MAKING = MAKING.tag(["tempo:126:1:4:Intense"])
 
