@@ -74,70 +74,73 @@ def making_whole(degree=0, octave=0, dur=4, key=None):
 seq("MAKINGA_SLURRED", OutCell("MAKING1_SLURRED"), OutCell("MAKING2_SLURRED"), OutCell("MAKING3_SLURRED"),)
 
 # TODO: would be REALLY COOL to vary the number of reps here
-making_cell(dur=[0.5]*8, degree=[-1]*8).tag(
+making_cell(dur=[0.5]*8, degree=[None]+[-1]*7).tag(
     [],["-"],["-"],["-"],["-"],["-"],["-",">"],[".", ">"]).tag_all("[", "]", 
     key="MAKING_TENSE")
+tense_dyn = [],["mp", "\<"],[],[],[],[],[],["f"]
 
 # =====================================================================
 
-# MAKING.extend(
-#     par(
-#         seq_ref("MAKINGA_SLURRED").tag(["p"])(octave=1, machine="PIANO1"),
-#         make_walk()(octave=-1, machine="PIANO2") 
-#     )
-# )
+MAKING.extend(
+    par(
+        seq_ref("MAKINGA_SLURRED").tag(["p"])(octave=1, machine="PIANO1"),
+        make_walk()(octave=-1, machine="PIANO2") 
+    )
+)
 
 # TODO: WARNING WARNIGN!!!!!
-making_tonic.modulate(-3)
+# making_tonic.modulate(-3)
 
-# mod_and_seq(-3,
-#     par(
-#         seq(
-#             rest_all(8, "FLUTE"),
-#             making_whole(-1, octave=2).tag(["p","\<"]),
-#             OutCell("MAKING_JIG").tag(["mf"])(octave=2),
-#             rest_all(1, "FLUTE"),
-#             )(machine="FLUTE"),
-#         #TODO: consider changing the end of this:            
-#         seq(
-#             seq_ref("MAKINGA_SLURRED").change(
-#                 octave=[1,2,1,2,1,1,1,2,1,]+[2]*9,
-#                 ).tag([],[],[],[],[],[],[],[],[],[],[],[],["\<"],),
-#             making_whole(-1, octave=2).tag(["mf"])
-#             )(machine="PIANO1"),
-#         seq(
-#             make_walk(degree=2).tag(["treble"]),
-#             making_whole((-3,4), octave=1),
-#             )(machine="PIANO2") 
-#     )(pitch_spell="SHARP")
-# )
+mod_and_seq(-3,
+    par(
+        seq(
+            rest_all(8, "FLUTE"),
+            making_whole(-1, octave=2).tag(["p","\<"]),
+            OutCell("MAKING_JIG").tag(["mf"])(octave=2),
+            rest_all(1, "FLUTE"),
+            )(machine="FLUTE"),
+        #TODO: consider changing the end of this:            
+        seq(
+            seq_ref("MAKINGA_SLURRED").change(
+                octave=[1,2,1,2,1,1,1,2,1,]+[2]*9,
+                ).tag([],[],[],[],[],[],[],[],[],[],[],[],["\<"],),
+            making_whole(-1, octave=2).tag(["mf"])
+            )(machine="PIANO1"),
+        seq(
+            make_walk(degree=2).tag(["treble"]),
+            making_whole((-3,4), octave=1),
+            )(machine="PIANO2") 
+    )(pitch_spell="SHARP")
+)
 
 # MEASURE 8 =============================================
 # TODO: WARNING WARNIGN!!!!!
-making_tonic.modulate(6)
+# making_tonic.modulate(6)
 
-# mod_and_seq(6,
-#     par(
-#         seq(
-#             rest_all(1, "FLUTE"),
-#             OutCell("MAKING_DOWN")(octave=2),
-#             rest_all(4, "FLUTE"),
-#             making_whole(3, octave=1).tag(["p","\<"]),
-#             OutCell("MAKING_JIG").tag(["mf"])(octave=1),
-#             )(machine="FLUTE"),
-#         # TODO: vary up these walks a little bit
-#         seq(
-#             making_cell(degree=[None,(0,2,4)], dur=[1,3]).tag([], ["bass"]),
-#             make_walk()(octave=-2),
-#             )(octave=-1, machine="PIANO1"),
-#         seq(
-#             making_cell(dur=[4], degree=[(0,7)], octave=[-3]).tag(["bass"]),
-#             make_walk()(octave=-2),
-#             )(machine="PIANO2")
-#     )(pitch_spell="FLAT")
-# )
+mod_and_seq(6,
+    par(
+        seq(
+            rest_all(1, "FLUTE"),
+            OutCell("MAKING_DOWN")(octave=2),
+            rest_all(4, "FLUTE"),
+            making_whole(3, octave=1).tag(["p","\<"]),
+            OutCell("MAKING_JIG").tag(["mf"])(octave=1),
+            )(machine="FLUTE"),
+        # TODO: vary up these walks a little bit
+        seq(
+            making_cell(degree=[None,(0,2,4)], dur=[1,3]).tag([], ["bass"]),
+            make_walk()(octave=-2),
+            )(octave=-1, machine="PIANO1"),
+        seq(
+            making_cell(dur=[4], degree=[(0,7)], octave=[-3]).tag(["bass"]),
+            make_walk()(octave=-2),
+            )(machine="PIANO2")
+    )(pitch_spell="FLAT")
+)
 
 # MEASURE 12 =============================================
+# TODO: WARNING WARNIGN!!!!!
+# making_tonic.modulate(-3)
 
 mod_and_seq(-3,
     par(
@@ -197,8 +200,7 @@ mod_and_seq(-3,
                 ).change(degree=[False]*4 + [None],
                 ).add_chord_degree(*([7]*4))(octave=1).tag_all("-"),
             OutCell("MAKING_TENSE").change(
-                degree=[None]+ [(-2,0,5)]*3 + [(-1,1,6)]*4)(octave=1).tag(
-                [],["mp", "\<"],[],[],[],[],[],["f"],)
+                degree=[None]+ [(-2,0,5)]*3 + [(-1,1,6)]*4)(octave=1).tag(*tense_dyn)
             )(machine="PIANO1"),
         seq(
             making_cell(dur=[1]*4, degree=[(0,4)]*4).tag_all("-"),
@@ -232,6 +234,36 @@ mod_and_seq(-3,
     )(pitch_spell="SHARP")
 )
 
+# MEASURE 26 =============================================
+# TODO: this would be better if it could continue gracefully
+mod_and_seq(-6,
+    par(
+        # TODO: FLUTE REALLY shouldn't be resting here?
+        seq(
+            rest_all(8, "FLUTE"),
+            OutCell("MAKING_TENSE")(octave=2).tag(*tense_dyn)
+            )(machine="FLUTE"),
+        seq(
+            rest_all(1, "PIANO1"), make_walk(degree=4, repeats=[1]*7),
+            OutCell("MAKING_TENSE").change(
+                degree=[None]+ [(-2,0,5)]*3 + [(-1,1,6)]*4)(octave=1).tag(*tense_dyn),
+            rest_all(4, "PIANO1"),
+# TODO ADD RIT at end
+            making_cell(degree=[0,2,4]*5+[0], 
+                octave=[-1,-1,-1,0,0,0,1,1,1,2,2,2,3,3,3,4], 
+                dur=[0.5]*15+[4.5]
+                ).tag(["bass", "(","\>"],[],[],[],["treble"],[],[],[],[],[],[],[],["8va"],
+                    [],[],["8va!", "p", ")"],),
+            )(machine="PIANO1"),
+        seq(
+            rest_all(1, "PIANO2"), make_walk(degree=4, repeats=[1]*7)(octave=-2),
+            OutCell("MAKING_TENSE").change(
+                degree=[None]+ [(-3,4)]*2 + [(-3,3)]*5)(octave=-1),
+            rest_all(3, "PIANO2"),
+            making_whole(dur=13)(octave=-3).add_chord_degree(7).tag([">"])
+            )(machine="PIANO2"),
+    )
+)
 
 
 MAKING = MAKING.tag(["tempo:126:1:4:Intense"])
