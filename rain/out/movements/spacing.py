@@ -64,11 +64,14 @@ par("PIANO_RISE",
 )
 
 #TODO MAYBE: try to cut some
+
+#TODO FOR SURE... SING INTO FLUTE
+
 SPACING.extend(
     # rest_all(6), # long tones, swells in electronics
     par(
+        # TODO: these are used later (at end, maybe elsewhere) .... DRY
         spacing_cell(degree=[0, 0, 0], dur=[2,2,2])(octave=1).tag(["pp"])(machine="PIANO1"),
-        # TODO: reuse this
         spacing_cell(degree=[0,1,6], dur=[2,2,2], octave=[-3, -1, -1]).tag([], [], ["treble"])(machine="PIANO2"),
     )(pitch_spell="SHARP"),
     par(
@@ -103,14 +106,17 @@ mod_and_seq(
                 ),
             M("SPACING3").change(
                 dur=[False, False, 0.25,0.75,0.25,1.75],
+                leaf_durs=[False, False, 0.25,0.75,0.25,(0.75,1)],
                 octave=[0,0,0,1,1,1,],
-                ),
+                ).tag([],["\<"],[],[],[],[([],"mf")]),
             )(machine="FLUTE"),
         seq(
             par(
                 seq(
-                    spacing_cell(degree=([1,7],-2,-1,0), dur=[1,1,1,1], octave=[0,1,0,1]),
-                    OutCell("SPACING1")(dur=0.5, leaf_durs=None).change(octave=[0,0,1,1,0,1]).tag([],["("],[],[],[],[")"]),
+                    spacing_cell(degree=([1,7],-2,-1,0), dur=[1,1,1,1], octave=[0,1,0,1]
+                        ).tag([],[],["\<"]),
+                    OutCell("SPACING1")(dur=0.5, leaf_durs=None).change(
+                        octave=[0,0,1,1,0,1]).tag([],["("],[],[],[],[")"]),
                     )(machine="PIANO1"),
                 spacing_cell(
                     degree=(-1,0,0,-1,-2,-3,[-4,4]), 
@@ -123,7 +129,7 @@ mod_and_seq(
             # refactor with auto-cropping
             par("PIANO_RISE2",
                 spacing_cell("RISE_H2", degree=([3,9],-1,0,1,0), dur=(1,0.5,0.5,0.5,0.5,) ).tag(
-                    [], [], [], []).change(
+                    ["mp"], [], [], []).change(
                         octave=[0,0,1,0,1]
                     )(machine="PIANO1"),
                 spacing_cell("RISE_L2", degree=([-3,5],-2,-1,0), dur=(1,0.5,0.5,1)).tag(
@@ -139,19 +145,51 @@ mod_and_seq(
     )(pitch_spell="SHARP"),
 )
 
-# mod_and_seq(
-#     par(
-#         seq_ref("SPACING_SEQ")(machine="FLUTE", pitch_spell="SHARP"),
-#         # NOTE: can't nest the modulations... messes up the outer mod (that's why using tonic_mod on here)
-#         seq(
-#             rest_all(8, "PIANO1"), 
-#             # TODO: bring this back
-#             # seq_ref("SPACING_SEQ")(tonic_mod=7, machine="PIANO1", pitch_spell="FLAT"),
-           
-#         ),
-#     ),
-#     rest_all(2) #rain.rest(2),
-# )
+# TODO FOR SURE... GET THAT LEADING 5TH IN HERE
+
+# MEASURE 11 ====================================================
+final_phrase_dur=[0.5,0.5,1,1,1.5,3.5]
+mod_and_seq(
+    par(
+        # seq_ref("SPACING_SEQ")(machine="FLUTE", pitch_spell="SHARP"),
+        # NOTE: can't nest the modulations... messes up the outer mod (that's why using tonic_mod on here)
+        seq(
+            rest_all(2, "FLUTE"),
+            # TODO: would be cleaner to define SPACING2 / SPACING3 above
+            OutCell("SPACING2").change(   
+                degree=[None, -7])(octave=1).tag(
+                    [],["("],[],[],[],[],[")"]),
+            OutCell("SPACING3").change(
+                dur=final_phrase_dur,
+                octave=[0,0,0,1,1,0]).tag(
+                    [],["(","\>"],[")"],["("],[],[")","pp"],)
+        )(machine="FLUTE"),
+        seq(
+            # TODO: add some tasteful doubling
+            OutCell("SPACING1").change(
+                dur=[0.5,0.5,0.25,0.75,0.5,1.5],
+                leaf_durs=[0.5,0.5,0.25,0.75,0.5,(0.5,1)],
+                octave=[1]*5+[0],
+                ).tag([],["("]),
+            spacing_cell(degree=[1],dur=[2],tags=[(")",)]),
+            OutCell("TWINKLE_H").change(
+                        degree=[None], dur=final_phrase_dur)(octave=1).tag([],["\>"]),
+            spacing_cell(degree=[0, 0, 0], dur=[3.5,2,6], octave=[1,1,2]).tag(["pp"]),
+            # rest_all(8, "PIANO1"), 
+            # TODO: bring this back
+            # seq_ref("SPACING_SEQ")(tonic_mod=7, machine="PIANO1", pitch_spell="FLAT"),
+        )(machine="PIANO1"),
+        seq(
+            spacing_cell(degree=[0,-7,-14], dur=[2,2,2]).tag(
+                [],["bass"]),
+            OutCell("TWINKLE_L").change(
+                dur=final_phrase_dur).tag([],["treble"]),
+            # TODO: pedal or open tie from low bass note
+            spacing_cell(degree=[0,1,6], dur=[3.5,2,6], octave=[-3, -1, -1]).tag(
+                ["bass"], [], [("treble","|.")]),
+            )(machine="PIANO2"),
+    )(pitch_spell="SHARP"),
+)
 
 SPACING = SPACING.tag(["tempo:60:1:4:Aloof"])
 
