@@ -75,8 +75,10 @@ class Staff(rain.Machine):
                 durs = leaf_durs
             else:
                 durs = [leaf_durs]
+            mm_rest_durs = [False for d in durs]
         else:
             durs = []
+            mm_rest_durs = []
         dur_remaining = dur
 
         while dur_remaining > 0:
@@ -86,6 +88,14 @@ class Staff(rain.Machine):
                 self.current_meter_node = self.current_meter_node[0]
             
             dur_meter = meter_node_dur(self.current_meter_node)
+
+            # TODO: could probalby come up with a better way
+            # to figure out MM rests ... (this check runs even for non-rests)
+            print(self.current_meter_node, self.current_meter_node.root)
+            if self.current_meter_node == self.meter.root_node:
+                mm_rest_durs.append(True)
+            else:
+                mm_rest_durs.append(False)
 
             if dur_meter >= dur_remaining:
                 if not leaf_durs:
@@ -121,8 +131,11 @@ class Staff(rain.Machine):
             if len(leaves) > 1:
                 abjad.tie(leaves)
         else:
-            for d in durs:
-                leaves.append(abjad.Rest(d/4))
+            for d, mm in zip(durs, mm_rest_durs):
+                if mm:
+                    leaves.append(abjad.MultimeasureRest(d/4))
+                else:
+                    leaves.append(abjad.Rest(d/4))
 
         if leaves and tags:
             for tag_thingy in tags:

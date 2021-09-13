@@ -85,7 +85,7 @@
             ~
             af''4
             r4
-            r1
+            R1
             r8
             af''8
             - \tenuto
@@ -96,7 +96,7 @@
             - \staccato
             - \marcato
             r2
-            r1
+            R1
             r8
             af''8
             - \tenuto
@@ -314,7 +314,7 @@
                 r8
                 <d'' g'' c'''>8
                 - \marcato
-                r1
+                R1
                 <d'' g'' c'''>16
                 - \marcato
                 <d'' g'' c'''>16
@@ -709,7 +709,7 @@
                 r8
                 <af af'>8
                 - \marcato
-                r1
+                R1
                 <af af'>16
                 - \marcato
                 <af af'>16
