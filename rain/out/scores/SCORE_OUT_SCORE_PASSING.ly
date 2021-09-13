@@ -10,8 +10,13 @@
     \context Score = ""
     <<
         \context Staff = "Flute"
+        \with
         {
-            \tempo Dreamy 4.=92
+            accidentalStyle = neo-modern-cautionary
+            pedalSustainStyle = #'mixed
+        }
+        {
+            \tempo Dreamy 4.=80
             \time 6/8
             \clef "treble"
             cs'''2.
@@ -59,19 +64,20 @@
             df''8
             c''8
             )
-            f''8
+            f'8
             (
-            ef''8
-            df''8
-            c''8
+            ef'8
+            df'8
             )
-            ef''8
+            c''8
             (
+            ef''8
             df''8
             c''8
             \p
+            ~
+            c''4.
             )
-            r4.
             r8
             r8
             c''8
@@ -88,12 +94,13 @@
             ~
             a''2.
             \fermata
-            \tempo "Freely, Slowing Down" 4.=54
+            \tempo 4.=54
             r4
             g''8
             \>
             (
             d''8
+            \tempo "Freely, Slowing Down"
             c''8
             bf'8
             ~
@@ -120,6 +127,11 @@
         \context PianoStaff = ""
         <<
             \context Staff = "Piano 1"
+            \with
+            {
+                accidentalStyle = neo-modern-cautionary
+                pedalSustainStyle = #'mixed
+            }
             {
                 \time 6/8
                 \clef "treble"
@@ -146,9 +158,9 @@
                 ~
                 as'8
                 )
-                <c'' df''>4
+                <af' c'' df''>4
                 ~
-                <c'' df''>2.
+                <af' c'' df''>2.
                 <bf ef' gf'>4.
                 \pp
                 ~
@@ -164,10 +176,15 @@
                 )
                 <c'' df''>4
                 ~
-                <c'' df''>2.
+                <c'' df'' bf''>4.
+                ~
+                <c'' df'' bf''>4
+                f'8
+                (
                 <g c' ef'>4.
                 ~
                 <g c' ef'>4
+                )
                 c'8
                 (
                 df'8
@@ -183,6 +200,7 @@
                 <g' bf' c'' f''>4
                 <a'' bf''>2.
                 \fermata
+                \bar "||"
                 <e' a' c''>2.
                 \pp
                 ~
@@ -199,23 +217,26 @@
                 \fermata
             }
             \context Staff = "Piano 2"
+            \with
+            {
+                accidentalStyle = neo-modern-cautionary
+                pedalSustainStyle = #'mixed
+            }
             {
                 \time 6/8
                 \clef "bass"
                 r2.
                 r2.
-                \clef "treble"
                 <as ds' fs'>2.
                 <as ds' e'>4.
                 ~
                 <as ds' e'>8
-                <bf df' ef' af'>4
+                <bf df' ef'>4
                 \clef "bass"
                 ef,,2.
                 \pp
                 ~
                 ef,,2.
-                \clef "treble"
                 <bf df' ef'>4.
                 ~
                 <bf df' ef'>8
@@ -232,6 +253,7 @@
                 c,2.
                 \fermata
                 ~
+                \bar "||"
                 c,4.
                 a,4.
                 ~

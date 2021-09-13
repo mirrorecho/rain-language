@@ -107,6 +107,8 @@ def get_attachment(tag_name:str):
         else:
             tempo_reference_duration = None
         return abjad.MetronomeMark(tempo_reference_duration, units_per_minute=int(tempo_units_per_minute), textual_indication=tempo_text)
+    elif tag_name.startswith("tempo_text:"):
+        return abjad.MetronomeMark(textual_indication=tag_name[11:])
     elif tag_name in colors_inventory:
         return lambda x : abjad.label(x).color_leaves(tag_name)
     elif tag_name in colors_inventory:

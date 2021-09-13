@@ -29,7 +29,7 @@ passing1_degree=(6, 3, 2, 1, 0, 3)
 seq("PASSING_SEQA",
     passing_cell("PASSING1", degree=passing1_degree, dur=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5,) ),
     passing_cell("PASSING2", degree=(2, 1, 0, 2, 1, 0,), dur=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5,) ),
-    passing_cell("PASSING3", degree=(1, 0, -3, (-1, -2)), dur=(0.5, 0.5, 1, 4,) ),
+    passing_cell("PASSING3", degree=(1, 0, -3, (-1, -2,-4)), dur=(0.5, 0.5, 1, 4,) ),
 )
 
 seq_ref("PASSING_SEQA").meddle("PASSING_SEQB",
@@ -66,10 +66,13 @@ PASSING.extend(
                 ["("],[")"],
                 )(octave=1, pitch_spell="SHARP", machine="FLUTE"),
             rest_all(3, "FLUTE"),
-            #TODO: double first 1-2 notes in piano here?
-            seq_ref("PASSING1").tag(
-                ["(","\>"],[],[],[],[")"],["("]
-                )(tonic_mod=-3, octave=1, pitch_spell="FLAT", machine="FLUTE"),
+            # TODO MAYBE: consider this
+            # rest_all(1, "FLUTE"),
+            # passing_cell(degree=[11], dur=[2], tags=[["~", "(","\<"]])(machine="FLUTE"),
+            seq_ref("PASSING1").change(
+                octave=[1]*5+[0]).tag(
+                ["\>","("],[],[],[],[")"],["("]
+                )(tonic_mod=-3, pitch_spell="FLAT", machine="FLUTE"),
         ),
         seq(
             rest_all(5.5,"PIANO1"),
@@ -86,19 +89,24 @@ PASSING.extend(
                 ).tag(["pp"]),
             passing_cell(dur=[0.5], degree=[-2], octave=[1], tags=(["(","mp"],))(pitch_spell="FLAT", machine="PIANO1"),
             seq_ref("PASSING3")(octave=1, pitch_spell="FLAT", machine="PIANO1").change(
-                leaf_durs=[False]*3+[(1,3)],
-                degree=[-1],
-                ).tag([],[],[")"],[],[]),
+                dur=[False]*3+[1],
+                leaf_durs=[False]*3+[(1,)],
+                degree=[-1, False, False, (-1,-2)],
+                ).tag([],[],[")"],["~"],),
+            passing_cell(dur=[2.5,0.5], leaf_durs=[(1.5,1),False],
+                tonic_mod=[-3,-3], degree=[(7,8,13), 3], 
+                tags=([], ["("],))(pitch_spell="FLAT", machine="PIANO1"),
             ),
         seq(
             rest_all(6,"PIANO2"),
-            seq_ref("PASSING_CHORDS").tag(["treble"]).change(
+            seq_ref("PASSING_CHORDS").tag().change(
                 pitch_spell=["SHARP", "SHARP", "FLAT"],
+                degree=[False, False, (-3,-1,0)]
             )(machine="PIANO2"),
             passing_cell(degree=[0], dur=[6], octave=[-3], machine=["PIANO2"]).tag(["bass","pp"]),
             OutCell("PASSING_CHORD2").change(
                 degree=[(-3,-1,0)],
-                ).tag(["treble"])(pitch_spell="FLAT", machine="PIANO2"),
+                ).tag()(pitch_spell="FLAT", machine="PIANO2"),
             OutCell("PASSING_CHORD3")(pitch_spell="FLAT", machine="PIANO2"),
             passing_cell(degree=[0], dur=[3], octave=[-3], machine=["PIANO2"]).tag(["bass"]),
             )
@@ -108,35 +116,37 @@ PASSING.extend(
 mod_and_seq(
     par(
         seq(
-            seq_ref("PASSING2").tag(
-                [],[],[")"],["("],[],[")","p"]
-                )(octave=1, pitch_spell="FLAT", machine="FLUTE"),
-            rest_all(2.5, "FLUTE"),
+            seq_ref("PASSING2").change(
+                dur=[False]*5+[2],
+                octave=[0,0,1,1,1,1]).tag(
+                [],[")"],["("],[],[],[")","p"]
+                )(pitch_spell="FLAT", machine="FLUTE"),
+            rest_all(1, "FLUTE"),
             passing_cell(degree=[0], octave=[1], dur=[0.5], tags=(["\<", "("],))(machine="FLUTE"),
             seq_ref("PASSING3").change(
                 octave=[1,1,2,2],
                 leaf_durs=[False]*3+[(1,3)],
                 degree=[False]*3 + [-2]
                 ).tag(
-                    [],[],[")"],["mp", ([],"fermata")],
+                    [],[],[")"],["mp", ([],"fermata", "||")],
                 )(pitch_spell="FLAT", machine="FLUTE"),
             ),
         seq(
             OutCell("PASSING_CHORD1")(pitch_spell="FLAT", machine="PIANO1").change(
                 dur=[2.5],
                 leaf_durs=[(1.5,1)],
-                ),
+                ).tag([")"]),
             passing_cell(degree=[0,1,2,6,(7,8)], dur=(0.5,0.5,0.5,1,1), leaf_durs=[False]*4+[1]).tag(
                 ["("],[],[], [")"],
                 )(pitch_spell="FLAT", machine="PIANO1"),
             OutCell("PASSING_CHORD2")(octave=1, pitch_spell="FLAT", machine="PIANO1"),
             OutCell("PASSING_CHORD3")(octave=1, pitch_spell="FLAT", machine="PIANO1"),
-            passing_cell(degree=[(5,6)], octave=[1], dur=[3], tags=[["fermata"]], machine=["PIANO1"])
+            passing_cell(degree=[(5,6)], octave=[1], dur=[3], tags=[["fermata", "||"]], machine=["PIANO1"])
         ),
         seq(
             passing_cell(degree=[0,(0,4),(0,5),0], dur=[6,2,1,3], octave=[-2,-1,-1,-2], 
                 leaf_durs=[False, (1.5, 0.5), 1, False],
-                ).tag([],[],[],["fermata", "~"])(machine="PIANO2"),
+                ).tag([],[],[],["fermata", "~", "||"])(machine="PIANO2"),
         ),
     )
 )
@@ -144,13 +154,14 @@ mod_and_seq(
 mod_and_seq(
     par(
         seq(
-            rest_all(1, "FLUTE").tag(["tempo:54:3:8:Freely, Slowing Down"]).change(
+            rest_all(1, "FLUTE").tag(
+                ["tempo:54:3:8"]).change(
                 leaf_durs=[1]),
             OutCell("PASSING1").change(
                 degree=[False,False,False,False,None],
                 dur=[False,False,False,1,False,1],
                 leaf_durs=[False,False,False,False,False,1],
-                )(octave=1).tag(["(","\>"],[],[],[")"],[],["fermata","("]),
+                )(octave=1).tag(["(","\>"],[],["tempo_text:Freely, Slowing Down"],[")"],[],["fermata","("]),
             OutCell("PASSING2").change(
                 dur=[False,False,1,1,1,3],
                 leaf_durs=[False,False,1,1,1,],
@@ -191,7 +202,7 @@ mod_and_seq(
 #     seq_ref("PASSING_SEQB")(machine="PIANO2"),
 #     )
 
-PASSING = PASSING.tag(["tempo:92:3:8:Dreamy"])
+PASSING = PASSING.tag(["tempo:80:3:8:Dreamy"])
 
 if __name__ == "__main__":
     score = score_with_meter(meters.METER_6_8)
