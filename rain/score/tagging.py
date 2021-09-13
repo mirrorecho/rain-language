@@ -24,7 +24,7 @@ fermatas_inventory = set(
     ("fermata", "shortfermata", "longfermata", "verylongfermata",)  
     )
 
-end_leaf_inventory = set( (")", "))", "8va!", "~", "pedal!") )
+end_leaf_inventory = set( (")", "))", "8va!", "~", "pedal!", "trill!") )
 
 # TODO MAYBE: deal with the set of tags that are NOT allowed
 
@@ -90,6 +90,10 @@ def get_attachment(tag_name:str):
         return abjad.StartPianoPedal()
     elif tag_name == "pedal!":
         return abjad.StopPianoPedal()
+    elif tag_name == "trill":
+        return abjad.StartTrillSpan()
+    elif tag_name == "trill!":
+        return abjad.StopTrillSpan()
     elif tag_name == "{":
         print("WARNING: horizontal bracket not implemented")
         # return abjad.HorizontalBracket() # TO DO - CONSIDER... add markup?

@@ -40,11 +40,13 @@
             cs'''4
             \p
             \<
+            \startTrillSpan
             cs'''8
             \f
             - \marcato
             - \staccato
             - \accent
+            \stopTrillSpan
             r8
             r4
             r2
@@ -59,12 +61,14 @@
             \p
             \<
             ~
+            \startTrillSpan
             d'''8
             d'''8
             \f
             - \marcato
             - \staccato
             - \accent
+            \stopTrillSpan
             r4
             r2
             r2
@@ -77,11 +81,13 @@
             c'''1
             \p
             \<
+            \startTrillSpan
             c'''8
             \f
             - \marcato
             - \staccato
             - \accent
+            \stopTrillSpan
             r8
             r4
             r4
@@ -127,12 +133,14 @@
             \p
             \<
             ~
+            \startTrillSpan
             df'''1
             df'''8
             \f
             - \marcato
             - \staccato
             - \accent
+            \stopTrillSpan
             r8
             r4
             r4
@@ -187,12 +195,14 @@
             \mf
             \<
             ~
+            \startTrillSpan
             a'''8
             a'''8
             \ff
             - \marcato
             - \staccato
             - \accent
+            \stopTrillSpan
             r8
             b'''8
             \f
@@ -202,12 +212,14 @@
             \mf
             \<
             ~
+            \startTrillSpan
             b'''8
             b'''8
             \ff
             - \marcato
             - \staccato
             - \accent
+            \stopTrillSpan
             R1
             R1
         }

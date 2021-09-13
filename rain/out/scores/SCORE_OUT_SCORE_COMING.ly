@@ -45,11 +45,17 @@
             ~
             d''2
             )
-            R1
+            r2
             \fermata
+            \tweak style #'cross
+            g'4
+            ^ \markup { (click...) }
+            \tweak style #'cross
+            d'4
             R1
             r8
             b'8
+            \mp
             (
             cs''8
             d''8
@@ -68,7 +74,13 @@
             e''2
             )
             r2
+            r2
             \fermata
+            \tweak style #'cross
+            g'4
+            ^ \markup { (click...) }
+            \tweak style #'cross
+            d'4
             r8
             b'8
             (
@@ -201,6 +213,7 @@
             ~
             e'''2
             r4
+            \tempo "ritard. to end"
             e'''4
             g'''1
             r4
@@ -236,43 +249,59 @@
                 \tweak style #'cross
                 d'4
                 r4
-                <a d'>4
+                \p
+                \<
+                a4
                 ~
-                <a d'>4
-                <b d'>4
+                (
+                a4
+                b4
                 ~
-                <b d'>4
-                <cs' d'>4
+                b4
+                cs'4
                 ~
-                <cs' d'>4
-                <d' e'>4
+                cs'4
+                e'4
                 ~
-                <d' e'>4
-                <d' g'>4
+                e'4
+                g'4
+                \>
                 ~
-                <d' g'>4
-                <g f'>4
+                g'4
+                f'4
                 ~
-                <g f'>4
-                <d' e'>4
+                f'4
+                e'4
                 ~
-                <d' e'>4
-                <a d'>4
+                e'4
+                d'4
+                \!
+                )
                 r4
-                <a d'>4
+                a4
+                \<
                 ~
-                <a d'>4
+                (
+                a4
                 <b d'>4
                 ~
                 <b d'>4
                 <cs' d'>4
+                \!
                 ~
                 <cs' d'>2
-                R1
+                )
+                r2
                 \fermata
+                \tweak style #'cross
+                g'4
+                ^ \markup { (click...) }
+                \tweak style #'cross
+                d'4
                 r4
                 <a d'>4
                 ~
+                (
                 <a d'>4
                 <b d'>4
                 ~
@@ -282,10 +311,19 @@
                 <cs' d'>2
                 <d' e'>2
                 <d' g'>2
-                <g f'>2
+                <g e' f'>2
+                )
+                r2
                 r2
                 \fermata
-                r4
+                \tweak style #'cross
+                g'4
+                ^ \markup { (click...) }
+                \tweak style #'cross
+                d'4
+                r8
+                b8
+                (
                 <cs' d'>4
                 ~
                 <cs' d'>4
@@ -300,11 +338,14 @@
                 <a d'>1
                 ~
                 <a d'>4
+                )
                 r4
                 r2
                 r4
                 <a' d''>4
+                \<
                 ~
+                (
                 <a' d''>4
                 <d'' f''>4
                 ~
@@ -319,11 +360,16 @@
                 ~
                 <f'' bf''>2
                 <bf' af''>2
+                \mf
+                \>
                 <f'' g''>2
                 <c'' f''>1
                 <c'' ef'' f''>1
+                \mp
+                )
                 r8
                 g''8
+                \mf
                 (
                 ]
                 bf''8
@@ -350,10 +396,8 @@
                 <c''' c''''>4
                 )
                 r8
-                <c' af' c''>8
-                ~
+                <c' af' c''>4
                 (
-                <c' af' c''>8
                 <ef' ef''>8
                 ~
                 <ef' ef''>8
@@ -374,6 +418,7 @@
                 )
                 r4
                 <gs gs'>4
+                \<
                 (
                 <b b'>4
                 ~
@@ -382,6 +427,7 @@
                 ~
                 <a' a''>4
                 <gs'' gs'''>4
+                \f
                 ~
                 <gs'' gs'''>2
                 )
@@ -424,6 +470,7 @@
                 <a d' g'>4
                 ~
                 <a d' g'>4
+                \tempo "ritard. to end"
                 <b d' g'>4
                 \>
                 ~
@@ -459,28 +506,31 @@
                 \clef "bass"
                 R1
                 g,1
-                ^ \p
                 g,1
                 g,1
                 g,2
                 g,2
                 g,1
                 g,1
-                R1
+                r2
                 \fermata
-                g,1
+                r2
+                g,,1
+                ^ \mp
                 g,2
-                g,2
+                g,,2
                 g,2
                 g,2
                 g,2
                 r2
+                r2
                 \fermata
+                r2
                 r2
                 g,2
                 g,2
                 g,2
-                g,1
+                g,,1
                 g,2
                 g,2
                 ~
@@ -492,7 +542,7 @@
                 g,2
                 f,2
                 d,2
-                <c, af,>2
+                <af,, bf,>2
                 bf,,2
                 <bf,, f,>2
                 bf,,2
@@ -514,10 +564,10 @@
                 ~
                 <ef, bf,>4
                 <bf,, bf,>4
-                <af,, af,>4
-                <gf,, gf,>4
-                <f,, f,>2
-                <ef, ef>2
+                <gf,, af,>4
+                gf,4
+                f2
+                <ef, bf,>2
                 <ef, ef>4
                 <df, df>4
                 <af,, af,>4
@@ -532,14 +582,14 @@
                 <b,, fs, b,>4
                 <b,, fs, b,>4
                 ~
-                <b,, fs, b,>4
+                e,4
                 <e, e>4
                 <b,, b,>4
                 <a,, a,>4
                 ~
                 <a,, a,>4
-                <c, c>4
-                <b,, fs, b,>2
+                <c, d>4
+                <a,, a,>2
                 <b,, b,>4
                 <a,, e, a,>4
                 <d, d>4

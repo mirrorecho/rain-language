@@ -100,7 +100,7 @@ def flip_flute(key_prefix:str=None, degree=0, soft_dynamic="p", end_dynamic="f",
         dur=[attack_dur, dur-attack_dur-punct_dur, punct_dur],
         degree = [degree, degree,degree, ],
         octave = [octave, octave, octave],
-        tags=(["f",">","~"],[soft_dynamic,"\<"],[end_dynamic,"^",".",">"]),
+        tags=(["f",">","~"],[soft_dynamic,"\<", "trill"],[end_dynamic,"^",".",">", "trill!"]),
         )(machine="FLUTE")
     return flip_wrap(key_prefix, my_flip, bookend_rests=bookend_rests, 
         bookend_machine="FLUTE", **kwargs)

@@ -37,7 +37,7 @@
         (basic-distance . 8)
         (minimum-distance . 8)
         (padding . 8)
-        (stretchability . 20)
+        (stretchability . 18)
     )
   }  
 

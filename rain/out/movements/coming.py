@@ -60,8 +60,9 @@ COMING.extend(
     par(
         # seq_ref("COMING_1")(machine="FLUTE"),
         # TODO: start with single notes, then two-note chords
-        rest_all(1, "PIANO1") + seq_ref("OSTI_CHORDS")(machine="PIANO1"),
-        coming_cell(dur=[4,4,4,2,2,], degree=[0]*8).tag(["^p"])(octave=-1, machine="PIANO2")
+        rest_all(1, "PIANO1").tag(["p","\<"]) + seq_ref("OSTI_CHORDS").change(
+            degree=chord_i(0,0,0,1,1,1,1,1))(machine="PIANO1").tag(["("],[],[],[],["\>"],[],[],[")","\!"]),
+        coming_cell(dur=[4,4,4,2,2,], degree=[0]*8)(octave=-1, machine="PIANO2")
     ),
     par(
         # TODO: ideally this is only the first two notes
@@ -69,27 +70,40 @@ COMING.extend(
             [],["(", "p"],[],[")"]
             )(octave=1, machine="FLUTE"),
         # TODO: consider fancifying this piano part
-        coming_cell(degree=[None]+chord_seqa[:3], dur=[1,2,2,3])(machine="PIANO1"),
+        coming_cell(degree=[None]+chord_i(0) + chord_seqa[1:3], dur=[1,2,2,3]
+            ).tag([],["\<", "("],[],["\!", ")"])(machine="PIANO1"),
         coming_cell(dur=[4,4], degree=[0]*4)(octave=-1, machine="PIANO2")
     ),
     # TODO: ADD TALKING?????
     # TODO: this doesn't work... 
-    rest_all(4).tag_all(["fermata"]),
+    rest_all(2).tag_all(["fermata"]),
+    par(
+        coming_cell(dur=[1,1,], degree=[7,4,7,4]).tag(["(click...)"])(machine="FLUTE"),
+        coming_cell(dur=[1,1,], degree=[7,4,7,4]).tag(["(click...)"])(machine="PIANO1"),
+    ).tag_all(["note_head:0:cross"]),
     par(
         seq(rest_all(4, "FLUTE"),
             OutCell("COMING_A").tag(
-            [],["("],[],[")"]
+            [],["(","mp"],[],[")"]
             ),
             OutCell("COMING_B").tag(
-            [],["("],[],[],[")"]
+            [],["(",],[],[],[")"]
             ),
             )(octave=1, machine="FLUTE"),
         # TODO: begin highlighting flute part in piano
-        coming_cell(degree=[None]+chord_seqa + chord_seqb[:2], dur=[1,2,2,3,2,2,2,2])(machine="PIANO1"),
-        coming_cell(dur=[4,2,2,2,2,2,], degree=[0]*7)(octave=-1, machine="PIANO2")
+        coming_cell(degree=[None]+chord_seqa + chord_seqb[:2], dur=[1,2,2,3,2,2,2,2]
+            ).add_degree(None,None,None,None,None,None,5
+            ).tag([],["("],[],[],[],[],[")"])(machine="PIANO1"),
+        coming_cell(dur=[4,2,2,2,2,2,], degree=[-7,0,-7,0,0,0]
+            ).tag(["^mp"])(octave=-1, machine="PIANO2")
     ),
     # TODO: DITTO AS ABOVE, this fermata doesn't work...
+    rest_all(2),
     rest_all(2).tag_all(["fermata"]),
+    par(
+        coming_cell(dur=[1,1,], degree=[7,4,7,4]).tag(["(click...)"])(machine="FLUTE"),
+        coming_cell(dur=[1,1,], degree=[7,4,7,4]).tag(["(click...)"])(machine="PIANO1"),
+    ).tag_all(["note_head:0:cross"]),
     #TODO: consider starting to modulate here (DOWN A FIFTH)
     par(
         seq(
@@ -104,8 +118,9 @@ COMING.extend(
             ),
             )(octave=1, machine="FLUTE"),
         # TODO: begin highlighting flute part in piano
-        coming_cell(degree=[None]+chord_seq[2:], dur=[1,2,2,3,2,2,5])(machine="PIANO1"),
-        coming_cell(dur=[2,2,2,2,4,2,3], degree=[None]+[0]*7)(octave=-1, machine="PIANO2")
+        coming_cell(degree=[None,2]+chord_seq[2:], dur=[0.5,0.5,2,2,3,2,2,5]
+            ).tag([],["("],[],[],[],[],[],[")"],)(machine="PIANO1"),
+        coming_cell(dur=[2,2,2,2,4,2,3], degree=[None]+[0,0,0,-7,0,0,0])(octave=-1, machine="PIANO2")
     ),
     rest_all(3),
 )
@@ -128,9 +143,9 @@ mod_and_seq(3,
         # TODO: MAYBE - something interesting in piano part at very end
         coming_cell(degree=[None]+chord_seq + [(-2, 0,1)], dur=[1,2,2,2,2,3,2,2,4,4]).change(
             tonic_mod=[False,-3] + [False]*7 + [5],
-            )(octave=1,machine="PIANO1"),
+            ).tag([],["(","\<"],[],[],[],[],["mf","\>"],[],[],[")","mp"])(octave=1,machine="PIANO1"),
         coming_cell(dur=[2]*12, 
-            degree=[None,(-2,2),-2,-3,-5,(-6,-1),-7,(-7,-3),-7,(-7,-3),-7,(-7,-3)]
+            degree=[None,(-2,2),-2,-3,-5,(-8,0),-7,(-7,-3),-7,(-7,-3),-7,(-7,-3)]
             ).tag(*([],)*11+(["~"],))(octave=-1, machine="PIANO2")
     ),
 )
@@ -149,7 +164,7 @@ mod_and_seq(5,
                 # leaf_durs=[False,False,False,(0.5,1.5)],
                 ).add_chord_degree(None,None,None,7,7)(
             ).tag(
-            [],["(","]"],["["],["]"],[")"]
+            [],["(","]","mf"],["["],["]"],[")"]
             ),
             OutCell("COMING_C").change(
                 octave=(0,0,0,1,1),
@@ -173,18 +188,19 @@ mod_and_seq(5,
         seq(
             OutCell("COMING_A_SWAP").change(
                 dur=[False,1,1,5.5],
+                leaf_durs=[False,1],
                 octave=(0,0,0,1),
                 ).tag([],["("],[],[")"]).add_chord_degree(None,(5,7),7,7),
             )(pitch_spell="FLAT", machine="PIANO1"),
         seq(
             coming_cell(dur=[1,1,1,1,2,2], 
-                degree=[-3,1,0,-1,-2,-3],
-                octave=[-1,-2,-2,-2,-2,-1]
-                ).tag([]).add_chord_degree(4,7,7,7,7,7),
+                degree=[-3,1,-1,-1,-2,-3],
+                octave=[-1,-2,-2,-1,0,-1]
+                ).tag([]).add_chord_degree(4,7,8,None,None,4),
         )(pitch_spell="FLAT", machine="PIANO2")
     )
 )
-# MEASURE 28 ===================================================================
+# MEASURE 29 ===================================================================
 mod_and_seq(3,
     par(
         seq(
@@ -201,12 +217,12 @@ mod_and_seq(3,
             OutCell("COMING_C").change(
                 dur=[False]*4+[3],
                 octave=(-1,-1,-1,0,1),
-                ).tag([],["("],[],[],[")"]).add_chord_degree(None,7,7,7,7)(pitch_spell="SHARP"),
+                ).tag([],["(","\<"],[],[],[")","f"]).add_chord_degree(None,7,7,7,7)(pitch_spell="SHARP"),
             )(machine="PIANO1"),
         seq(
             coming_cell(dur=[1,1,1,2], 
                 degree=[2,1,-2,-3,],
-                ).tag([]).add_chord_degree(7,7,7,7)(octave=-2, pitch_spell="FLAT"),
+                ).add_chord_degree(7,7,7,7)(octave=-2, pitch_spell="FLAT"),
             coming_cell(dur=[1,1,1,1,1,1,1,1], 
                 degree=[4,4,1,1,0,0,0],
                 ).tag([],[],[],[],[],[],["~"],).add_chord_degree(4,4,7,7,4,(4,7),(4,7))(octave=-2, pitch_spell="SHARP"),
@@ -232,8 +248,8 @@ mod_and_seq(3,
             )(pitch_spell="SHARP", machine="PIANO1"),
         seq(
             coming_cell(dur=[1,1,1,2,1,2], 
-                degree=[-2,1,-2,-3,-1,-2],
-                ).tag([]).add_chord_degree((4,7),7,7,7,7,(4,7))(octave=-2),
+                degree=[1,1,-2,-3,-1,-3],
+                ).tag([]).add_chord_degree(None,7,7,7,8,7)(octave=-2),
             # coming_cell(dur=[1,1,1,1,1,1,1,1], 
             #     degree=[4,4,1,1,0,0,0],
             #     ).tag([]).add_chord_degree(4,4,7,7,4,(4,7),(4,7))(octave=-2, pitch_spell="SHARP"),
@@ -250,7 +266,7 @@ mod_and_seq(-7,
                 octave=[1,1,1,2]
                 ).tag([],["("],[],[")"]),
             OutCell("COMING_B").tag([],["("],[],[")"])(octave=2),
-            rest_all(1, "FLUTE") + OutCell("RISE")(octave=3),
+            rest_all(1, "FLUTE") + OutCell("RISE").tag(["tempo_text:ritard. to end"])(octave=3),
             rest_all(1, "FLUTE") + OutCell("RISE").tag(["\>"],)(octave=2),
             rest_all(1, "FLUTE") + OutCell("RISE").tag([],["p","fermata", "|."])(octave=1),
             )(pitch_spell="SHARP", machine="FLUTE"),
@@ -261,8 +277,9 @@ mod_and_seq(-7,
                 ).tag([],["("],[],[],[],[],[],[")"],
                 ).add_degree(None, 5,7,0,0,0,None,0),
             rest_all(1, "PIANO1") + seq_ref("OSTI_CHORDS"
-                ).change(octave=[0]*5+[1,1,1]).add_degree(7,7,7,7,11,None,None,5).tag(
-                [],["\>"]),
+                ).change(octave=[0]*5+[1,1,1]).add_degree(7,7,7,7,11,None,None,5
+                ).tag(
+                [],["\>","tempo_text:ritard. to end"]),
             coming_cell(degree=[(0,7)], dur=[4]).tag(["fermata", "pp", "|."])(octave=1)
             )(pitch_spell="SHARP", machine="PIANO1"),
         seq(
