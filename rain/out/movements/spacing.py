@@ -56,11 +56,11 @@ par("PIANO_RISE",
     spacing_cell("RISE_H", degree=([2,4],[3,9],-1,0,1,0), dur=(1,1,0.5,0.5,0.5,0.5,) ).tag(
         [], [], [], [], []).change(
             octave=[1,1,0,0,1,1]
-        )(machine="PIANO1"),
+        )(key="PIANO_RISE_H", machine="PIANO1"),
     spacing_cell("RISE_L", degree=([1,7],[-3,5],-2,-1,0), dur=(1,1,0.5,0.5,1)).tag(
         [], ["bass"], [], [], []).change(
             octave=[0,-2,-2,-1,-1]
-        )(machine="PIANO2")
+        )(key="PIANO_RISE_L",machine="PIANO2")
 )
 
 #TODO MAYBE: try to cut some
@@ -78,32 +78,42 @@ SPACING.extend(
         # rest_all(2, "FLUTE") + 
         seq_ref("SPACING_SEQ_SLURRED").meddle(
             M("SPACING1").change(),
-            M("SPACING2").change(octave=[0,0,1,1,1], degree=[None,1]),
+            M("SPACING2").change(dur=[1.5], octave=[0,0,1,1,1], degree=[None,1]),
+            M("SPACING3").change(dur=[1.5]),
             ).tag([],["p"])(machine="FLUTE", pitch_spell="SHARP"),
         seq(
-            par_ref("PIANO_TWINKLE"),
-            par_ref("PIANO_RISE"),
             par_ref("PIANO_TWINKLE").meddle(
+                M("TWINKLE_H").tag([],["\<"])
+            ),
+            par(
+                OutCell("PIANO_RISE_H").change(
+                    dur=[2, 1.5, 0.5, 1], degree=[(0,2,4)],).tag(["p",],[],["(",],[")"], ["("], [")"]),
+                OutCell("PIANO_RISE_L").change(
+                    dur=[2, 1.5, 0.5, 1], degree=[1]),
+            ),
+            par_ref("PIANO_TWINKLE").meddle(
+                M("TWINKLE_H").tag([],["\!"]),
                 M("TWINKLE_L").tag([],["treble"])
             )
         )(pitch_spell="SHARP"),
     ),
     par(
-        spacing_cell(degree=([-4,0],0), dur=[1,1,], octave=[2,2,]
+        spacing_cell(degree=([-4,0],0), dur=[2,2,], octave=[2,2,]
             )(machine="PIANO1"),
-        spacing_cell(degree=(0,0), dur=[1,1,], tonic_mod=[0,7]
+        spacing_cell(degree=(0,0), dur=[2,2,], tonic_mod=[0,7]
             )(machine="PIANO2"),
     )(pitch_spell="SHARP"),
     # rest_all(2), # long tones, swells
 )
 
-# MEASURE 6 -------------------------------
+# MEASURE 7 -------------------------------
 mod_and_seq(
     par(
         seq_ref("SPACING_SEQ_SLURRED").meddle(
-            M("SPACING1").change(dur=[False, 1.5, 1.5], octave=[0,-1,0,0,0,1], degree=spacing_2_mod_degrees).tag(
-                [],["\<"],[],[],[],["mp"]
-                ),
+            M("SPACING1").change(dur=[False, 1.5, 1.5], octave=[0,-1,0,0,0,1], 
+                tags=[[],["\<","("],[],[],[],["mp",")"]],
+                leaf_durs=[None,None,None,None,None,(0.75,1)],
+                degree=spacing_2_mod_degrees),
             M("SPACING3").change(
                 dur=[False, False, 0.25,0.75,0.25,1.75],
                 leaf_durs=[False, False, 0.25,0.75,0.25,(0.75,1)],
@@ -147,7 +157,7 @@ mod_and_seq(
 
 # TODO FOR SURE... GET THAT LEADING 5TH IN HERE
 
-# MEASURE 11 ====================================================
+# MEASURE 12 ====================================================
 final_phrase_dur=[0.5,0.5,1,1,1.5,3.5]
 mod_and_seq(
     par(

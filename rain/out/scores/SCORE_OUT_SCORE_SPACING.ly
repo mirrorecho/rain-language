@@ -10,6 +10,11 @@
     \context Score = ""
     <<
         \context Staff = "Flute"
+        \with
+        {
+            accidentalStyle = neo-modern-cautionary
+            pedalSustainStyle = #'mixed
+        }
         {
             \time 4/4
             \clef "treble"
@@ -30,6 +35,7 @@
             ~
             gs'4
             )
+            r4
             r8
             a'8
             - \tenuto
@@ -49,6 +55,7 @@
             ~
             gs'4
             )
+            r4
             r8
             gs'8
             (
@@ -63,7 +70,7 @@
             fs'8
             gs'8
             )
-            r2
+            r1
             r8
             e'8
             \<
@@ -72,13 +79,9 @@
             e'4
             ds''4
             ~
-            [
             ds''8
             cs''8
-            )
-            ]
             cs''16
-            (
             b''8.
             \mp
             ~
@@ -155,6 +158,11 @@
         \context PianoStaff = ""
         <<
             \context Staff = "Piano 1"
+            \with
+            {
+                accidentalStyle = neo-modern-cautionary
+                pedalSustainStyle = #'mixed
+            }
             {
                 \tempo Aloof 4=60
                 \time 4/4
@@ -165,26 +173,35 @@
                 gs''2
                 gs''8
                 gs''4
+                \<
                 c''''8
                 ~
                 c''''8
                 fs''4
                 <gs''' c''''>8
-                <b'' d'''>4
+                <gs'' b'' d'''>2
+                \p
                 <c''' b'''>4
+                ~
+                <c''' b'''>8
                 fs'8
-                gs'8
+                (
+                gs'4
+                )
                 a''8
+                (
                 gs''8
+                )
                 gs''8
                 gs''4
+                \!
                 c''''8
                 ~
                 c''''8
                 fs''4
                 <gs''' c''''>8
-                <c''' gs'''>4
-                gs'''4
+                <c''' gs'''>2
+                gs'''2
                 <e'' ds'''>4
                 b''4
                 cs''4
@@ -242,6 +259,11 @@
                 as'''1
             }
             \context Staff = "Piano 2"
+            \with
+            {
+                accidentalStyle = neo-modern-cautionary
+                pedalSustainStyle = #'mixed
+            }
             {
                 \time 4/4
                 \clef "bass"
@@ -256,11 +278,13 @@
                 b'8
                 e'4
                 gs'8
-                <a' gs''>4
+                a'2
                 \clef "bass"
                 <d, e>4
+                ~
+                <d, e>8
                 e,8
-                fs8
+                fs4
                 gs4
                 r8
                 \clef "treble"
@@ -270,8 +294,8 @@
                 b'8
                 e'4
                 gs'8
-                gs'4
-                ds''4
+                gs'2
+                ds''2
                 cs''4
                 ds''4
                 ds'4
