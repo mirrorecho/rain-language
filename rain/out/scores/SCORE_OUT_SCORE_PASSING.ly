@@ -22,6 +22,11 @@
             \tempo Dreamy 4.=80
             \time 6/8
             \clef "treble"
+            \tweak style #'cross
+            c''4.
+            ^ \markup { (click...) }
+            \tweak style #'cross
+            e'4.
             cs'''2.
             \p
             \<
@@ -137,6 +142,11 @@
             {
                 \time 6/8
                 \clef "treble"
+                \tweak style #'cross
+                c''4.
+                ^ \markup { (click...) }
+                \tweak style #'cross
+                e'4.
                 R2.
                 r4.
                 r8
@@ -226,6 +236,7 @@
             {
                 \time 6/8
                 \clef "bass"
+                R2.
                 R2.
                 R2.
                 <as ds' fs'>2.

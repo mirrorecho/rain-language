@@ -19,8 +19,26 @@
             pedalSustainStyle = #'mixed
         }
         {
+            \tempo Aloof 4=60
             \time 4/4
             \clef "treble"
+            \tweak style #'cross
+            d''8
+            ^ \markup { (click track...) }
+            \tweak style #'cross
+            a'8
+            \tweak style #'cross
+            b'8
+            \tweak style #'cross
+            a'8
+            \tweak style #'cross
+            d''8
+            \tweak style #'cross
+            a'8
+            \tweak style #'cross
+            b'8
+            \tweak style #'cross
+            a'8
             R1
             r2
             r8
@@ -157,6 +175,8 @@
             ~
             as'2
             )
+            R1
+            R1
         }
         \context PianoStaff = ""
         <<
@@ -166,9 +186,25 @@
                 pedalSustainStyle = #'mixed
             }
             {
-                \tempo Aloof 4=60
                 \time 4/4
                 \clef "treble"
+                \tweak style #'cross
+                d''8
+                ^ \markup { (click track...) }
+                \tweak style #'cross
+                a'8
+                \tweak style #'cross
+                b'8
+                \tweak style #'cross
+                a'8
+                \tweak style #'cross
+                d''8
+                \tweak style #'cross
+                a'8
+                \tweak style #'cross
+                b'8
+                \tweak style #'cross
+                a'8
                 gs''2
                 \pp
                 gs''2
@@ -268,6 +304,7 @@
             {
                 \time 4/4
                 \clef "bass"
+                R1
                 gs,,2
                 a2
                 \clef "treble"

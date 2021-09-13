@@ -83,6 +83,11 @@ tense_dyn = [],["mp", "\<"],[],[],[],[],[],["f"]
 
 MAKING.extend(
     par(
+        making_cell(dur=[1,1,1,1], degree=[7,4,7,4]).tag(["(click track...)"])(machine="FLUTE"),
+        making_cell(dur=[1,1,1,1], degree=[7,4,7,4]).tag(["(click track...)"])(machine="PIANO1"),
+    ).tag_all(["note_head:0:cross"]),
+
+    par(
         seq_ref("MAKINGA_SLURRED").tag(["p"])(octave=1, machine="PIANO1"),
         make_walk()(octave=-1, machine="PIANO2") 
     )
@@ -266,7 +271,7 @@ mod_and_seq(-6,
 )
 
 
-MAKING = MAKING.tag(["tempo:126:1:4:Intense"])
+MAKING = MAKING.tag(["tempo:96:1:4:Intense"])
 
 if __name__ == "__main__":
     score = score_with_meter(

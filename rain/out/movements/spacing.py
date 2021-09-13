@@ -70,6 +70,10 @@ par("PIANO_RISE",
 SPACING.extend(
     # rest_all(6), # long tones, swells in electronics
     par(
+        spacing_cell(dur=[0.5]*8, degree=[4,1,2,1]*2).tag(["(click track...)"])(machine="FLUTE"),
+        spacing_cell(dur=[0.5]*8, degree=[4,1,2,1]*2).tag(["(click track...)"])(machine="PIANO1"),
+    ).tag_all(["note_head:0:cross"]),
+    par(
         # TODO: these are used later (at end, maybe elsewhere) .... DRY
         spacing_cell(degree=[0, 0, 0], dur=[2,2,2])(octave=1).tag(["pp"])(machine="PIANO1"),
         spacing_cell(degree=[0,1,6], dur=[2,2,2], octave=[-3, -1, -1]).tag([], [], ["treble"])(machine="PIANO2"),

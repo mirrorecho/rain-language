@@ -147,6 +147,11 @@ def flip_cluster(key_prefix:str=None, times=1, dur=None, degrees=(0,3,4), **kwar
 FLIPPING.extend(
     # TODO: tag piano with treble clef from the start
     par(
+        flipping_cell(dur=[1,1,1,1], degree=[7,4,7,4]).tag(["(click track...)"])(machine="FLUTE"),
+        flipping_cell(dur=[1,1,1,1], degree=[7,4,7,4]).tag(["(click track...)"])(machine="PIANO1"),
+    ).tag_all(["note_head:0:cross"]),
+
+    par(
         seq(
             # TODO: add tremolo
             flip_flute("FLIPF_0", degree=1, octave=2, dur=2, bookend_rests=(2.5,0.5),
@@ -270,7 +275,7 @@ print(flipping_tonic.tonic)
     # # flip_out("FLIPPING2", times=4),
 
 
-FLIPPING = FLIPPING.tag(["tempo:126:1:4:Angry"])
+FLIPPING = FLIPPING.tag(["tempo:116:1:4:Angry"])
 
 if __name__ == "__main__":
     score = score_with_meter()

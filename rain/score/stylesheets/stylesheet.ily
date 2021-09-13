@@ -58,6 +58,7 @@
         \remove Instrument_name_engraver
         \override Hairpin #'minimum-length = #7
         \override MultiMeasureRest.expand-limit = #1
+        \accidentalStyle neo-modern-cautionary
     }
     \context {
         \RhythmicStaff

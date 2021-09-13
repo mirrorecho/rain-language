@@ -89,7 +89,7 @@ def tremble(degree=[-4,0], dur=4, octave=0, lh_octave=-1, tag_rh=[], tag_lh=[], 
             )(machine="PIANO2")
         )
 
-def arm_lh(dur=1, pitches=[(-17,-15,-13,-12,-10,-8,-7,-5,-3)], instructions="_*"):
+def arm_lh(dur=1, pitches=[(-15,-13,-12,-10,-8,-7,-5,-3)], instructions="_*"):
     tags=(["note_head:" + str(i) + ":diamond" for i in range(len(pitches[0]))] + ["sfz", ".", ">", instructions],)
     # print(tags)
     return OutCell.create(pitch=pitches, dur=[dur], tags=tags)(machine="PIANO2") 
@@ -111,6 +111,11 @@ freaking_cell("END_TREMBLE", degree=[0], dur=[0.5], tags=[[".", "pedal!"]],
 # ======================================================================
 
 FREAKING.extend(
+
+    par(
+        freaking_cell(dur=[1,1,1,1], degree=[7,4,7,4]).tag(["(click track...)"])(machine="FLUTE"),
+        freaking_cell(dur=[1,1,1,1], degree=[7,4,7,4]).tag(["(click track...)"])(machine="PIANO1"),
+    ).tag_all(["note_head:0:cross"]),
 
     # TODO MAYBE: tie tremolo pitches to the FREAKING1-4 cell pitches?
     tremble(degree=[3,7], dur=8)(pitch_spell="SHARP"),
@@ -367,7 +372,7 @@ mod_and_seq(
     rest_all(2),
     par(
         freaking_cell( 
-            degree=[1], dur=[4], tags=(["fermata", "f", "note_head:0:diamond",
+            degree=[2], dur=[4], tags=(["fermata", "f", "note_head:0:diamond",
             "markup_column:hyperventilate into flute|(air tones only)", "|."],),
             )(machine="FLUTE"),        
         freaking_cell( 

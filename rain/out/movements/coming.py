@@ -53,6 +53,11 @@ coming_cell("RISE", degree=(-2,0), dur=(1,4))
 
 COMING.extend(
     par(
+        coming_cell(dur=[1,1,1,1], degree=[7,4,7,4]).tag(["(click track...)"])(machine="FLUTE"),
+        coming_cell(dur=[1,1,1,1], degree=[7,4,7,4]).tag(["(click track...)"])(machine="PIANO1"),
+    ).tag_all(["note_head:0:cross"]),
+
+    par(
         # seq_ref("COMING_1")(machine="FLUTE"),
         # TODO: start with single notes, then two-note chords
         rest_all(1, "PIANO1") + seq_ref("OSTI_CHORDS")(machine="PIANO1"),

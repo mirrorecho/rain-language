@@ -166,6 +166,7 @@ class Staff(rain.Machine):
         pitch=None,
         pitch_spell = None,
         leaf_durs = None,
+        force_rest=False,
         tags=(),
         **kwargs,
         ):
@@ -174,9 +175,14 @@ class Staff(rain.Machine):
         delta = start_dur - self.total_dur 
         self.rests_dur += delta
 
-        # TO DO: encapsulate all of this into something that writes to an abjad container
+        # TODO: encapsulate all of this into something that writes to an abjad container
 
-        if dur > 0:
+        if force_rest:
+            self.rests_dur += dur
+            self.trigger_lt(dur=self.rests_dur, pitch=None, leaf_durs=None, **kwargs)
+            self.rests_dur = 0
+        elif dur > 0:
+            # TODO: this conditional logic could be a little cleaner:
             if pitch is None and not tags and not leaf_durs:
                 # TODO: handle force_dur / tags for rests here
                 self.rests_dur += dur

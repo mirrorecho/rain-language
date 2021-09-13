@@ -19,8 +19,18 @@
             pedalSustainStyle = #'mixed
         }
         {
+            \tempo Agitated 4=160
             \time 4/4
             \clef "treble"
+            \tweak style #'cross
+            e''4
+            ^ \markup { (click track...) }
+            \tweak style #'cross
+            c''4
+            \tweak style #'cross
+            e''4
+            \tweak style #'cross
+            c''4
             R1
             R1
             R1
@@ -239,7 +249,7 @@
             ^ \markup { * }
             R1
             \tweak style #'diamond
-            bf'1
+            c''1
             \fermata
             \f
             ^ \markup { (air tones only) }
@@ -254,9 +264,17 @@
                 pedalSustainStyle = #'mixed
             }
             {
-                \tempo Agitated 4=160
                 \time 4/4
                 \clef "treble"
+                \tweak style #'cross
+                e''4
+                ^ \markup { (click track...) }
+                \tweak style #'cross
+                c''4
+                \tweak style #'cross
+                e''4
+                \tweak style #'cross
+                c''4
                 <as' e''>1
                 :32
                 \p
@@ -671,6 +689,7 @@
             {
                 \time 4/4
                 \clef "bass"
+                R1
                 e'1
                 ~
                 \sustainOn
@@ -689,8 +708,6 @@
                 \sustainOn
                 e'1
                 <
-                    \tweak style #'diamond
-                    g,
                     \tweak style #'diamond
                     a,
                     \tweak style #'diamond
@@ -725,8 +742,6 @@
                 r4
                 r8
                 <
-                    \tweak style #'diamond
-                    g,
                     \tweak style #'diamond
                     a,
                     \tweak style #'diamond
@@ -768,8 +783,6 @@
                 - \accent
                 r2
                 <
-                    \tweak style #'diamond
-                    g,
                     \tweak style #'diamond
                     a,
                     \tweak style #'diamond
@@ -923,8 +936,6 @@
                 r4
                 <
                     \tweak style #'diamond
-                    g,
-                    \tweak style #'diamond
                     a,
                     \tweak style #'diamond
                     b,
@@ -946,6 +957,8 @@
                 - \accent
                 _ \markup { * }
                 \sustainOn
+                r2
+                R1
             }
         >>
     >>

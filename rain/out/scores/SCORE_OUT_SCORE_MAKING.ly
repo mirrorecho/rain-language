@@ -19,8 +19,18 @@
             pedalSustainStyle = #'mixed
         }
         {
+            \tempo Intense 4=96
             \time 4/4
             \clef "treble"
+            \tweak style #'cross
+            c''4
+            ^ \markup { (click track...) }
+            \tweak style #'cross
+            g'4
+            \tweak style #'cross
+            c''4
+            \tweak style #'cross
+            g'4
             R1
             R1
             R1
@@ -194,6 +204,10 @@
             - \staccato
             - \accent
             ]
+            R1
+            R1
+            R1
+            R1
         }
         \context PianoStaff = ""
         <<
@@ -203,9 +217,17 @@
                 pedalSustainStyle = #'mixed
             }
             {
-                \tempo Intense 4=126
                 \time 4/4
                 \clef "treble"
+                \tweak style #'cross
+                c''4
+                ^ \markup { (click track...) }
+                \tweak style #'cross
+                g'4
+                \tweak style #'cross
+                c''4
+                \tweak style #'cross
+                g'4
                 ef''8.
                 \p
                 (
@@ -644,6 +666,7 @@
             {
                 \time 4/4
                 \clef "bass"
+                R1
                 c8
                 (
                 [

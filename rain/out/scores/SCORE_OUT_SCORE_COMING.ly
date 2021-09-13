@@ -19,8 +19,18 @@
             pedalSustainStyle = #'mixed
         }
         {
+            \tempo 4=112
             \time 4/4
             \clef "treble"
+            \tweak style #'cross
+            g'4
+            ^ \markup { (click track...) }
+            \tweak style #'cross
+            d'4
+            \tweak style #'cross
+            g'4
+            \tweak style #'cross
+            d'4
             R1
             R1
             R1
@@ -214,9 +224,17 @@
                 pedalSustainStyle = #'mixed
             }
             {
-                \tempo 4=112
                 \time 4/4
                 \clef "treble"
+                \tweak style #'cross
+                g'4
+                ^ \markup { (click track...) }
+                \tweak style #'cross
+                d'4
+                \tweak style #'cross
+                g'4
+                \tweak style #'cross
+                d'4
                 r4
                 <a d'>4
                 ~
@@ -439,6 +457,7 @@
             {
                 \time 4/4
                 \clef "bass"
+                R1
                 g,1
                 ^ \p
                 g,1

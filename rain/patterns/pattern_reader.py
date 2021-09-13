@@ -78,6 +78,16 @@ class PatternReader(rain.LanguageBase):
 
         # TODO this is REALLY NASTY ... ONLY WORKS FOR SCORE MACHINES
         # TODO TODO TODO...  MUST REFACTOR
+        # TODO ALSO the looping could be more elegant here
+        max_dur = 0
         for name, machine in self.palette.items():
             if isinstance(machine, rain.Staff):
-                print(name, "IS A STAFF")
+                if machine.total_dur > max_dur:
+                    max_dur = machine.total_dur
+        for name, machine in self.palette.items():
+            machine.trigger(
+                dur=max_dur-machine.total_dur,
+                start_dur=machine.total_dur,
+                degree=None, 
+                force_rest=True
+                )

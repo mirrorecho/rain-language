@@ -19,9 +19,18 @@
             pedalSustainStyle = #'mixed
         }
         {
-            \tempo Angry 4=126
+            \tempo Angry 4=116
             \time 4/4
             \clef "treble"
+            \tweak style #'cross
+            b'4
+            ^ \markup { (click track...) }
+            \tweak style #'cross
+            f'4
+            \tweak style #'cross
+            b'4
+            \tweak style #'cross
+            f'4
             r2
             r8
             cs'''8
@@ -199,6 +208,8 @@
             - \marcato
             - \staccato
             - \accent
+            R1
+            R1
         }
         \context PianoStaff = ""
         <<
@@ -210,6 +221,15 @@
             {
                 \time 4/4
                 \clef "treble"
+                \tweak style #'cross
+                b'4
+                ^ \markup { (click track...) }
+                \tweak style #'cross
+                f'4
+                \tweak style #'cross
+                b'4
+                \tweak style #'cross
+                f'4
                 b'8
                 \f
                 - \staccato
@@ -618,6 +638,9 @@
                 pedalSustainStyle = #'mixed
             }
             {
+                \time 4/4
+                \clef "bass"
+                R1
                 \clef "treble"
                 b8
                 - \staccato

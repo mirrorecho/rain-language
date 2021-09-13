@@ -45,7 +45,12 @@ seq("PASSING_CHORDS",
 )
 
 PASSING.extend(
-    # rest_all(3),
+
+    par(
+        passing_cell(dur=[1.5, 1.5], degree=[5,1]).tag(["(click...)"])(machine="FLUTE"),
+        passing_cell(dur=[1.5, 1.5], degree=[5,1]).tag(["(click...)"])(machine="PIANO1"),
+    ).tag_all(["note_head:0:cross"]),
+
     par(
         seq(
             passing_cell(degree=[passing1_degree[0]], dur=[3], octave=[1], tags=(["~", "p", "\<", "("],))(pitch_spell="SHARP", machine="FLUTE"),

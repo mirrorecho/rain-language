@@ -2,6 +2,8 @@
 \version "2.22.1"
 %! abjad.LilyPondFile._get_format_pieces()
 \language "english"
+%! abjad.LilyPondFile._get_formatted_includes()
+\include "./rain-language/rain/score/stylesheets/stylesheet.ily"
 
 %! abjad.LilyPondFile._get_formatted_blocks()
 \score
@@ -10,11 +12,26 @@
     \context Score = ""
     <<
         \context Staff = "Flute"
+        \with
         {
+            pedalSustainStyle = #'mixed
+        }
+        {
+            \time 4/4
+            \clef "treble"
+            R1
+            R1
+            r2
+            r4
+            r8
         }
         \context PianoStaff = ""
         <<
             \context Staff = "Piano 1"
+            \with
+            {
+                pedalSustainStyle = #'mixed
+            }
             {
                 \time 4/4
                 \clef "treble"
@@ -44,6 +61,10 @@
                 as8
             }
             \context Staff = "Piano 2"
+            \with
+            {
+                pedalSustainStyle = #'mixed
+            }
             {
                 \time 4/4
                 \clef "bass"
