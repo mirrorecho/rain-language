@@ -32,9 +32,11 @@ class Score(rain.MachineTree):
                 # abjad.attach(accidental_style_command, staff_machine.notation_object[0])
 
                 if self.meter is meters.METER_4_4:
+                    print("ATTACHING 4/4")
                     time_signature = abjad.TimeSignature((4, 4))
                     abjad.attach(time_signature, staff_machine.notation_object[0], context="Score")
                 elif self.meter is meters.METER_6_8:
+                    print("ATTACHING 6/8")
                     time_signature = abjad.TimeSignature((6, 8))
                     abjad.attach(time_signature, staff_machine.notation_object[0], context="Score")
                 else:
@@ -46,11 +48,20 @@ class Score(rain.MachineTree):
                 self.prep_staves(s)
 
     
-    def render(self, name=""):
+    def render(self, name="", stylesheets=[]):
 
         self.prep_staves(self)
 
-        abjad.show(self.notation_object,
+        block = abjad.Block(name="score")
+        block.items.append(self.notation_object)
+        # block.items.append(r"\accidentalStyle dodecaphonic")
+        abjad.override(block).Beam.positions = "#'(-2 . -2)"
+        ly = abjad.LilyPondFile(items=[block], 
+            includes=["./rain-language/rain/score/stylesheets/stylesheet.ily"] + stylesheets
+                )
+                
+
+        abjad.show(ly,
             output_directory="./rain-language/rain/out/scores/", 
             should_open=False,
             render_prefix="SCORE_" + self.key + "_" + name,

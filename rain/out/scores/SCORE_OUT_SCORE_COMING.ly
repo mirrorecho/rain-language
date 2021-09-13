@@ -2,6 +2,10 @@
 \version "2.22.1"
 %! abjad.LilyPondFile._get_format_pieces()
 \language "english"
+%! abjad.LilyPondFile._get_formatted_includes()
+\include "./rain-language/rain/score/stylesheets/stylesheet.ily"
+%! abjad.LilyPondFile._get_formatted_includes()
+\include "./rain-language/rain/score/stylesheets/stylesheet_title_coming.ily"
 
 %! abjad.LilyPondFile._get_formatted_blocks()
 \score
@@ -10,14 +14,18 @@
     \context Score = ""
     <<
         \context Staff = "Flute"
+        \with
+        {
+            pedalSustainStyle = #'mixed
+        }
         {
             \time 4/4
             \clef "treble"
-            r1
-            r1
-            r1
-            r1
-            r1
+            R1
+            R1
+            R1
+            R1
+            R1
             r8
             b'8
             \p
@@ -27,9 +35,9 @@
             ~
             d''2
             )
-            r1
+            R1
             \fermata
-            r1
+            R1
             r8
             b'8
             (
@@ -126,7 +134,7 @@
             ~
             bf''1
             )
-            r1
+            R1
             r4
             c'''4
             \<
@@ -201,6 +209,10 @@
         \context PianoStaff = ""
         <<
             \context Staff = "Piano 1"
+            \with
+            {
+                pedalSustainStyle = #'mixed
+            }
             {
                 \tempo 4=112
                 \time 4/4
@@ -238,7 +250,7 @@
                 <cs' d'>4
                 ~
                 <cs' d'>2
-                r1
+                R1
                 \fermata
                 r4
                 <a d'>4
@@ -420,6 +432,10 @@
                 \bar "|."
             }
             \context Staff = "Piano 2"
+            \with
+            {
+                pedalSustainStyle = #'mixed
+            }
             {
                 \time 4/4
                 \clef "bass"
@@ -431,7 +447,7 @@
                 g,2
                 g,1
                 g,1
-                r1
+                R1
                 \fermata
                 g,1
                 g,2

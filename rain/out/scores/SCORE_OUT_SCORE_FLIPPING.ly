@@ -2,6 +2,10 @@
 \version "2.22.1"
 %! abjad.LilyPondFile._get_format_pieces()
 \language "english"
+%! abjad.LilyPondFile._get_formatted_includes()
+\include "./rain-language/rain/score/stylesheets/stylesheet.ily"
+%! abjad.LilyPondFile._get_formatted_includes()
+\include "./rain-language/rain/score/stylesheets/stylesheet_title_flipping.ily"
 
 %! abjad.LilyPondFile._get_formatted_blocks()
 \score
@@ -12,7 +16,6 @@
         \context Staff = "Flute"
         \with
         {
-            accidentalStyle = neo-modern-cautionary
             pedalSustainStyle = #'mixed
         }
         {
@@ -202,7 +205,6 @@
             \context Staff = "Piano 1"
             \with
             {
-                accidentalStyle = neo-modern-cautionary
                 pedalSustainStyle = #'mixed
             }
             {
@@ -613,7 +615,6 @@
             \context Staff = "Piano 2"
             \with
             {
-                accidentalStyle = neo-modern-cautionary
                 pedalSustainStyle = #'mixed
             }
             {

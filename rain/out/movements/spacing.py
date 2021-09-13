@@ -214,4 +214,5 @@ if __name__ == "__main__":
     score.reset()
     pr = rain.PatternReader(SPACING, score.get_palette())
     pr.read()
-    score.render("SPACING")
+    score.render("SPACING",
+    stylesheets=["./rain-language/rain/score/stylesheets/stylesheet_title_spacing.ily"])

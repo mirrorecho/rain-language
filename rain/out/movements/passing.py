@@ -209,4 +209,5 @@ if __name__ == "__main__":
     score.reset()
     pr = rain.PatternReader(PASSING, score.get_palette())
     pr.read()
-    score.render("PASSING")
+    score.render("PASSING", 
+        stylesheets=["./rain-language/rain/score/stylesheets/stylesheet_title_passing.ily"])

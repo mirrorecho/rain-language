@@ -387,4 +387,5 @@ if __name__ == "__main__":
     score.reset()
     pr = rain.PatternReader(FREAKING, score.get_palette())
     pr.read()
-    score.render("FREAKING")
+    score.render("FREAKING",
+    stylesheets=["./rain-language/rain/score/stylesheets/stylesheet_title_freaking.ily"])

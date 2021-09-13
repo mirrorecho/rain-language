@@ -277,4 +277,5 @@ if __name__ == "__main__":
     score.reset()
     pr = rain.PatternReader(FLIPPING, score.get_palette())
     pr.read()
-    score.render("FLIPPING")
+    score.render("FLIPPING",
+    stylesheets=["./rain-language/rain/score/stylesheets/stylesheet_title_flipping.ily"])

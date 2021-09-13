@@ -2,6 +2,10 @@
 \version "2.22.1"
 %! abjad.LilyPondFile._get_format_pieces()
 \language "english"
+%! abjad.LilyPondFile._get_formatted_includes()
+\include "./rain-language/rain/score/stylesheets/stylesheet.ily"
+%! abjad.LilyPondFile._get_formatted_includes()
+\include "./rain-language/rain/score/stylesheets/stylesheet_title_spacing.ily"
 
 %! abjad.LilyPondFile._get_formatted_blocks()
 \score
@@ -12,13 +16,12 @@
         \context Staff = "Flute"
         \with
         {
-            accidentalStyle = neo-modern-cautionary
             pedalSustainStyle = #'mixed
         }
         {
             \time 4/4
             \clef "treble"
-            r1
+            R1
             r2
             r8
             a'8
@@ -70,7 +73,7 @@
             fs'8
             gs'8
             )
-            r1
+            R1
             r8
             e'8
             \<
@@ -160,7 +163,6 @@
             \context Staff = "Piano 1"
             \with
             {
-                accidentalStyle = neo-modern-cautionary
                 pedalSustainStyle = #'mixed
             }
             {
@@ -261,7 +263,6 @@
             \context Staff = "Piano 2"
             \with
             {
-                accidentalStyle = neo-modern-cautionary
                 pedalSustainStyle = #'mixed
             }
             {

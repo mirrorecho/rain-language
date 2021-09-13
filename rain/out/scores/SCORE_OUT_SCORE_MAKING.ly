@@ -2,6 +2,10 @@
 \version "2.22.1"
 %! abjad.LilyPondFile._get_format_pieces()
 \language "english"
+%! abjad.LilyPondFile._get_formatted_includes()
+\include "./rain-language/rain/score/stylesheets/stylesheet.ily"
+%! abjad.LilyPondFile._get_formatted_includes()
+\include "./rain-language/rain/score/stylesheets/stylesheet_title_making.ily"
 
 %! abjad.LilyPondFile._get_formatted_blocks()
 \score
@@ -10,14 +14,18 @@
     \context Score = ""
     <<
         \context Staff = "Flute"
+        \with
+        {
+            pedalSustainStyle = #'mixed
+        }
         {
             \time 4/4
             \clef "treble"
-            r1
-            r1
-            r1
-            r1
-            r1
+            R1
+            R1
+            R1
+            R1
+            R1
             gs''1
             \p
             \<
@@ -37,7 +45,7 @@
             - \tenuto
             gf''4
             - \tenuto
-            r1
+            R1
             af''1
             \p
             \<
@@ -109,9 +117,9 @@
             ~
             c'4
             r4
-            r1
-            r1
-            r1
+            R1
+            R1
+            R1
             r2
             b''4
             \mf
@@ -156,8 +164,8 @@
             - \tenuto
             cs'''4
             - \tenuto
-            r1
-            r1
+            R1
+            R1
             r8
             [
             b''8
@@ -190,6 +198,10 @@
         \context PianoStaff = ""
         <<
             \context Staff = "Piano 1"
+            \with
+            {
+                pedalSustainStyle = #'mixed
+            }
             {
                 \tempo Intense 4=126
                 \time 4/4
@@ -596,7 +608,7 @@
                 - \staccato
                 - \accent
                 ]
-                r1
+                R1
                 \clef "bass"
                 c8
                 \>
@@ -625,6 +637,10 @@
                 \ottava 0
             }
             \context Staff = "Piano 2"
+            \with
+            {
+                pedalSustainStyle = #'mixed
+            }
             {
                 \time 4/4
                 \clef "bass"

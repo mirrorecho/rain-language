@@ -16,6 +16,9 @@ class Palette(rain.LanguageBase):
         self._nodes = {}
         self.extend(*nodes)
 
+    def items(self):
+        return self._nodes.items()
+
     def add(self, node:rain.Node):
         self._nodes[node.key] = node
 

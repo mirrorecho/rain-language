@@ -23,7 +23,9 @@ class Staff(rain.Machine):
     def reset(self):
         self.notation_object = abjad.Staff(name=self.name)
         abjad.setting(self.notation_object).pedalSustainStyle = "#'mixed"
-        abjad.setting(self.notation_object).accidentalStyle = "neo-modern-cautionary"
+        
+        # TODO: this doesn't work
+        # abjad.setting(self.notation_object).accidentalStyle = "neo-modern-cautionary"
         self.total_dur = 0
         self.rests_dur = 0
         self.current_meter_node = self.meter.root_node
@@ -91,7 +93,7 @@ class Staff(rain.Machine):
 
             # TODO: could probalby come up with a better way
             # to figure out MM rests ... (this check runs even for non-rests)
-            print(self.current_meter_node, self.current_meter_node.root)
+            # print(self.current_meter_node, self.current_meter_node.root)
             if self.current_meter_node == self.meter.root_node:
                 mm_rest_durs.append(True)
             else:

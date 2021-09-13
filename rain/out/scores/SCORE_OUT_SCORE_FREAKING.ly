@@ -2,6 +2,10 @@
 \version "2.22.1"
 %! abjad.LilyPondFile._get_format_pieces()
 \language "english"
+%! abjad.LilyPondFile._get_formatted_includes()
+\include "./rain-language/rain/score/stylesheets/stylesheet.ily"
+%! abjad.LilyPondFile._get_formatted_includes()
+\include "./rain-language/rain/score/stylesheets/stylesheet_title_freaking.ily"
 
 %! abjad.LilyPondFile._get_formatted_blocks()
 \score
@@ -12,19 +16,18 @@
         \context Staff = "Flute"
         \with
         {
-            accidentalStyle = neo-modern-cautionary
             pedalSustainStyle = #'mixed
         }
         {
             \time 4/4
             \clef "treble"
-            r1
-            r1
-            r1
-            r1
-            r1
-            r1
-            r1
+            R1
+            R1
+            R1
+            R1
+            R1
+            R1
+            R1
             r8
             cs'''8
             \mf
@@ -75,7 +78,7 @@
             \f
             - \accent
             - \staccato
-            r1
+            R1
             r8
             df'''8
             - \staccato
@@ -197,7 +200,7 @@
             d'''8
             - \staccato
             - \accent
-            r1
+            R1
             r4
             d'''4
             \p
@@ -211,7 +214,7 @@
             ^ \markup { * }
             r4
             r2
-            r1
+            R1
             r4
             \tweak style #'cross
             c'''4
@@ -234,13 +237,13 @@
             d'''4
             - \accent
             ^ \markup { * }
-            r1
+            R1
             \tweak style #'diamond
             bf'1
             \fermata
             \f
             ^ \markup { (air tones only) }
-            ^ \markup { hyperventilate into flute! }
+            ^ \markup { hyperventilate into flute }
             \bar "|."
         }
         \context PianoStaff = ""
@@ -248,7 +251,6 @@
             \context Staff = "Piano 1"
             \with
             {
-                accidentalStyle = neo-modern-cautionary
                 pedalSustainStyle = #'mixed
             }
             {
@@ -664,7 +666,6 @@
             \context Staff = "Piano 2"
             \with
             {
-                accidentalStyle = neo-modern-cautionary
                 pedalSustainStyle = #'mixed
             }
             {
@@ -680,8 +681,8 @@
                 r8
                 r4
                 r2
-                r1
-                r1
+                R1
+                R1
                 r2
                 e'2
                 ~
@@ -719,7 +720,7 @@
                 <e, e>4
                 - \staccato
                 - \accent
-                r1
+                R1
                 r2
                 r4
                 r8

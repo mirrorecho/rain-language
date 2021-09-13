@@ -75,3 +75,9 @@ class PatternReader(rain.LanguageBase):
             for v_dict in v_list:
                 if machine_name := v_dict.pop("machine"):
                     self.palette[machine_name].trigger(p, **v_dict)
+
+        # TODO this is REALLY NASTY ... ONLY WORKS FOR SCORE MACHINES
+        # TODO TODO TODO...  MUST REFACTOR
+        for name, machine in self.palette.items():
+            if isinstance(machine, rain.Staff):
+                print(name, "IS A STAFF")
