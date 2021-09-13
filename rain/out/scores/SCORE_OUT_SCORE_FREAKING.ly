@@ -10,9 +10,16 @@
     \context Score = ""
     <<
         \context Staff = "Flute"
+        \with
+        {
+            accidentalStyle = neo-modern-cautionary
+            pedalSustainStyle = #'mixed
+        }
         {
             \time 4/4
             \clef "treble"
+            r1
+            r1
             r1
             r1
             r1
@@ -22,11 +29,11 @@
             cs'''8
             \mf
             - \staccato
-            e'''16
+            cs'''16
             - \staccato
-            fs'''16
+            ds'''16
             - \staccato
-            gs'''8
+            e'''8
             - \staccato
             - \accent
             r4
@@ -41,11 +48,11 @@
             r8
             cs'''8
             - \staccato
-            e'''16
+            cs'''16
             - \staccato
-            fs'''16
+            ds'''16
             - \staccato
-            gs'''8
+            e'''8
             - \staccato
             - \accent
             r4
@@ -72,11 +79,11 @@
             r8
             df'''8
             - \staccato
-            gf'''16
+            df'''16
             - \staccato
-            af'''16
+            ef'''16
             - \staccato
-            bf'''8
+            gf'''8
             - \staccato
             - \accent
             r4
@@ -113,21 +120,21 @@
             r8
             g''8
             - \staccato
+            g''16
+            - \staccato
             af''16
             - \staccato
-            bf''16
-            - \staccato
-            c'''8
+            af''8
             - \staccato
             - \accent
             r8
             g''8
             - \staccato
+            g''16
+            - \staccato
             af''16
             - \staccato
-            bf''16
-            - \staccato
-            c'''8
+            af''8
             - \staccato
             - \accent
             f''4
@@ -138,58 +145,59 @@
             r8
             f''8
             - \staccato
-            bf''16
+            f''16
             - \staccato
-            c'''16
+            g''16
+            - \staccato
+            bf''8
+            - \staccato
+            - \accent
+            r4
+            \tweak style #'cross
+            gf''4
+            - \accent
+            ^ \markup { * }
+            r4
+            \tweak style #'cross
+            gf''4
+            - \accent
+            ^ \markup { * }
+            r4
+            \tweak style #'cross
+            gf''4
+            - \accent
+            ^ \markup { * }
+            r8
+            \tweak style #'cross
+            af''8
+            - \accent
+            ^ \markup { * }
+            r8
+            \tweak style #'cross
+            af''8
+            - \accent
+            ^ \markup { * }
+            r8
+            cs'''8
+            - \staccato
+            cs'''16
+            - \staccato
+            d'''16
             - \staccato
             d'''8
             - \staccato
             - \accent
-            r4
-            \tweak style #'cross
-            gf''4
-            - \accent
-            ^ \markup { * }
-            r4
-            \tweak style #'cross
-            gf''4
-            - \accent
-            ^ \markup { * }
-            r4
-            \tweak style #'cross
-            gf''4
-            - \accent
-            ^ \markup { * }
-            r8
-            \tweak style #'cross
-            af''8
-            - \accent
-            ^ \markup { * }
-            r8
-            \tweak style #'cross
-            af''8
-            - \accent
-            ^ \markup { * }
             r8
             cs'''8
             - \staccato
-            d'''16
-            - \staccato
-            e'''16
-            - \staccato
-            fs'''8
-            - \staccato
-            - \accent
-            r8
-            cs'''8
+            cs'''16
             - \staccato
             d'''16
             - \staccato
-            e'''16
-            - \staccato
-            fs'''8
+            d'''8
             - \staccato
             - \accent
+            r1
             r4
             d'''4
             \p
@@ -238,65 +246,88 @@
         \context PianoStaff = ""
         <<
             \context Staff = "Piano 1"
+            \with
+            {
+                accidentalStyle = neo-modern-cautionary
+                pedalSustainStyle = #'mixed
+            }
             {
                 \tempo Agitated 4=160
                 \time 4/4
                 \clef "treble"
-                <as e'>1
+                <as' e''>1
                 :32
                 \p
                 \<
-                as8
+                ~
+                <as' e''>1
+                :32
+                :32
+                r8
+                \mf
+                ds''8
+                - \staccato
+                e''8
+                - \staccato
+                ds''8
+                - \staccato
+                as'8
+                - \staccato
+                ds''8
+                - \staccato
+                e''8
+                - \staccato
+                ds''8
+                - \staccato
+                c''8
+                - \staccato
+                ds''8
+                - \staccato
+                e''8
+                - \staccato
+                ds''8
+                - \staccato
+                as'8
+                - \staccato
+                ds''8
+                - \staccato
+                e''8
+                - \staccato
+                ds''8
+                - \staccato
+                as'8
+                - \staccato
+                ds''8
+                - \staccato
+                e''8
+                - \staccato
+                ds''8
+                - \staccato
+                c''8
+                - \staccato
+                ds''8
+                - \staccato
+                e''8
+                - \staccato
+                ds''8
+                - \staccato
+                r2
+                <c'' ds'' e''>2
+                :32
+                \p
+                \<
+                ~
+                <c'' ds'' e''>1
+                :32
+                :32
+                r8
+                cs'8
                 \mf
                 - \staccato
-                ds'8
-                - \staccato
                 e'8
                 - \staccato
-                ds'8
+                cs'8
                 - \staccato
-                as8
-                - \staccato
-                ds'8
-                - \staccato
-                e'8
-                - \staccato
-                ds'8
-                - \staccato
-                c'8
-                - \staccato
-                ds'8
-                - \staccato
-                e'8
-                - \staccato
-                ds'8
-                - \staccato
-                as8
-                - \staccato
-                ds'8
-                - \staccato
-                e'8
-                - \staccato
-                ds'8
-                - \staccato
-                as8
-                - \staccato
-                ds'8
-                - \staccato
-                e'8
-                - \staccato
-                ds'8
-                - \staccato
-                c'8
-                - \staccato
-                ds'8
-                - \staccato
-                e'8
-                - \staccato
-                ds'8
-                - \staccato
-                <c' ds' e'>1
-                :32
                 c'8
                 - \staccato
                 cs'8
@@ -336,14 +367,6 @@
                 e'8
                 - \staccato
                 ds'8
-                - \staccato
-                c'8
-                - \staccato
-                cs'8
-                - \staccato
-                e'8
-                - \staccato
-                cs'8
                 - \staccato
                 c'8
                 - \staccato
@@ -357,51 +380,62 @@
                 - \staccato
                 cs'8
                 - \staccato
-                e'8
+                fs'8
                 - \staccato
                 cs'8
                 - \staccato
-                <c' df' gf'>1
+                r4
+                <c' df' gf'>4
                 :32
-                \mp
+                \p
                 \<
-                c'8
-                \f
-                - \staccato
-                df'8
-                - \staccato
-                gf'8
-                - \staccato
-                df'8
-                - \staccato
-                c'8
-                - \staccato
-                df'8
-                - \staccato
-                gf'8
-                - \staccato
-                df'8
-                - \staccato
-                c'8
-                - \staccato
-                f'8
-                - \staccato
-                gf'8
-                - \staccato
-                f'8
-                - \staccato
-                c'8
-                - \staccato
-                f'8
-                - \staccato
-                gf'8
-                - \staccato
-                f'8
-                - \staccato
-                <c' gf'>1
+                ~
+                <c' df' gf'>2
                 :32
+                :32
+                r8
+                \f
+                df'8
+                - \staccato
+                gf'8
+                - \staccato
+                df'8
+                - \staccato
                 c'8
                 - \staccato
+                df'8
+                - \staccato
+                gf'8
+                - \staccato
+                df'8
+                - \staccato
+                c'8
+                - \staccato
+                f'8
+                - \staccato
+                gf'8
+                - \staccato
+                f'8
+                - \staccato
+                c'8
+                - \staccato
+                f'8
+                - \staccato
+                gf'8
+                - \staccato
+                f'8
+                - \staccato
+                r4
+                <c' gf'>4
+                :32
+                \p
+                \<
+                ~
+                <c' gf'>2
+                :32
+                :32
+                r8
+                \f
                 f'8
                 - \staccato
                 gf'8
@@ -464,11 +498,8 @@
                 - \staccato
                 f'8
                 - \staccato
-                <e'' bf''>1
-                :32
-                \p
-                \<
-                <fs'' b'' c'''>4
+                <e' e''>1
+                <fs' b' c''>4
                 \f
                 - \accent
                 - \staccato
@@ -476,11 +507,11 @@
                 r8
                 b''8
                 - \staccato
+                b''16
+                - \staccato
                 c'''16
                 - \staccato
-                d'''16
-                - \staccato
-                e'''8
+                c'''8
                 - \staccato
                 - \accent
                 r8
@@ -499,10 +530,18 @@
                 - \staccato
                 cs'''8
                 - \staccato
-                <gs'' cs''' d'''>1
+                r4
+                <gs'' cs''' d'''>4
                 :32
                 \p
                 \<
+                ~
+                <gs'' cs''' d'''>2
+                :32
+                ~
+                <gs'' cs''' d'''>1
+                :32
+                :32
                 r8
                 - \staccato
                 cs'''8
@@ -607,6 +646,7 @@
                     \tweak style #'diamond
                     f''
                 >4
+                \sfz
                 - \staccato
                 - \accent
                 ^ \markup { * }
@@ -616,19 +656,37 @@
                 r2
                 <d'' af''>1
                 :32
+                :32
                 \fermata
                 \ppp
                 \bar "|."
             }
             \context Staff = "Piano 2"
+            \with
+            {
+                accidentalStyle = neo-modern-cautionary
+                pedalSustainStyle = #'mixed
+            }
             {
                 \time 4/4
                 \clef "bass"
+                e'1
+                ~
+                \sustainOn
+                e'1
+                e'8
+                - \staccato
+                \sustainOff
+                r8
+                r4
+                r2
                 r1
                 r1
-                r1
-                r1
-                r1
+                r2
+                e'2
+                ~
+                \sustainOn
+                e'1
                 <
                     \tweak style #'diamond
                     g,
@@ -649,12 +707,18 @@
                     \tweak style #'diamond
                     a
                 >4
+                \sfz
                 - \staccato
                 - \accent
                 _ \markup { * forearm on keys }
+                \sustainOff
                 r4
                 r2
-                r1
+                r2
+                r4
+                <e, e>4
+                - \staccato
+                - \accent
                 r1
                 r2
                 r4
@@ -679,19 +743,28 @@
                     \tweak style #'diamond
                     a
                 >8
+                \sfz
                 - \staccato
                 - \accent
                 _ \markup { * }
-                r1
-                r2
+                r4
+                gf4
+                ~
+                \sustainOn
+                gf2
+                gf8
+                - \staccato
+                \sustainOff
+                r8
+                r4
                 r4
                 <e,, e,>4
-                - \accent
                 - \staccato
+                - \accent
                 r4
                 <gf,, gf,>4
-                - \accent
                 - \staccato
+                - \accent
                 r2
                 <
                     \tweak style #'diamond
@@ -713,44 +786,37 @@
                     \tweak style #'diamond
                     a
                 >4
+                \sfz
                 - \staccato
                 - \accent
                 _ \markup { * }
                 r4
+                \sustainOn
                 r2
-                r4
+                gf8
+                - \staccato
+                \sustainOff
+                r8
                 <bf, gf>4
                 - \tenuto
                 - \accent
                 gf,4
                 (
                 <d gf>4
+                - \staccato
                 )
-                ef4
+                <ef, ef>1
+                r4
+                <c af>4
                 - \tenuto
                 - \accent
-                r4
-                ef,4
-                (
-                <c ef>4
-                )
-                af,4
-                (
-                <c af>4
-                )
                 af,4
                 (
                 <e af>4
+                - \staccato
                 )
-                f,4
-                (
-                <af, f>4
-                )
-                f,4
-                (
-                <d f>4
-                )
-                bf,8
+                <f, f>1
+                r8
                 - \staccato
                 <d bf>8
                 - \staccato
@@ -758,7 +824,7 @@
                 - \staccato
                 <gf bf>8
                 - \staccato
-                g,8
+                r8
                 - \staccato
                 <bf, g>8
                 - \staccato
@@ -766,7 +832,7 @@
                 - \staccato
                 <e g>8
                 - \staccato
-                c8
+                r8
                 - \staccato
                 <e c'>8
                 - \staccato
@@ -774,14 +840,7 @@
                 - \staccato
                 <gs c'>8
                 - \staccato
-                a,8
-                - \staccato
-                <c a>8
-                - \staccato
-                a,8
-                - \staccato
-                <fs a>8
-                - \staccato
+                <b, b>2
                 <d, d>4
                 - \accent
                 - \staccato
@@ -789,12 +848,18 @@
                 d,4
                 (
                 <as, d>4
+                - \staccato
                 )
-                <cs d gs>1
-                :32
-                \p
-                \<
                 r4
+                d4
+                ~
+                \sustainOn
+                d2
+                ~
+                d1
+                d4
+                - \staccato
+                \sustainOff
                 <d, d>4
                 - \accent
                 - \staccato
@@ -802,45 +867,49 @@
                 <d, d>4
                 - \accent
                 - \staccato
-                as,,8
+                ds,8
+                - \staccato
+                e8
                 - \staccato
                 ds,8
                 - \staccato
-                e,8
+                e8
                 - \staccato
                 ds,8
                 - \staccato
-                c,8
+                e8
                 - \staccato
                 ds,8
                 - \staccato
-                e,8
-                - \staccato
-                ds,8
+                e8
                 - \staccato
                 r4
                 <e,, e,>4
                 - \accent
                 - \staccato
-                c,8
+                ds,,8
                 - \staccato
-                cs,8
+                e,8
                 - \staccato
-                fs,8
+                ds,,8
                 - \staccato
-                cs,8
+                e,8
                 - \staccato
-                c,8
-                - \staccato
-                f,8
+                f,,8
                 - \staccato
                 gf,8
                 - \staccato
-                f,8
+                f,,8
                 - \staccato
-                r4
-                <gf,, gf,>4
-                - \accent
+                gf,8
+                - \staccato
+                f,,8
+                - \staccato
+                gf,8
+                - \staccato
+                f,,8
+                - \staccato
+                gf,8
                 - \staccato
                 r4
                 <gf,, gf,>4
@@ -871,6 +940,7 @@
                     \tweak style #'diamond
                     a
                 >4
+                \sfz
                 - \staccato
                 - \accent
                 _ \markup { * }

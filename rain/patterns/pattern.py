@@ -62,6 +62,12 @@ class AlterableMixin():
         #TODO maybe, put key as optional first arg
         return self.alter(rain.AlterPatternTagVeins.create(key=kwargs.pop("key",None), tags=cycle(args)))
 
+    def tag_all_notes(self, *args, **kwargs):
+        #TODO maybe, put key as optional first arg
+        return self.alter(rain.AlterPatternTagNoteVeins.create(key=kwargs.pop("key",None), tags=cycle(args)))
+
+
+
 @dataclass
 class Pattern(rain.Node, AlterableMixin): 
     # a node that represents an iterable over a group nodes ... each of which is connected

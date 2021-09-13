@@ -11,6 +11,7 @@ class Score(rain.MachineTree):
 
     # TODO this is NASY TO INCLUDE AT THE SCORE LEVEL!
     meter: abjad.Meter = meters.METER_4_4 #TODO: better to save as string so it can be written to data store natively
+    # accidental_style: str = "neo-modern-cautionary"
 
     def reset(self):
         self.notation_object = abjad.Score(name=self.name)
@@ -25,6 +26,11 @@ class Score(rain.MachineTree):
             try:
                 clef = abjad.Clef(staff_machine.clef)
                 abjad.attach(clef, staff_machine.notation_object[0])
+                
+                
+                # accidental_style_command = abjad.LilyPondCommand("accidentalStyle " + self.accidental_style, "before")
+                # abjad.attach(accidental_style_command, staff_machine.notation_object[0])
+
                 if self.meter is meters.METER_4_4:
                     time_signature = abjad.TimeSignature((4, 4))
                     abjad.attach(time_signature, staff_machine.notation_object[0], context="Score")

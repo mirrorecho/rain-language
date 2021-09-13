@@ -162,6 +162,36 @@ class AlterPatternTagVeins(AlterPattern):
 # --------------------------------------------------------------------
 
 @dataclass
+#TODO: very similar to AlterPatternTagVeins ...DRY!
+class AlterPatternTagNoteVeins(AlterPattern):
+    """
+    """
+
+    tags: Iterable[Iterable[str]] = ()
+    
+    def get_next_tags(self):
+        yield from self.tags
+
+    def update_vein(self, vein_dict: dict) -> dict:
+        if vein_dict.get("degree", None) is not None:
+            return_dict = {}
+            return_dict.update(vein_dict)
+            tag_list = list(return_dict.get("tags", []))
+            new_tags = next(self.next_tags_generator, ())
+            tag_list.extend(new_tags)
+            return_dict["tags"] = tag_list
+            return return_dict
+        else:
+            return vein_dict
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.next_tags_generator = self.get_next_tags()
+        self.vein_hooks = [lambda s, v: self.update_vein(v)]
+
+# --------------------------------------------------------------------
+
+@dataclass
 #TODO: ditto as above, can't represent this natively in a graph ... OK?
 class Change(AlterPattern): #TODO: rename to something more specific?
     """

@@ -24,7 +24,7 @@ from rain.patterns.cue import Cue, Contains, Cues, CueNext, CueFirst, CueLast
 from rain.patterns.machine import Machine, Printer #, SynthDefMaker
 from rain.patterns.tree_pattern import TreePattern, CellTree, Sequence, Parallel, Combo, MachineTree
 from rain.patterns.alters import (AlterPattern, Alters, AlterPatternVeins, 
-    AlterPatternLeaves, AlterPatternTagVeins, Change, MeddleHelper, Meddle, MeddleConnectAlter,
+    AlterPatternLeaves, AlterPatternTagVeins, AlterPatternTagNoteVeins, Change, MeddleHelper, Meddle, MeddleConnectAlter,
     AddDegree, AddChordDegree, Mask)
 from rain.patterns.pattern_reader import PatternReader
 
@@ -41,7 +41,8 @@ context.register_types(
     Pattern, Cell, Cue, Contains, Cues,
     CueNext, CueFirst, CueLast, TreePattern, MachineTree, Machine,
     CellTree, Sequence, Parallel, Combo,
-    AlterPattern, Alters, AlterPatternVeins, AlterPatternLeaves, AlterPatternTagVeins, 
+    AlterPattern, Alters, AlterPatternVeins, AlterPatternLeaves, 
+    AlterPatternTagVeins, AlterPatternTagNoteVeins,
     Change, Meddle, MeddleConnectAlter,
     AddDegree, AddChordDegree, Mask,
     MusicCell, RestCell,

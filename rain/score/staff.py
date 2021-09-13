@@ -22,6 +22,8 @@ class Staff(rain.Machine):
 
     def reset(self):
         self.notation_object = abjad.Staff(name=self.name)
+        abjad.setting(self.notation_object).pedalSustainStyle = "#'mixed"
+        abjad.setting(self.notation_object).accidentalStyle = "neo-modern-cautionary"
         self.total_dur = 0
         self.rests_dur = 0
         self.current_meter_node = self.meter.root_node
@@ -128,6 +130,9 @@ class Staff(rain.Machine):
                     tag_name = tag_thingy
                     if tag_name in tagging.end_leaf_inventory:
                         leaf = leaves[-1]
+                    elif tag_name in tagging.stem_tremolos_inventory:
+                        for leaf in leaves:
+                            tag_leaf(leaf, tag_name)
                     else:
                         leaf = leaves[0]
                     tag_leaf(leaf, tag_name)

@@ -2,7 +2,7 @@ import abjad
 
 articulations_inventory = set((".", "-", ">",".","^"))
 
-dynamics_inventory = set(("ppp","pp","p","mp","mf","f","ff","fff"))
+dynamics_inventory = set(("ppp","pp","p","mp","mf","f","ff","fff","sfz","sffz", "sfp", "sf", "rfz"))
 
 hairpins_inventory = set( (r"\<", r"\>") )
 
@@ -24,7 +24,7 @@ fermatas_inventory = set(
     ("fermata", "shortfermata", "longfermata", "verylongfermata",)  
     )
 
-end_leaf_inventory = set( (")", "))", "8va!", "~") )
+end_leaf_inventory = set( (")", "))", "8va!", "~", "pedal!") )
 
 # TODO MAYBE: deal with the set of tags that are NOT allowed
 
