@@ -10,8 +10,13 @@
     \context Score = ""
     <<
         \context Staff = "Flute"
+        \with
         {
-            \tempo Angry 4=132
+            accidentalStyle = neo-modern-cautionary
+            pedalSustainStyle = #'mixed
+        }
+        {
+            \tempo Angry 4=126
             \time 4/4
             \clef "treble"
             r2
@@ -32,16 +37,15 @@
             r4
             r2
             r2
+            r4
             r8
             d'''8
             \f
             - \accent
             ~
-            d'''4
+            d'''1
             \p
             \<
-            ~
-            d'''2
             ~
             d'''8
             d'''8
@@ -50,14 +54,15 @@
             - \staccato
             - \accent
             r4
-            r1
+            r2
+            r2
             r4
             r8
             c'''8
             \f
             - \accent
             ~
-            c'''2
+            c'''1
             \p
             \<
             c'''8
@@ -128,6 +133,9 @@
             ef''8
             ~
             ef''4
+            ~
+            ef''2
+            r4
             cs'''8
             - \staccato
             - \accent
@@ -157,6 +165,7 @@
             - \accent
             - \staccato
             - \marcato
+            r4
             r8
             a'''8
             \f
@@ -191,6 +200,11 @@
         \context PianoStaff = ""
         <<
             \context Staff = "Piano 1"
+            \with
+            {
+                accidentalStyle = neo-modern-cautionary
+                pedalSustainStyle = #'mixed
+            }
             {
                 \time 4/4
                 \clef "treble"
@@ -247,17 +261,16 @@
                 - \staccato
                 - \accent
                 )
+                r4
                 r8
                 <d'' g'' c'''>8
                 - \marcato
                 r4
-                <d'' e'' f'' g'' af''>16
+                <d'' g'' af''>16
                 - \staccato
                 r16
-                <d'' e'' f'' g'' af''>16
-                - \staccato
-                r16
-                r4
+                r8
+                r2
                 <d'' g'' c'''>16
                 - \marcato
                 <d'' g'' c'''>16
@@ -301,7 +314,7 @@
                 r8
                 <d'' g'' c'''>8
                 - \marcato
-                r2
+                r1
                 <d'' g'' c'''>16
                 - \marcato
                 <d'' g'' c'''>16
@@ -319,40 +332,33 @@
                 <d'' g'' c'''>16
                 - \marcato
                 r2
-                <d'' e'' f'' g'' af''>16
+                <d'' g'' af''>16
                 - \staccato
                 r16
-                <d'' e'' f'' g'' af''>16
-                - \staccato
-                r16
-                <d'' e'' f'' g'' af''>16
-                - \staccato
-                r16
-                <d'' e'' f'' g'' af''>16
-                - \staccato
-                r16
+                r8
+                r4
                 r2
                 f''8
                 - \staccato
-                af''8
+                <g'' af''>8
                 - \accent
                 (
                 f''8
                 - \staccato
                 )
-                af''8
+                <g'' af''>8
                 - \accent
                 (
                 f''8
                 - \staccato
                 )
-                af''8
+                <g'' af''>8
                 - \accent
                 (
                 f''8
                 - \staccato
                 )
-                af''8
+                <g'' af''>8
                 - \accent
                 (
                 f''8
@@ -374,31 +380,31 @@
                 r4
                 f''8
                 - \staccato
-                af''8
+                <g'' af'' bf''>8
                 - \accent
                 (
                 f''8
                 - \staccato
                 )
-                af''8
+                <g'' af'' bf''>8
                 - \accent
                 (
                 f''8
                 - \staccato
                 )
-                af''8
+                <g'' af'' bf''>8
                 - \accent
                 (
                 f''8
                 - \staccato
                 )
-                af''8
+                <g'' af'' bf''>8
                 - \accent
                 (
                 f''8
                 - \staccato
                 )
-                af''8
+                <g'' af'' bf''>8
                 - \accent
                 (
                 f''8
@@ -461,12 +467,12 @@
                 <f'' bf'' ef'''>16
                 - \marcato
                 r4
-                <f'' g'' gs'' as'' b''>16
+                <f'' as'' b''>16
                 - \staccato
                 r16
-                <f'' g'' gs'' as'' b''>16
-                - \staccato
-                r16
+                r8
+                r4
+                r2
                 r4
                 <gs'' cs''' fs'''>16
                 - \marcato
@@ -475,7 +481,7 @@
                 r8
                 gs''8
                 - \staccato
-                b''8
+                <as'' b'' cs'''>8
                 - \accent
                 (
                 gs''8
@@ -499,7 +505,7 @@
                 - \marcato
                 gs''8
                 - \staccato
-                b''8
+                <as'' b'' cs'''>8
                 - \accent
                 (
                 gs''8
@@ -518,6 +524,7 @@
                 - \staccato
                 - \accent
                 )
+                r4
                 r8
                 <b'' e''' a'''>8
                 - \marcato
@@ -604,6 +611,11 @@
                 \ottava 0
             }
             \context Staff = "Piano 2"
+            \with
+            {
+                accidentalStyle = neo-modern-cautionary
+                pedalSustainStyle = #'mixed
+            }
             {
                 \clef "treble"
                 b8
@@ -629,14 +641,14 @@
                 - \marcato
                 r8
                 r4
-                b8
-                - \staccato
-                b8
-                - \accent
-                b8
-                - \staccato
+                r8
                 b8
                 - \accent
+                - \tenuto
+                r8
+                b8
+                - \accent
+                - \tenuto
                 b8
                 - \staccato
                 b8
@@ -650,19 +662,18 @@
                 - \staccato
                 - \accent
                 )
+                r4
                 r8
                 <af af'>8
                 - \marcato
                 r4
                 r16
-                <d' e' f' g' af'>16
-                - \staccato
-                r16
-                <d' e' f' g' af'>16
+                <d' g' af'>16
                 - \tenuto
-                - \accent
                 ~
-                <d' e' f' g' af'>4
+                <d' g' af'>8
+                ~
+                <d' g' af'>2
                 <af af'>16
                 - \marcato
                 <af af'>16
@@ -670,18 +681,18 @@
                 <af af'>8
                 - \marcato
                 r4
-                d'8
-                - \staccato
-                d'8
-                - \accent
-                d'8
-                - \staccato
+                r8
                 d'8
                 - \accent
-                d'8
-                - \staccato
+                - \tenuto
+                r8
                 d'8
                 - \accent
+                - \tenuto
+                r8
+                d'8
+                - \accent
+                - \tenuto
                 d'8
                 - \staccato
                 d'8
@@ -698,7 +709,7 @@
                 r8
                 <af af'>8
                 - \marcato
-                r2
+                r1
                 <af af'>16
                 - \marcato
                 <af af'>16
@@ -717,37 +728,31 @@
                 - \marcato
                 r2
                 r16
-                <d' e' f' g' af'>16
-                - \staccato
-                r16
-                <d' e' f' g' af'>16
-                - \staccato
-                r16
-                <d' e' f' g' af'>16
-                - \staccato
-                r16
-                <d' e' f' g' af'>16
+                <d' g' af'>16
                 - \tenuto
-                - \accent
                 ~
-                <d' e' f' g' af'>4
+                <d' g' af'>8
+                ~
+                <d' g' af'>4
+                ~
+                <d' g' af'>4
                 r4
-                f'8
-                - \staccato
-                f'8
-                - \accent
-                f'8
-                - \staccato
+                r8
                 f'8
                 - \accent
-                f'8
-                - \staccato
-                f'8
-                - \accent
-                f'8
-                - \staccato
+                - \tenuto
+                r8
                 f'8
                 - \accent
+                - \tenuto
+                r8
+                f'8
+                - \accent
+                - \tenuto
+                r8
+                f'8
+                - \accent
+                - \tenuto
                 f'8
                 - \staccato
                 f'8
@@ -762,26 +767,26 @@
                 - \accent
                 )
                 r4
-                f'8
-                - \staccato
-                f'8
-                - \accent
-                f'8
-                - \staccato
+                r8
                 f'8
                 - \accent
-                f'8
-                - \staccato
-                f'8
-                - \accent
-                f'8
-                - \staccato
+                - \tenuto
+                r8
                 f'8
                 - \accent
-                f'8
-                - \staccato
+                - \tenuto
+                r8
                 f'8
                 - \accent
+                - \tenuto
+                r8
+                f'8
+                - \accent
+                - \tenuto
+                r8
+                f'8
+                - \accent
+                - \tenuto
                 f'8
                 - \staccato
                 f'8
@@ -840,23 +845,24 @@
                 - \marcato
                 r4
                 r16
-                <f' g' gs' as' b'>16
-                - \staccato
-                r16
-                <f' g' gs' as' b'>16
+                <f' as' b'>16
                 - \tenuto
-                - \accent
                 ~
-                <f' g' gs' as' b'>4
+                <f' as' b'>8
+                ~
+                <f' as' b'>4
+                ~
+                <f' as' b'>2
+                r4
                 <d' d''>16
                 - \marcato
                 <d' d''>16
                 - \marcato
                 r8
-                gs'8
-                - \staccato
+                r8
                 gs'8
                 - \accent
+                - \tenuto
                 gs'8
                 - \staccato
                 gs'8
@@ -873,10 +879,10 @@
                 r8
                 <d' d''>8
                 - \marcato
-                gs'8
-                - \staccato
+                r8
                 gs'8
                 - \accent
+                - \tenuto
                 gs'8
                 - \staccato
                 gs'8
@@ -890,6 +896,7 @@
                 - \staccato
                 - \accent
                 )
+                r4
                 r8
                 <f' f''>8
                 - \marcato

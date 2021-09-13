@@ -1,4 +1,5 @@
 from itertools import cycle, repeat
+from rain.utils.utils import listify
 
 import rain
 
@@ -57,16 +58,17 @@ def flip_wrap(key_prefix:str, pattern:rain.Pattern, bookend_rests=(0,0), bookend
     # return_pattern = pattern
     return return_pattern
 
-def flip(key_prefix:str=None, intro_times=0, start_tags=(), **kwargs):
+def flip(key_prefix:str=None, intro_times=0, intro_degree_add=[], start_tags=(), **kwargs):
     key_prefix = key_prefix or rain.auto_key()
     # return OutCell.create(degree=[1],dur=[1])
+    intro_degree = (0, [2]+ rain.listify(intro_degree_add)) if intro_degree_add else (0,2)
     return flip_wrap(key_prefix, seq(key_prefix+"_SEQ",
         *[par(key_prefix+"_INTRO"+str(i), 
-            flipping_cell(key_prefix+"_INTRO_HI"+str(i), degree=(0,2), dur=(0.5,0.5), 
+            flipping_cell(key_prefix+"_INTRO_HI"+str(i), degree=intro_degree, dur=(0.5,0.5), 
                 tags=(["."] if i==0 else [".",")"], [">", "("]),
                 )(octave=1, machine="PIANO1"),
-            flipping_cell(key_prefix+"_INTRO_LOW"+str(i), degree=(0,0), dur=(0.5,0.5), 
-                tags=(["."], [">"]),
+            flipping_cell(key_prefix+"_INTRO_LOW"+str(i), degree=(None,0), dur=(0.5,0.5), 
+                tags=([], [">","-"]),
                 )(machine="PIANO2"),
             ) for i in range(intro_times)],
         par(key_prefix+"_A", 
@@ -113,18 +115,30 @@ def flip_out(key_prefix:str=None, octave=0, times=1, **kwargs):
             rain.Cell("FLIPPING_STRIKE_0").alter_leaves(dur=dur)(key_prefix+"_STRIKE", octave=octave, machine="PIANO2"),
         ), **kwargs)
 
-def flip_cluster(key_prefix:str=None, times=1, degrees=(0,1,2,3,4), **kwargs):
+def flip_cluster(key_prefix:str=None, times=1, dur=None, degrees=(0,3,4), **kwargs):
+    dur = dur or times # for backwards compat
     key_prefix = key_prefix or rain.auto_key()
     
-    dur = [0.25 for i in range(times*2-1)] + [1.25] if times % 2 == 0 else [0.75]
-    tags = [["."] for i in range(times*2-1)] + [["-", ">"]]
+    # dur = [0.25 for i in range(times*2-1)] + [1.25] if times % 2 == 0 else [0.75]
+    # tags = [["."] for i in range(times*2-1)] + [["-", ">"]]
+    # leaf_durs
+    
     # TODO: don't need this Parallel wrapper unless adding flute ...
     return flip_wrap(key_prefix, rain.Parallel.create(key_prefix+"_PAR_STRIKES").extend(
-            flipping_cell(key_prefix+"_HI", degree=cycle( (degrees,) ), dur=dur, tags=tags,
-                octave=cycle((1,0)), machine=cycle(("PIANO1", "PIANO2"))
-            )
-        ), **kwargs)
+            flipping_cell(key_prefix+"_HI", #tags=tags,
+                dur = [0.25, dur-0.25],
+                octave=(1,0),
+                machine=["PIANO1","PIANO2"],
+                degree=[degrees, degrees],
+                tags=[["."],"-"],
+                # octave=cycle((1,0)), 
+                # machine=cycle(("PIANO1", "PIANO2")
+                )
+            ),
+        **kwargs)
 
+# =================================================================================
+# =================================================================================
 # =================================================================================
 
 # TODO: ledger lines for flute, or 8va?
@@ -153,20 +167,20 @@ mod_and_seq(3,
     par(
         seq(
             # TODO: add tremolo
-            flip_flute("FLIPF_1", degree=0, octave=2, dur=4.5, bookend_rests=(0.5,1),),
-            flip_flute("FLIPF_2", degree=-1, octave=2, dur=3, bookend_rests=(5.5,2.5),),
+            flip_flute("FLIPF_1", degree=0, octave=2, dur=5.5, bookend_rests=(1.5,1),),
+            flip_flute("FLIPF_2", degree=-1, octave=2, dur=5, bookend_rests=(5.5,2.5),),
             coming_flip("a").change(
                 octave=[0,1,2,1],
                 ).tag([],["-"],[".",">"])(machine="FLUTE"),
         ),
         seq(
-            flip_out("FLIPPING0A", bookend_rests=(0.5,1)),
-            flip_cluster(times=2),
+            flip_out("FLIPPING0A", bookend_rests=(1.5,1)),
+            flip_cluster(dur=3),
             flip_out("FLIPPING2", times=3, bookend_rests=(0,1)),
             flip("FLIP2", intro_times=3),
-            flip_out("FLIPPING3", times=1, bookend_rests=(0.5,2)),
+            flip_out("FLIPPING3", times=1, bookend_rests=(0.5,4)),
             flip_out("FLIPPING4", times=8, bookend_rests=(0,2)),
-            flip_cluster(times=4, bookend_rests=(0,1)), # TODO: times=1 doesn't work. WHY?
+            flip_cluster(dur=3, bookend_rests=(0,1)), # TODO: times=1 doesn't work. WHY?
         ),
     )(pitch_spell="FLAT")
 )
@@ -183,18 +197,19 @@ mod_and_seq(3,
             rest_all(6, "FLUTE"),
             OutCell("COMING_FLIP_A_SWAP"),
             flip_flute("FLIPF_3", degree=-2, octave=2, dur=6, bookend_rests=(0.5,2),),
-            coming_flip("c").alter_leaves(dur=[1,0.5,0.5,1.5],).change(
+            coming_flip("c").alter_leaves(dur=[1,0.5,0.5,3.5],).change(
                 octave=[0,0,0,0,1],
                 ).tag([],["-"],[".",">"])(machine="FLUTE"),
         )(pitch_spell="FLAT", machine="FLUTE"),
         seq(
-            flip("FLIP3", intro_times=4, bookend_rests=(0,1))(pitch_spell="FLAT"),
-            flip("FLIP4", intro_times=5)(pitch_spell="FLAT"),
+            flip("FLIP3", intro_degree_add=1, intro_times=4, bookend_rests=(0,1))(pitch_spell="FLAT"),
+            flip("FLIP4", intro_degree_add=[1,3],  intro_times=5)(pitch_spell="FLAT"),
             flip_out("FLIPPING5", bookend_rests=(0.5,1)),
             flip_out("FLIPPING6", times=2, bookend_rests=(0,1.5))(pitch_spell="FLAT"),
             flip_out("FLIPPING7", times=4, bookend_rests=(0,1))(pitch_spell="FLAT"),
             flip_out("FLIPPING8", times=12, bookend_rests=(0,1))(pitch_spell="FLAT"),
-            flip_cluster(times=2)(pitch_spell="SHARP"),
+            flip_cluster(dur=4)(pitch_spell="SHARP"),
+            rest_all(1)
         ),
     )
 )
@@ -210,9 +225,9 @@ mod_and_seq(3,
         )(machine="FLUTE")(pitch_spell="SHARP"),
         seq(
             flip_out("FLIPPING9", times=2, bookend_rests=(0,0.5)),
-            flip("FLIP5", intro_times=1),
+            flip("FLIP5", intro_degree_add=[1,3], intro_times=1),
             flip_out("FLIPPING10", times=1, bookend_rests=(0.5,0)),
-            flip("FLIP6", intro_times=1),
+            flip("FLIP6", intro_degree_add=[1,3], intro_times=1),
         )(pitch_spell="SHARP")
     )
 )
@@ -220,11 +235,11 @@ mod_and_seq(3,
 mod_and_seq(3,
     par(
         seq(
-            flip_flute("FLIPF_4", soft_dynamic="mf", end_dynamic="ff", degree=-1, octave=3, dur=2.5, bookend_rests=(0.5,0),),
+            flip_flute("FLIPF_4", soft_dynamic="mf", end_dynamic="ff", degree=-1, octave=3, dur=2.5, bookend_rests=(1.5,0),),
             flip_flute("FLIPF_5", soft_dynamic="mf", end_dynamic="ff", degree=0, octave=3, dur=2.5, bookend_rests=(0.5,0),),
         )(machine="FLUTE")(pitch_spell="SHARP"),
         seq(
-            flip_out("FLIPPING11", octave=1, times=1, bookend_rests=(0.5,0)),
+            flip_out("FLIPPING11", octave=1, times=1, bookend_rests=(1.5,0)),
             flip_out("FLIPPING12", octave=1, times=4, bookend_rests=(0.5,0)),
             flip_out("FLIPPING13", octave=1, times=1, bookend_rests=(0,0)),
             flip_out("FLIPPING14", octave=1, times=1, bookend_rests=(0.5,0)),
@@ -255,7 +270,7 @@ print(flipping_tonic.tonic)
     # # flip_out("FLIPPING2", times=4),
 
 
-FLIPPING = FLIPPING.tag(["tempo:132:1:4:Angry"])
+FLIPPING = FLIPPING.tag(["tempo:126:1:4:Angry"])
 
 if __name__ == "__main__":
     score = score_with_meter()
