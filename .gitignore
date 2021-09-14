@@ -1,7 +1,7 @@
 # PDFS and MIDI
-# *.pdf ALLOWING PDFS FOR NOW SO I CAN TRANSFER FROM CONTAINER ... come up with a better solution
-*.midi
-*.mid
+# *.pdf ALLOWING PDFS AND MIDI FOR NOW SO I CAN TRANSFER FROM CONTAINER ... come up with a better solution
+; *.midi
+; *.mid
 *.log
 
 # Byte-compiled / optimized / DLL files

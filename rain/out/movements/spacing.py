@@ -212,11 +212,11 @@ SPACING = SPACING.tag(["tempo:60:1:4:Aloof"])
 #     rest_all(6),
 # )
 if __name__ == "__main__":
-    score = score_with_meter(
-        # piano2_clef="treble"
-        )
+    score = score_with_meter()
     score.reset()
     pr = rain.PatternReader(SPACING, score.get_palette())
     pr.read()
     score.render("SPACING",
-    stylesheets=["./rain-language/rain/score/stylesheets/stylesheet_title_spacing.ily"])
+    stylesheets=["./rain-language/rain/score/stylesheets/stylesheet_title_spacing.ily"],
+    as_midi=True,
+    )

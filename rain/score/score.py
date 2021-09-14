@@ -48,7 +48,7 @@ class Score(rain.MachineTree):
                 self.prep_staves(s)
 
     
-    def render(self, name="", stylesheets=[]):
+    def render(self, name="", stylesheets=[], as_midi=False):
 
         self.prep_staves(self)
 
@@ -60,9 +60,15 @@ class Score(rain.MachineTree):
             includes=["./rain-language/rain/score/stylesheets/stylesheet.ily"] + stylesheets
                 )
                 
-
         abjad.show(ly,
             output_directory="./rain-language/rain/out/scores/", 
             should_open=False,
-            render_prefix="SCORE_" + self.key + "_" + name,
+            render_prefix=self.key + "_" + name,
         )
+
+        if as_midi:
+            abjad.play(
+                self.notation_object, 
+                output_directory="./rain-language/rain/out/scores/midi/",
+                render_prefix=self.key + "_" + name,
+                )
