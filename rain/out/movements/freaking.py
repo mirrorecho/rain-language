@@ -74,8 +74,6 @@ def flute_freak(ref_key, octave=2, dur=(1,1), instructions=""):
         machine=cycle(["FLUTE"]),
     )
 
-double_freak = OutCell("FREAKING1")*2
-
 # TODO: tremolo notation is odd / not specific
 def tremble(degree=[-4,0], dur=4, octave=0, lh_octave=-1, tag_rh=[], tag_lh=[], include_lh=True):
     return par( 
@@ -122,7 +120,7 @@ FREAKING.extend(
 
     # TODO: spell with sharps?
     par(
-        ((double_freak + OutCell("FREAKING2"))*2).change(
+        ((OutCell("FREAKING1")*2 + OutCell("FREAKING2") )*2).change(
             degree=[None],
             ).tag(["mf"]).tag_all_notes(["."])(
             pitch_spell="SHARP")(octave=1, machine="PIANO1"), 
@@ -131,7 +129,7 @@ FREAKING.extend(
     rest_all(2),
     tremble(degree=[4,6,7], dur=6)(pitch_spell="SHARP"),
 
-    # MEASURE 8 ==========================================================
+    # MEASURE 9 ==========================================================
 
     # flute enters, highlighting the lines in an angular way
     # lower forarm on keys on first (and maybe final 8ths??)
@@ -176,7 +174,7 @@ FREAKING.extend(
         )(pitch_spell="FLAT")
 )
 
-# MEASURE 14 ============================
+# MEASURE 17 ============================
 mod_and_seq(
     par(
         seq(

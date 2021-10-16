@@ -27,8 +27,9 @@
 
 # --------------------------------------------------------------------
 
-# # TO DO: is an event even needed? should the PatternReader just call the
+# # DONE: is an event even needed? should the PatternReader just call the
 # # machine's trigger method with arguments?
+# # ANSWER FOR NOW: NO, NOT NEEDED!
 # class Event(object):
 #     dur: float = 0
 #     machine: str = "" # TO CONSIDER... maybe this is actually an instance of machine

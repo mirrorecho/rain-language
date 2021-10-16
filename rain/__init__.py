@@ -3,7 +3,7 @@ from rain.utils.utils import (auto_key, to_snake_case, to_upper_snake_case,
 from rain.utils.scale import Scale
 
 from rain.graph.interface import (GraphableInterface, GraphableNodeInterface, 
-    GraphableRelationshipInterface, GraphInterface, SelectInterface)
+    GraphableRelationshipInterface, GraphInterface, SelectInterface, ContextInterface)
 
 from rain.graph.local import GraphLocal
 

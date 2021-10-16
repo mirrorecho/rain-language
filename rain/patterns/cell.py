@@ -20,7 +20,7 @@ class Cell(rain.Pattern):
     @property
     def veins(self) -> Iterable[dict]:
 
-        #TODO maybe: approach below is less elegant than what's commented out below, but works
+        #TODO MAYBE: approach below is less elegant than what's commented out below, but works
 
         keys = [k for k in self._properties_keys if k not in self._no_traverse_keys]
         

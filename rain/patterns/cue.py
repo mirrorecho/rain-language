@@ -9,13 +9,13 @@ class Cue(rain.Node):
         pattern = self.r("->", "CUES").n().first
         return pattern
 
-        # TODO: would this be used?
+        # # TO CONSIDER: would this be used?
         # if alter_node := self.altered_by:
         #     return alter_node.alter(pattern)
         # else: 
         #     return pattern
 
-    # TODO: would this be used?
+    # # TO CONSIDER: would this be used?
     # @property
     # def altered_by(self) -> Tuple["rain.AlterCue"]:
     #     return tuple(self.r("<-", "ALTERS").n())

@@ -7,8 +7,6 @@ class Select(rain.LanguageBase, rain.SelectInterface):
         self._keys = keys
         self._properties = properties
         
-        self._relationship_follow = None # COULD BE:
-
         self._select_from = None # to be set to another instance of Select to create a sub-select
         self._direction = None
 
@@ -47,7 +45,7 @@ class Select(rain.LanguageBase, rain.SelectInterface):
     def __call__(self, label:str=None, *keys, **properties) -> rain.SelectInterface: 
         sub_select = Select(label, *keys, **properties)
         sub_select.select_from = self
-        # sub_select._direction = self._direction # TO DO... this warrants some thought and testing
+        # sub_select._direction = self._direction # TODO... this warrants some thought and testing
         return sub_select
 
     def r(self, direction:str, label:str=None, *keys, **properties) -> "Select":
@@ -129,28 +127,6 @@ class TargetedRelationshipSelect(Select):
 # lovers = rain.Action.select("LOVES")("<-[:DOES]-")("Expression")("-[:SUBJECT]->")("Character")
 
 # lovers_ = Select("Action", "LOVES", "HATES")("<-[:DOES]-")("Expression")("-[:SUBJECT]->")("Character")
-
-
-# class Selectable():
-
-#     def related_to(self): pass
-
-#     def related_from(self): pass
-
-#     def relationships_to(self): pass
-
-#     def relationships_from(self): pass
-
-#     @classmethod
-#     def select(cls): pass
-
-# class Select(Selectable):
-
-#     def __init__(self): pass
-
-#     def __getitem__(self, k): pass
-
-#     def __call__(self, *args, **kwargs): pass
 
 
 # Character.select("AWN", "CEP").relationships_from("Subject").sources("Expression")

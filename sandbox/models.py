@@ -1,8 +1,7 @@
-from dataclasses import dataclass, field
-from pydantic import BaseModel
+import pydantic
 from abc import ABC, abstractmethod
-from uuid import UUID, uuid4
 import inspect
+import uuid
 
 import rain
 
@@ -21,15 +20,13 @@ class LanguageBase(ABC):
         return self.context.graph    
 
 
-# TO CONSIDER: make this a mixin
-@dataclass
-class Language(LanguageBase, rain.GraphableInterface):
+class LanguageYo(pydantic.BaseModel, LanguageBase, rain.GraphableInterface):
     """
     an implementation of GraphableInterface using a simple python dataclass
     - this is the base class for all language nodes and relationships
     """
 
-    key: str = field(default_factory = rain.auto_key)
+    key: str = pydantic.Field(default_factory=rain.auto_key)
     name: str = ""
 
     def __post_init__(self):
@@ -38,7 +35,7 @@ class Language(LanguageBase, rain.GraphableInterface):
         self._properties_keys = tuple(k for k in self.__dataclass_fields__.keys() if k not in self._properties_exclude_fields)
 
     @classmethod
-    def make(cls, key:str, **kwargs) -> "Language": 
+    def make(cls, key:str, **kwargs) -> "LanguageYo": 
         return cls(key, **kwargs)
 
     def get_key(self):
@@ -65,8 +62,7 @@ class Language(LanguageBase, rain.GraphableInterface):
         return me.merge_me()
 
 
-@dataclass
-class Node(Language, rain.GraphableNodeInterface):
+class NodeYo(LanguageYo, rain.GraphableNodeInterface):
     """
     base class for all language relationships
     """
@@ -86,41 +82,5 @@ class Node(Language, rain.GraphableNodeInterface):
         return sub_select
 
 
-@dataclass
-class Relationship(Language, rain.GraphableRelationshipInterface):
-    """
-    base class for all language relationships
-    """
-
-    source: Node = None
-    target: Node = None
-
-    def __post_init__(self):
-        self.set_context()        
-        self._properties_exclude_fields = ("key", "source", "target")
-        self._properties_keys = tuple(k for k in self.__dataclass_fields__.keys() if k not in self._properties_exclude_fields)
-
-    @classmethod
-    def from_keys(cls, source_key:str, target_key:str):
-        return cls(source=Node(source_key), target=Node(target_key))
-
-    @property
-    def source_key(self) -> str: 
-        return self.source.key if self.source else None
-
-    # TO CONSIDER: should this be a class attribute?
-    @property
-    def target_key(self) -> str: 
-        return self.target.key if self.target else None
-
-    @classmethod
-    def get_label(cls) -> str: 
-        return rain.to_upper_snake_case(cls.__name__)
-
-    def set_source(self, label:str, key:str): 
-        self.source = self.context.new_by_label_and_key(label, key)
-
-    def set_target(self, label:str, key:str): 
-        self.target = self.context.new_by_label_and_key(label, key)
-
-
+n = NodeYo(name="Fa")
+print(n)

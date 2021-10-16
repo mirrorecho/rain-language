@@ -1,7 +1,6 @@
 import rain
 
-# TO DO: create a public context interface
-class Context(object):
+class Context(rain.ContextInterface):
     def __init__(self, graph_type, **kwargs):
         self.init_graph(graph_type, **kwargs)
         self._language_type_registry = {}
@@ -9,35 +8,24 @@ class Context(object):
         # public attributes:
         self.default_graph_type = graph_type
 
-    # public properties:
-
+    # overriding public properties:
     @property
-    def graph(self):
+    def graph(self) -> rain.GraphInterface:
         return self._graph
 
-    # public methods:
-
-    def init_empty_graph(self, graph_type:type=None, **kwargs):
+    # overriding public methods:
+    def init_empty_graph(self, graph_type:type=None, **kwargs) -> rain.GraphInterface:
         graph_type = graph_type or self.default_graph_type
         self._graph = graph_type(**kwargs)
         return self._graph
 
-    def init_graph(self, graph_type:type=None, **kwargs):
-        # here, this merely calls init_empty_graph to create a new empty graph
-        # but other implementations may connect to existing graph data stores
-        return self.init_empty_graph(graph_type, **kwargs)
-
     # TO CONSIDER... a decorator for this
-    def register_types(self, *types):
+    def register_types(self, *types): #TODO: type hinting for this
         for t in types:
             self._language_type_registry[t.get_label()] = t
 
-    def get_type(self, label:str):
+    def get_type(self, label:str) -> type:
         return(self._language_type_registry[label])
 
-    def new_by_key(self, key:str):
+    def new_by_key(self, key:str) -> rain.GraphableInterface:
         return self.graph.get_typed(key, self)
-
-    def new_by_label_and_key(self, label:str, key:str, **kwargs):
-        return self.get_type(label)(key, **kwargs)
-

@@ -25,7 +25,6 @@ class AlterPattern(rain.Pattern):
         super().__post_init__()
         self._altered_pattern = None
 
-    # TODO: needed?
     @property
     def simultaneous(self) -> bool:
         return self.altered_pattern.simultaneous
