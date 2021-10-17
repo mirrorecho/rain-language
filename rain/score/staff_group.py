@@ -1,11 +1,8 @@
-from dataclasses import dataclass, field
-
 import abjad
 import rain
 
 # --------------------------------------------------------------------
 
-@dataclass
 class StaffGroup(rain.MachineTree): 
     group_type:str = None
 

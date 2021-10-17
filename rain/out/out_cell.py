@@ -30,8 +30,13 @@ class GlobalTonic():
 class OutCell(rain.MusicCell):
     _no_traverse_keys = rain.MusicCell._no_traverse_keys + ("scale",)
 
+
     #TODO: MAYBE the scale as separate node(s).. yay!!
-    scale: rain.Scale = rain.Scale(steps=scale_steps)
+
+    # NOTE: pydantic is unhappy about this custom
+    # (throws "no validator found for <class 'rain.utils.scale.Scale'>")
+    # so declaring as an instance attribute instead in __post_init__
+    # scale = rain.Scale(steps=scale_steps)
 
     tonic_mod: Iterable = cycle((0,))
 
@@ -48,6 +53,12 @@ class OutCell(rain.MusicCell):
             octave=v["octave"]
             )
         )
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.scale = rain.Scale(steps=scale_steps)
+
+
 rain.context.register_types(OutCell)
 
 # TODO maybe... include this in the graph data structure?

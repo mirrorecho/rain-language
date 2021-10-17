@@ -1,16 +1,13 @@
-from dataclasses import dataclass, field
-
 import abjad
 import rain
 from rain.score import meters
 
 # --------------------------------------------------------------------
 
-@dataclass
 class Score(rain.MachineTree): 
 
     # TODO this is NASY TO INCLUDE AT THE SCORE LEVEL!
-    meter: abjad.Meter = meters.METER_4_4 #TODO: better to save as string so it can be written to data store natively
+    meter: str = meters.METER_4_4 #TODO: better to save as string so it can be written to data store natively
     # accidental_style: str = "neo-modern-cautionary"
 
     def reset(self):

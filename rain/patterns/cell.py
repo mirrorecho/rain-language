@@ -4,7 +4,6 @@ from itertools import cycle
 
 import rain
 
-@dataclass
 class Cell(rain.Pattern):
     """
     each cell property value would be one of:
@@ -66,7 +65,6 @@ class Cell(rain.Pattern):
 
 # --------------------------------------------------------------------
 
-@dataclass
 class MusicCell(Cell):
     pitch: Iterable = cycle((None,))
     pitch_spell: Iterable[str] = cycle((None,),)
@@ -75,7 +73,6 @@ class MusicCell(Cell):
 # --------------------------------------------------------------------
 
 # TODO: use? may conflict with other implementations of cells
-@dataclass
 class RestCell(MusicCell):
     pitch: Iterable = (None,)
 

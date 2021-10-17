@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from typing import Any, Iterable, Iterator, Callable
 from itertools import cycle
 
@@ -68,7 +67,6 @@ class AlterableMixin():
 
 
 
-@dataclass
 class Pattern(rain.Node, AlterableMixin): 
     # a node that represents an iterable over a group nodes ... each of which is connected
     # to this node, in a "pattern"
@@ -76,8 +74,9 @@ class Pattern(rain.Node, AlterableMixin):
     # TODO: MAYBE consider this
     # node_hooks: Iterable[Callable[["rain.Pattern", "rain.Pattern"], "rain.Pattern"]] = ()
     
-    leaf_hooks: Iterable[Callable[["rain.Pattern", "rain.Pattern"], "rain.Pattern"]] = ()
-    vein_hooks: Iterable[Callable[["rain.Pattern", Any, int], Any]] = ()
+    # leaf_hooks: Iterable[Callable[["rain.Pattern", "rain.Pattern"], "rain.Pattern"]] = ()
+    # vein_hooks: Iterable[Callable[["rain.Pattern", Any, int], Any]] = ()
+    
     _parentage = () 
 
     is_alter:bool = False

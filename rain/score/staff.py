@@ -1,18 +1,13 @@
-from dataclasses import dataclass, field
-
 import abjad
-from abjad.get import duration, pitches
 
 import rain
 from rain.score import tagging, meters
 
 # --------------------------------------------------------------------
 
-
-@dataclass
 class Staff(rain.Machine): 
     short_name = ""
-    meter: abjad.Meter = meters.METER_4_4 #TODO: better to save as string so it can be written to data store natively
+    meter: str = meters.METER_4_4
 
     clef: str = "treble"
 
@@ -28,7 +23,7 @@ class Staff(rain.Machine):
         # abjad.setting(self.notation_object).accidentalStyle = "neo-modern-cautionary"
         self.total_dur = 0
         self.rests_dur = 0
-        self.current_meter_node = self.meter.root_node
+        self.current_meter_node = abjad.Meter(self.meter).root_node
 
     # TODO MAYBE: shouldn't need to pass node around as param ... just reset self.current_meter_node
     def meter_next_sibling_or_aunt(self, node):

@@ -4,7 +4,6 @@ import rain
 
 # --------------------------------------------------------------------
 
-@dataclass
 class Instrument(rain.Machine): 
     short_name = ""
 

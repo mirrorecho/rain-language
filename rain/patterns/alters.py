@@ -1,5 +1,4 @@
-from dataclasses import dataclass
-from typing import Any, Iterable, Iterator, Callable, Tuple
+from typing import Any, Iterable, Iterator
 
 import rain
 
@@ -14,7 +13,6 @@ def transpose(pitches, value:int=0):
 
 # --------------------------------------------------------------------
 
-@dataclass
 class AlterPattern(rain.Pattern): 
     """represents an alteration directly to a pattern"""
 
@@ -84,7 +82,6 @@ class AlterPattern(rain.Pattern):
 
 # --------------------------------------------------------------------
 
-@dataclass
 #TODO: can't represent this natively in a graph ... OK?
 class AlterPatternLeaves(AlterPattern):
     """
@@ -106,7 +103,6 @@ class AlterPatternLeaves(AlterPattern):
 
 # --------------------------------------------------------------------
 
-@dataclass
 #TODO: ditto as above, can't represent this natively in a graph ... OK?
 class AlterPatternVeins(AlterPattern):
     """
@@ -133,7 +129,6 @@ class AlterPatternVeins(AlterPattern):
 
 # --------------------------------------------------------------------
 
-@dataclass
 #TODO: ditto as above, can't represent this natively in a graph ... OK?
 class AlterPatternTagVeins(AlterPattern):
     """
@@ -160,7 +155,6 @@ class AlterPatternTagVeins(AlterPattern):
 
 # --------------------------------------------------------------------
 
-@dataclass
 #TODO: very similar to AlterPatternTagVeins ...DRY!
 class AlterPatternTagNoteVeins(AlterPattern):
     """
@@ -190,7 +184,6 @@ class AlterPatternTagNoteVeins(AlterPattern):
 
 # --------------------------------------------------------------------
 
-@dataclass
 #TODO: ditto as above, can't represent this natively in a graph ... OK?
 class Change(AlterPattern): #TODO: rename to something more specific?
     """
@@ -242,7 +235,6 @@ class Change(AlterPattern): #TODO: rename to something more specific?
 #         self.vein_hooks = [lambda s, v: self.cut_me(v)]
 
 # --------------------------------------------------------------------
-@dataclass
 class MeddleHelper(rain.AlterableMixin):
     key: str
     index: int = 0
@@ -266,7 +258,6 @@ class MeddleHelper(rain.AlterableMixin):
     def __post_init__(self):
         self._alter_patterns = []
 
-@dataclass
 class Meddle(AlterPattern): 
     """YO!"""
 
@@ -289,7 +280,6 @@ class Meddle(AlterPattern):
             yield list(connected_alter.meddle_chain)[-1].alters_cue
 
 
-@dataclass
 #TODO: ditto as above, can't represent this natively in a graph ... OK?
 class AddDegree(AlterPattern):
     """
@@ -318,7 +308,6 @@ class AddDegree(AlterPattern):
         self.vein_hooks = [lambda s, v: self.add_degrees(v)]
 
 
-@dataclass
 #TODO: ditto as above, can't represent this natively in a graph ... OK?
 class AddChordDegree(AlterPattern):
     """
@@ -348,7 +337,6 @@ class AddChordDegree(AlterPattern):
 
 # =========================================================================
 
-@dataclass
 #TODO: ditto as above, can't represent this natively in a graph ... OK?
 class Mask(AlterPattern):
     """
@@ -357,7 +345,7 @@ class Mask(AlterPattern):
     _mask_attrs = ("degree",)
     _mask_iter = ()
 
-    mask: Iterable[bool] = ()
+    masking: Iterable[bool] = ()
 
     def mask_me(self, vein_dict: dict) -> dict:
         current_mask = next(self._mask_iter, True)
@@ -373,7 +361,7 @@ class Mask(AlterPattern):
 
     def __post_init__(self):
         super().__post_init__()
-        self._mask_iter = iter(self.mask)
+        self._mask_iter = iter(self.masking)
         self.vein_hooks = [lambda s, v: self.mask_me(v)]
 
 

@@ -1,7 +1,6 @@
-from dataclasses import dataclass, field
-from pydantic import BaseModel
+# from dataclasses import dataclass, field
+import pydantic
 from abc import ABC, abstractmethod
-from uuid import UUID, uuid4
 import inspect
 
 import rain
@@ -22,14 +21,13 @@ class LanguageBase(ABC):
 
 
 # TO CONSIDER: make this a mixin
-@dataclass
-class Language(LanguageBase, rain.GraphableInterface):
+class Language(pydantic.BaseModel, LanguageBase, rain.GraphableInterface):
     """
     an implementation of GraphableInterface using a simple python dataclass
     - this is the base class for all language nodes and relationships
     """
 
-    key: str = field(default_factory = rain.auto_key)
+    key: str = pydantic.Field(default_factory = rain.auto_key)
     name: str = ""
 
     def __post_init__(self):
@@ -54,7 +52,7 @@ class Language(LanguageBase, rain.GraphableInterface):
     @classmethod
     def create(cls, key=None, *args, **kwargs):
         if key:
-            me = cls(key, *args, **kwargs)    
+            me = cls(*args, key=key, **kwargs)    
         else:
             me = cls(*args, **kwargs)
         return me.create_me()
@@ -65,7 +63,6 @@ class Language(LanguageBase, rain.GraphableInterface):
         return me.merge_me()
 
 
-@dataclass
 class Node(Language, rain.GraphableNodeInterface):
     """
     base class for all language relationships
@@ -86,7 +83,6 @@ class Node(Language, rain.GraphableNodeInterface):
         return sub_select
 
 
-@dataclass
 class Relationship(Language, rain.GraphableRelationshipInterface):
     """
     base class for all language relationships

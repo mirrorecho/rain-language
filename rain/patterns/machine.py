@@ -3,7 +3,6 @@ from dataclasses import dataclass
 import rain
 
 
-@dataclass
 class Machine(rain.Pattern):
 
     # #TO CONSIDER: something like this could be used to standardaze the instantiating
@@ -24,7 +23,6 @@ class Machine(rain.Pattern):
 
 # --------------------------------------------------------------------
 
-@dataclass
 class Printer(Machine): pass
 
     # def trigger(self, machine:"Machine", event:"Event"):

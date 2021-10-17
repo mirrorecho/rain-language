@@ -1,6 +1,6 @@
 import abjad
 
-METER_4_4 = abjad.Meter('''(4/4 (
+METER_4_4 = """(4/4 (
         (2/4 (
             (1/4 (
                 (1/8 (
@@ -123,11 +123,11 @@ METER_4_4 = abjad.Meter('''(4/4 (
             )
             )
         )
-    ))''')
+    ))"""
 
 
     
-METER_6_8 = abjad.Meter('''
+METER_6_8 = """
     (6/8 (
         (3/8 (
             (1/8 (
@@ -193,4 +193,4 @@ METER_6_8 = abjad.Meter('''
                 ))
             ))
         ))
-    ))''')
+    ))"""

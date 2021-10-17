@@ -5,7 +5,6 @@ import rain
 
 
 # --------------------------------------------------------------------
-@dataclass
 class TreePattern(rain.Pattern): 
 
     def __post_init__(self):
@@ -100,7 +99,6 @@ class TreePattern(rain.Pattern):
         raise NotImplementedError()
 
 # --------------------------------------------------------------------
-@dataclass
 class CellTree(TreePattern): 
 
     def trigger_hook(self, start_dur=0, **kwargs):
@@ -112,7 +110,6 @@ class CellTree(TreePattern):
     #         yield branch
 
 # --------------------------------------------------------------------
-@dataclass
 class Sequence(CellTree): 
     
     @property
@@ -120,17 +117,14 @@ class Sequence(CellTree):
         return False
 
 # --------------------------------------------------------------------
-@dataclass
 class Parallel(CellTree): 
     @property
     def simultaneous(self) -> bool:
         return True
 
 # --------------------------------------------------------------------
-@dataclass
 class Combo(CellTree): pass
 
 # --------------------------------------------------------------------
 
-@dataclass
 class MachineTree(TreePattern): pass
