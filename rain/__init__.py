@@ -16,7 +16,6 @@ context = Context(
 from rain.language.base import LanguageBase, Language, Node, Relationship
 from rain.language.select_ import Select, TargetedRelationshipSelect # note have to name the module select_ (with underscore at end) to avoid namine conflicts with uuid dependencies
 
-
 from rain.patterns.palette import Palette
 from rain.patterns.pattern import AlterableMixin, Pattern
 from rain.patterns.cell import Cell, MusicCell, RestCell
@@ -49,4 +48,10 @@ context.register_types(
     Staff, StaffGroup, Score )
 
 def ref(key:str):
-    return context.new_by_key(key)
+    return context.get_by_key(key)
+
+def make_by_label(label:str, key:str=None):
+    return context.make_by_label(label, key)
+
+def create_by_label(label:str, key:str=None):
+    return context.create_by_label(label, key)

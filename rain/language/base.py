@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
-from pydantic import BaseModel
 from abc import ABC, abstractmethod
 from uuid import UUID, uuid4
-import inspect
+import inspect, json
 
 import rain
 
@@ -39,7 +38,10 @@ class Language(LanguageBase, rain.GraphableInterface):
 
     @classmethod
     def make(cls, key:str, **kwargs) -> "Language": 
-        return cls(key, **kwargs)
+        if key:
+            return cls(key, **kwargs)
+        else:
+            return cls(**kwargs)
 
     def get_key(self):
         return self.key
@@ -80,11 +82,27 @@ class Node(Language, rain.GraphableNodeInterface):
     def get_label(cls) -> str: 
         return cls.__name__
 
+    def to_json(self, **kwargs) -> str: 
+        # TODO maybe: should this really include all the dataclass fields?
+        # or just the properties fields + key?
+        return json.dumps({k:getattr(self,k) for k in self.__dataclass_fields__})
+
+    @classmethod
+    def from_json(cls, json_str:str) -> rain.GraphableInterface: 
+        my_dict = json.loads(json_str)
+        key = my_dict.pop("key", None)
+        return cls.make(key, **my_dict)
+
     def r(self, direction:str, label:str=None, *keys, **properties) -> "rain.Select":
         sub_select = rain.TargetedRelationshipSelect(direction, label, *keys, **properties)
+        # TODO: simplify here using __call__()?
         sub_select.select_from = rain.Select(self.get_label(), self.key)
         return sub_select
 
+    # TODO: maybe use strying relationship_label instead?
+    def relate(self, relationship_type:type, other:"Node", **properties) -> "Relationship":
+        new_relationship = relationship_type(source=self, target=other)
+        return new_relationship
 
 @dataclass
 class Relationship(Language, rain.GraphableRelationshipInterface):
@@ -101,8 +119,10 @@ class Relationship(Language, rain.GraphableRelationshipInterface):
         self._properties_keys = tuple(k for k in self.__dataclass_fields__.keys() if k not in self._properties_exclude_fields)
 
     @classmethod
-    def from_keys(cls, source_key:str, target_key:str):
-        return cls(source=Node(source_key), target=Node(target_key))
+    def from_keys(cls, source_key:str, target_key:str, **kwargs):
+        key = kwargs.pop("key", None)
+        context = kwargs.pop("context", rain.context)
+        return cls.make(key, source=context.get_by_key(source_key), target=context.get_by_key(target_key), **kwargs)
 
     @property
     def source_key(self) -> str: 
@@ -118,9 +138,23 @@ class Relationship(Language, rain.GraphableRelationshipInterface):
         return rain.to_upper_snake_case(cls.__name__)
 
     def set_source(self, label:str, key:str): 
-        self.source = self.context.new_by_label_and_key(label, key)
+        # TODO: is this method necessary,
+        # also, is make_by_label the best context method here?
+        self.source = self.context.make_by_label(label, key)
 
     def set_target(self, label:str, key:str): 
-        self.target = self.context.new_by_label_and_key(label, key)
+        # TODO: ditto as above
+        self.target = self.context.make_by_label(label, key)
 
+    def to_json(self, **kwargs) -> str: 
+        my_dict = {k:getattr(self,k) for k in ("key",) + self._properties_keys}
+        my_dict["source_key"] = self.source.key
+        my_dict["target_key"] = self.target.key
+        return json.dumps(my_dict)
 
+    @classmethod
+    def from_json(cls, json_str:str) -> rain.GraphableInterface: 
+        my_dict = json.loads(json_str)
+        source_key = my_dict.pop("source_key")
+        target_key = my_dict.pop("target_key")
+        return cls.from_keys(source_key, target_key, **my_dict)

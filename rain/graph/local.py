@@ -119,11 +119,20 @@ class GraphLocal(rain.GraphInterface):
 
         self._add_label_index(relationship_type, _relationship)
 
+    # ============================================================================================================
+
+    @property
+    def size(self):
+        return len(self._data)
+    
     def get_properties(self, key:str) -> dict:
         return self._data[key]._properties
 
+    # ============================================================================================================
+
+    # TODO: rename these data arguments in methods below to "item" to avoid confusion with local "_data" attribute
     def create(self, data:rain.GraphableInterface): 
-        self._check_key(data.get_key(), False)
+        self._check_key(data.get_key(), False) # TODO when to use get_key() method vs key property?
         if data.data_type == "Node":
             self._create_node(data.key, *data.get_labels(), **data.get_properties())
         else:
@@ -162,27 +171,27 @@ class GraphLocal(rain.GraphInterface):
 
     def clear(self):
         self._data = {}
-
-    @property
-    def size(self):
-        return len(self._data)
+        self._type_index = {}
 
 
-    def _create_typed(self, local_data, context) -> rain.GraphableInterface:
-            return context.new_by_label_and_key(
+    def _get_typed(self, local_data:_Data, context:rain.ContextInterface) -> rain.GraphableInterface:
+            # NOTE: even though we're calling contect.make_by_label here
+            # (which instantiates an object not necessarily in graph),
+            # in this case we know it's connected to the graph, via the local_data arg
+            return context.make_by_label(
                 local_data.primary_label, 
                 local_data.key, 
                 **local_data._properties
                 )
 
 
-    def get_typed(self, key, context) -> rain.GraphableInterface:
-        return self._create_typed(self._data[key], context)
+    def get_typed(self, key:str, context:rain.ContextInterface) -> rain.GraphableInterface:
+        return self._get_typed(self._data[key], context)
 
 
-    def select_interface(self, select:rain.SelectInterface):
+    def select_interface(self, select:rain.SelectInterface): #TODO - return type hint?
         return map(
-            lambda x: self._create_typed(x, select.context), 
+            lambda x: self._get_typed(x, select.context), 
             self._iter_data(select)
             )
 

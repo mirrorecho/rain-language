@@ -27,5 +27,5 @@ class Context(rain.ContextInterface):
     def get_type(self, label:str) -> type:
         return(self._language_type_registry[label])
 
-    def new_by_key(self, key:str) -> rain.GraphableInterface:
+    def get_by_key(self, key:str) -> rain.GraphableInterface:
         return self.graph.get_typed(key, self)

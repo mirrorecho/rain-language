@@ -67,7 +67,7 @@ class AlterableMixin():
         return self.alter(rain.AlterPatternTagNoteVeins.create(key=kwargs.pop("key",None), tags=cycle(args)))
 
 
-
+#TODO MAYBE: is Pattern ITSELF better as just an interface?
 @dataclass
 class Pattern(rain.Node, AlterableMixin): 
     # a node that represents an iterable over a group nodes ... each of which is connected
@@ -76,6 +76,7 @@ class Pattern(rain.Node, AlterableMixin):
     # TODO: MAYBE consider this
     # node_hooks: Iterable[Callable[["rain.Pattern", "rain.Pattern"], "rain.Pattern"]] = ()
     
+    # TODO: assume this doesn't need to be serialized?
     leaf_hooks: Iterable[Callable[["rain.Pattern", "rain.Pattern"], "rain.Pattern"]] = ()
     vein_hooks: Iterable[Callable[["rain.Pattern", Any, int], Any]] = ()
     _parentage = () 

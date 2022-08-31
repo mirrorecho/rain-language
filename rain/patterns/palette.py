@@ -35,6 +35,6 @@ class Palette(rain.LanguageBase):
 
     def __getitem__(self, key) -> rain.Node:
         if (my_node := self._nodes[key]) is None:
-            my_node = self.context.new_by_key(key)
+            my_node = self.context.get_by_key(key)
             self._nodes[key] = my_node
         return my_node

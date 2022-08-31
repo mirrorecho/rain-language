@@ -42,5 +42,6 @@ class CueLast(rain.Relationship): pass
 
 # --------------------------------------------------------------------
 
-# TO DO: better name for this?
+# TODO: is this used?
+# if so, then TODO: better name for this?
 class Context(rain.Relationship): pass

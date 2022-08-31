@@ -64,7 +64,7 @@ class TreePattern(rain.Pattern):
     #     for n in self.nodes:
 
     def extend_by_key(self, *keys):
-        self.extend(*[rain.context.new_by_key(k) for k in keys])
+        self.extend(*[rain.context.get_by_key(k) for k in keys])
         return self
 
     def extend(self, *patterns):

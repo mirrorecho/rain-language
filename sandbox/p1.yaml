@@ -1,0 +1,16 @@
+--- 
+!Parallel
+key: SIMPLE_PARALLEL
+name: A Simple Parallel
+branches:
+  - EXISTING_CELL
+  - !MusicCell NEW_CELL_KEY:
+      pitch: [0,2,5,4]
+      leaf_durs: [1,1,1,1]
+  - !AddCordDegree SOMETHING:
+      degree: 4
+      alters: 
+        !MusicCell ALTERED_CELL_KEY:
+          pitch: [0,7]
+          leaf_durs: [2,2]
+

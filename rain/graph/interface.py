@@ -30,7 +30,14 @@ class GraphableInterface(ABC):
 
     @classmethod
     @abstractmethod 
-    def get_label(self) -> str: pass
+    def get_label(cls) -> str: pass
+
+    @abstractmethod 
+    def to_json(self) -> str: pass
+
+    @classmethod
+    @abstractmethod
+    def from_json(cls, json_str:str) -> "GraphableInterface": pass
 
     # # TO CONSIDER: the following propery to indicate whether, for a given object
     # # if that object has already been loaded/read from the underlying data store
@@ -150,7 +157,7 @@ class GraphableNodeInterface(GraphableInterface):
 
     @classmethod
     @abstractmethod 
-    def get_labels(self) -> list: pass
+    def get_labels(cls) -> list: pass
 
 
 
@@ -214,6 +221,11 @@ class GraphInterface(ABC):
     @abstractmethod 
     def delete(self, key:str): pass
 
+    @abstractmethod
+    def get_typed(self, key:str, context:"ContextInterface") -> GraphableInterface: pass
+
+    @abstractmethod
+    def select_interface(self, select:SelectInterface): pass #TODO - return type hint?
 
 class ContextInterface(ABC):
 
@@ -237,8 +249,14 @@ class ContextInterface(ABC):
     def get_type(self, label:str) -> type: pass
 
     @abstractmethod 
-    def new_by_key(self, key:str) -> GraphableInterface: pass
+    def get_by_key(self, key:str) -> GraphableInterface: pass
 
-    def new_by_label_and_key(self, label:str, key:str, **kwargs) -> GraphableInterface:
+    def make_by_label(self, label:str, key:str=None, **kwargs) -> GraphableInterface:
+        """
+        creates a language object with the type as specified by label string,
+        does NOT necessarily mean the object exists in the graph
+        """ 
         return self.get_type(label)(key, **kwargs)
 
+    def create_by_label(self, label:str, key:str=None, **kwargs) -> GraphableInterface:
+        return self.get_type(label).create(key, **kwargs)

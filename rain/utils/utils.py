@@ -74,6 +74,10 @@ def key_from_args(args_tuple:tuple):
         key = None
     return key, args
 
+def key_from_dict(properties_dict:dict):
+    key = properties_dict.pop("key", None)
+    return key, properties_dict
+
 def rest(dur:int):
     return rain.RestCell.create(dur=(dur,))
 
